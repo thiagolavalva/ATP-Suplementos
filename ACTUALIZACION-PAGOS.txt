@@ -1,0 +1,7 @@
+ATP SUPLEMENTOS - ACTUALIZACION DE PAGOS
+
+Esta version agrega dos opciones en el carrito:
+1. Pagar con Mercado Pago: abre https://link.mercadopago.com.ar/atpsuplementos
+2. Enviar pedido por WhatsApp.
+
+IMPORTANTE: el link de pago no recibe automaticamente el total. La web muestra el total y el comprador debe ingresarlo en Mercado Pago.

@@ -55,6 +55,17 @@ searchOpen.onclick=openSearch;searchClose.onclick=closeSearch;searchInput.oninpu
 cartOpen.onclick=openCart;cartClose.onclick=closeCart;overlay.onclick=closeCart;
 menuBtn.onclick=()=>mobileMenu.classList.toggle("open");
 document.querySelectorAll("#mobileMenu a").forEach(a=>a.onclick=()=>mobileMenu.classList.remove("open"));
+const MERCADOPAGO_LINK="https://link.mercadopago.com.ar/atpsuplementos";
+mercadoPagoBtn.onclick=async()=>{
+  const entries=Object.entries(cart);
+  if(!entries.length){showToast("El carrito está vacío");return}
+  let total=0;
+  const orderItems=entries.map(([id,q])=>{const product=products.find(x=>x.id===id);total+=product.price*q;return{product,quantity:q}});
+  try{await ATPData.createOrder({items:orderItems,total,channel:"mercadopago"})}catch(err){console.warn("No se pudo guardar el pedido:",err)}
+  try{await navigator.clipboard.writeText(String(total))}catch(err){}
+  showToast(`Total ${money(total)}. Ingresalo en Mercado Pago.`);
+  window.open(MERCADOPAGO_LINK,"_blank","noopener,noreferrer");
+};
 checkoutBtn.onclick=async()=>{
   const e=Object.entries(cart);
   if(!e.length){showToast("El carrito está vacío");return}

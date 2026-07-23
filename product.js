@@ -26,6 +26,17 @@ buyBtn.onclick=()=>{const flavor=flavorSelect.value?` Sabor: ${flavorSelect.valu
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentTab=b.dataset.tab;renderTab()});
 cartOpen.onclick=()=>{cartDrawer.classList.add("open");overlay.classList.add("open");document.body.classList.add("locked")};
 cartClose.onclick=overlay.onclick=()=>{cartDrawer.classList.remove("open");overlay.classList.remove("open");document.body.classList.remove("locked")};
+const MERCADOPAGO_LINK="https://link.mercadopago.com.ar/atpsuplementos";
+mercadoPagoBtn.onclick=async()=>{
+  const entries=Object.entries(cart);
+  if(!entries.length){showToast("El carrito está vacío");return}
+  let total=0;
+  const orderItems=entries.map(([id,q])=>{const product=products.find(x=>x.id===id);total+=product.price*q;return{product,quantity:q}});
+  try{await ATPData.createOrder({items:orderItems,total,channel:"mercadopago"})}catch(err){console.warn("No se pudo guardar el pedido:",err)}
+  try{await navigator.clipboard.writeText(String(total))}catch(err){}
+  showToast(`Total ${money(total)}. Ingresalo en Mercado Pago.`);
+  window.open(MERCADOPAGO_LINK,"_blank","noopener,noreferrer");
+};
 checkoutBtn.onclick=async()=>{const e=Object.entries(cart);if(!e.length)return;let total=0;const orderItems=e.map(([pid,q])=>{const product=products.find(x=>x.id===pid);total+=product.price*q;return{product,quantity:q}});try{await ATPData.createOrder({items:orderItems,total,channel:"whatsapp"})}catch(err){console.warn(err)}const lines=orderItems.map(x=>`• ${x.quantity} x ${x.product.name} - ${money(x.product.price*x.quantity)}`);window.open(`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(`Hola ATP Suplementos, quiero consultar por este pedido:\n\n${lines.join("\n")}\n\nTotal estimado: ${money(total)}`)}`,"_blank")};
 
 (async function init(){
