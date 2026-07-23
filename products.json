@@ -1,0 +1,177 @@
+[
+  {
+    "id": "ena-whey",
+    "name": "True Made Whey Protein",
+    "brand": "ENA",
+    "category": "Proteínas",
+    "detail": "2 lb · Varios sabores",
+    "price": 84990,
+    "stock": 8,
+    "featured": true,
+    "active": true,
+    "tag": "Destacado",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Chocolate",
+      "Vainilla",
+      "Frutilla"
+    ],
+    "presentation": "2 lb",
+    "description": "Proteína de suero pensada para complementar la ingesta diaria de proteínas y acompañar procesos de recuperación y desarrollo muscular.",
+    "ingredients": "Concentrado de proteína de suero, saborizantes y edulcorantes. Información demostrativa.",
+    "nutrition": "La información nutricional definitiva se cargará cuando se confirme el producto y proveedor."
+  },
+  {
+    "id": "star-whey",
+    "name": "Platinum Whey Protein",
+    "brand": "Star Nutrition",
+    "category": "Proteínas",
+    "detail": "2 lb · Varios sabores",
+    "price": 79990,
+    "stock": 6,
+    "featured": true,
+    "active": true,
+    "tag": "Más vendido",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Chocolate",
+      "Vainilla",
+      "Cookies"
+    ],
+    "presentation": "2 lb",
+    "description": "Suplemento proteico para acompañar entrenamientos de fuerza, hipertrofia y recuperación.",
+    "ingredients": "Proteína de suero, aromatizantes y edulcorantes. Información demostrativa.",
+    "nutrition": "Información nutricional pendiente de carga definitiva."
+  },
+  {
+    "id": "gold-whey",
+    "name": "Whey Protein",
+    "brand": "Gold Nutrition",
+    "category": "Proteínas",
+    "detail": "2 lb · Varios sabores",
+    "price": 74990,
+    "stock": 5,
+    "featured": true,
+    "active": true,
+    "tag": "",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Chocolate",
+      "Vainilla"
+    ],
+    "presentation": "2 lb",
+    "description": "Proteína de suero para complementar la alimentación diaria.",
+    "ingredients": "Información demostrativa pendiente de proveedor.",
+    "nutrition": "Información nutricional pendiente de carga definitiva."
+  },
+  {
+    "id": "ena-creatine",
+    "name": "Creatina Monohidratada",
+    "brand": "ENA",
+    "category": "Creatinas",
+    "detail": "300 g · Sin sabor",
+    "price": 34990,
+    "stock": 10,
+    "featured": true,
+    "active": true,
+    "tag": "Destacado",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Sin sabor"
+    ],
+    "presentation": "300 g",
+    "description": "Creatina monohidratada para acompañar el rendimiento en esfuerzos breves y de alta intensidad.",
+    "ingredients": "Creatina monohidratada.",
+    "nutrition": "Información nutricional pendiente de carga definitiva."
+  },
+  {
+    "id": "star-creatine",
+    "name": "Creatine Monohydrate",
+    "brand": "Star Nutrition",
+    "category": "Creatinas",
+    "detail": "300 g · Sin sabor",
+    "price": 32990,
+    "stock": 9,
+    "featured": true,
+    "active": true,
+    "tag": "",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Sin sabor"
+    ],
+    "presentation": "300 g",
+    "description": "Creatina monohidratada en polvo para uso deportivo.",
+    "ingredients": "Creatina monohidratada.",
+    "nutrition": "Información nutricional pendiente de carga definitiva."
+  },
+  {
+    "id": "gold-creatine",
+    "name": "Gold Creatine",
+    "brand": "Gold Nutrition",
+    "category": "Creatinas",
+    "detail": "300 g · Sin sabor",
+    "price": 30990,
+    "stock": 7,
+    "featured": true,
+    "active": true,
+    "tag": "",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Sin sabor"
+    ],
+    "presentation": "300 g",
+    "description": "Creatina monohidratada para complementar entrenamientos de fuerza y potencia.",
+    "ingredients": "Creatina monohidratada.",
+    "nutrition": "Información nutricional pendiente de carga definitiva."
+  },
+  {
+    "id": "ena-prewar",
+    "name": "Pre War",
+    "brand": "ENA",
+    "category": "Pre-entrenos",
+    "detail": "30 servicios · Varios sabores",
+    "price": 29990,
+    "stock": 4,
+    "featured": true,
+    "active": true,
+    "tag": "",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Frutos rojos",
+      "Limón"
+    ],
+    "presentation": "30 servicios",
+    "description": "Pre-entreno formulado para acompañar energía, concentración y rendimiento.",
+    "ingredients": "Ingredientes pendientes de confirmación con el proveedor.",
+    "nutrition": "Información nutricional pendiente de carga definitiva."
+  },
+  {
+    "id": "star-pump",
+    "name": "Pump V8",
+    "brand": "Star Nutrition",
+    "category": "Pre-entrenos",
+    "detail": "30 servicios · Varios sabores",
+    "price": 31990,
+    "stock": 3,
+    "featured": true,
+    "active": true,
+    "tag": "",
+    "image": "",
+    "gallery": [],
+    "flavors": [
+      "Blue raspberry",
+      "Frutos rojos"
+    ],
+    "presentation": "30 servicios",
+    "description": "Pre-entreno para acompañar sesiones intensas.",
+    "ingredients": "Ingredientes pendientes de confirmación con el proveedor.",
+    "nutrition": "Información nutricional pendiente de carga definitiva."
+  }
+]

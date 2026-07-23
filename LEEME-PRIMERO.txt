@@ -1,0 +1,26 @@
+ATP SUPLEMENTOS — VERSIÓN HTML FÁCIL
+
+NO USA SUPABASE, SQL, NEXT.JS NI VARIABLES DE ENTORNO.
+
+ARCHIVOS PRINCIPALES
+- index.html: tienda
+- admin.html: panel para editar productos
+- product.html: detalle de producto
+
+DATOS PARA ENTRAR AL PANEL
+Usuario: admin@atpsuplementos.local
+Clave: atp2026
+
+IMPORTANTE
+Los cambios del panel se guardan solamente en el navegador y en la computadora donde los hacés.
+Para no perderlos, entrá al panel > Copias y datos > Descargar copia.
+
+PUBLICACIÓN EN GITHUB Y VERCEL
+1. Descomprimí el ZIP.
+2. Abrí tu repositorio ATP-Suplementos en GitHub.
+3. Eliminá los archivos viejos.
+4. Subí TODO lo que está dentro de esta carpeta.
+5. En la raíz de GitHub deben verse index.html, admin.html, product.html, css, js, assets y vercel.json.
+6. Vercel hará el despliegue automáticamente.
+7. La tienda se abre desde tu dominio normal.
+8. El panel se abre agregando /admin.html al final del dominio.

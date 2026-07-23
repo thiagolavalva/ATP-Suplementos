@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Administrador | ATP Suplementos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <img src="logo-atp.jpg" alt="ATP">
+      <p>PANEL DE ADMINISTRACIÓN</p>
+      <h1>Ingresar</h1>
+      <form id="loginForm">
+        <label>Email</label><input id="emailInput" type="email" placeholder="admin@tudominio.com"><label>Clave</label><input id="passwordInput" type="password" placeholder="Ingresá la clave">
+        <button>Entrar</button>
+        <span id="loginError"></span>
+      </form>
+      <small>Usuario: <b>admin@atpsuplementos.local</b><br>Clave: <b>atp2026</b></small>
+    </div>
+  </div>
+
+  <div id="adminApp" class="admin-app hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><img src="logo-atp.jpg"><div><b>ATP</b><span>Administrador</span></div></div>
+      <nav>
+        <button class="nav-link active" data-view="dashboard">Resumen</button>
+        <button class="nav-link" data-view="products">Productos</button>
+        <button class="nav-link" data-view="settings">Tienda</button>
+        <button class="nav-link" data-view="backup">Copias y datos</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <a href="index.html" target="_blank">Ver tienda</a>
+        <button id="logoutBtn">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div><p>ATP SUPLEMENTOS</p><h1 id="viewTitle">Resumen</h1></div>
+        <div style="display:flex;align-items:center;gap:10px"><span id="modeBadge" style="font-size:10px;color:#9da59a"></span><button id="newProductTop" class="primary-btn">Nuevo producto</button></div>
+      </header>
+
+      <section id="dashboardView" class="view active">
+        <div class="stats">
+          <article><span>Productos</span><b id="statProducts">0</b></article>
+          <article><span>Unidades en stock</span><b id="statStock">0</b></article>
+          <article><span>Sin stock</span><b id="statOut">0</b></article>
+          <article><span>Valor estimado</span><b id="statValue">$0</b></article>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><div><p>INVENTARIO</p><h2>Stock bajo</h2></div></div>
+          <div id="lowStockList" class="simple-list"></div>
+        </div>
+      </section>
+
+      <section id="productsView" class="view">
+        <div class="toolbar">
+          <input id="adminSearch" placeholder="Buscar por nombre, marca o categoría">
+          <button id="newProductBtn" class="primary-btn">Agregar producto</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="productTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="settingsView" class="view">
+        <form id="settingsForm" class="form-panel">
+          <div class="form-heading"><p>CONFIGURACIÓN</p><h2>Datos de la tienda</h2></div>
+          <div class="form-grid">
+            <label>Nombre de la tienda<input name="storeName"></label>
+            <label>WhatsApp<input name="whatsapp"></label>
+            <label>Instagram<input name="instagram"></label>
+            <label>Ubicación<input name="location"></label>
+            <label class="wide">Título principal<input name="heroTitle"></label>
+            <label class="wide">Texto principal<textarea name="heroText"></textarea></label>
+            
+          </div>
+          <button class="primary-btn">Guardar cambios</button>
+        </form>
+      </section>
+
+      <section id="backupView" class="view">
+        <div class="backup-grid">
+          <article><h2>Exportar datos</h2><p>Descargá una copia de productos y configuración.</p><button id="exportBtn" class="primary-btn">Descargar copia</button></article>
+          <article><h2>Importar datos</h2><p>Restaurá una copia guardada anteriormente.</p><input id="importInput" type="file" accept=".json"><button id="importBtn">Importar archivo</button></article>
+          <article><h2>Restablecer demostración</h2><p>Vuelve a los productos y valores iniciales.</p><button id="resetBtn" class="danger-btn">Restablecer todo</button></article>
+        </div>
+        <div class="notice"><b>Importante:</b> esta versión simple guarda los cambios únicamente en el navegador donde los realizás. Usá “Descargar copia” para guardar un respaldo de tus productos.</div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-card">
+      <header><div><p>PRODUCTO</p><h2 id="modalTitle">Nuevo producto</h2></div><button id="modalClose">×</button></header>
+      <form id="productForm">
+        <input type="hidden" name="id">
+        <div class="form-grid">
+          <label class="wide">Nombre<input name="name" required></label>
+          <label>Marca<input name="brand" required></label>
+          <label>Categoría<select name="category" required></select></label>
+          <label>Precio<input name="price" type="number" min="0" required></label>
+          <label>Stock<input name="stock" type="number" min="0" required></label>
+          <label class="wide">Detalle corto<input name="detail" placeholder="Ej.: 300 g · Sin sabor"></label>
+          <label>Presentación<input name="presentation" placeholder="Ej.: 300 g"></label>
+          <label>Sabores separados por coma<input name="flavors" placeholder="Chocolate, Vainilla"></label>
+          <label class="wide">Descripción<textarea name="description"></textarea></label>
+          <label class="wide">Ingredientes<textarea name="ingredients"></textarea></label>
+          <label class="wide">Información nutricional<textarea name="nutrition"></textarea></label>
+          <label>Etiqueta<input name="tag" placeholder="Ej.: Destacado"></label>
+          <label>Imagen por URL<input name="image" placeholder="https://..."></label><label>Subir imagen<input id="imageFile" type="file" accept="image/*"></label>
+          <label class="check"><input name="featured" type="checkbox"> Mostrar como destacado</label>
+          <label class="check"><input name="active" type="checkbox" checked> Producto activo</label>
+        </div>
+        <div class="modal-actions"><button type="button" id="cancelProduct">Cancelar</button><button class="primary-btn">Guardar producto</button></div>
+      </form>
+    </div>
+  </div>
+  <div id="adminToast" class="admin-toast"></div>
+  <script src="data-service.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
