@@ -110,7 +110,16 @@
     <div id="cartItems" class="cart-items"></div>
     <div id="cartEmpty" class="cart-empty"><h3>Tu carrito está vacío.</h3><p>Agregá un producto para comenzar.</p></div>
     <footer class="cart-footer">
-      <div><span>Total estimado</span><b id="cartTotal">$0</b></div>
+      <div class="checkout-fields">
+        <input id="customerName" placeholder="Nombre y apellido">
+        <input id="customerPhone" placeholder="Teléfono / WhatsApp">
+        <select id="deliveryMethod"><option value="retiro">Retiro gratis</option><option value="coordinar">Envío a coordinar</option></select>
+        <div class="coupon-row"><input id="couponInput" placeholder="Código de descuento"><button id="applyCouponBtn" type="button">Aplicar</button></div>
+        <small id="couponMessage" class="coupon-message"></small>
+      </div>
+      <div class="cart-summary"><span>Subtotal</span><b id="cartSubtotal">$0</b></div>
+      <div id="discountRow" class="cart-summary discount-row"><span>Descuento</span><b id="cartDiscount">-$0</b></div>
+      <div class="cart-summary total-row"><span>Total</span><b id="cartTotal">$0</b></div>
       <button id="mercadoPagoBtn" class="payment-button">Pagar con Mercado Pago</button>
       <button id="checkoutBtn" class="whatsapp-button">Enviar pedido por WhatsApp</button>
       <small class="payment-note">Vas a pagar el total exacto de tu carrito en el Checkout seguro de Mercado Pago.</small>

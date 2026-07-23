@@ -23,7 +23,9 @@
       deleteProduct: reject,
       saveSettings: reject,
       uploadProductImage: reject,
-      createOrder: async () => ({ id: null })
+      createOrder: async () => ({ id: null }),
+      getOrders: async () => [],
+      updateOrder: reject
     };
     return;
   }
@@ -153,15 +155,10 @@
     return data.publicUrl;
   }
 
-  async function createOrder({ items, customer = {}, total = 0, channel = "whatsapp" }) {
+  async function createOrder({ items, customer = {}, subtotal = 0, discount = 0, total = 0, coupon = "", delivery_method = "retiro", channel = "whatsapp", status = "nuevo" }) {
     const { data, error } = await client
       .from("atp_orders")
-      .insert({
-        items,
-        customer,
-        total: Number(total || 0),
-        channel
-      })
+      .insert({items, customer, subtotal:Number(subtotal||0), discount:Number(discount||0), total:Number(total||0), coupon, delivery_method, channel, status, payment_status:"pending"})
       .select("id")
       .single();
     if (error) {
@@ -183,6 +180,8 @@
     deleteProduct,
     saveSettings,
     uploadProductImage,
-    createOrder
+    createOrder,
+    async getOrders(){const {data,error}=await client.from("atp_orders").select("*").order("created_at",{ascending:false});if(error)throw error;return data||[]},
+    async updateOrder(id,changes){const {data,error}=await client.from("atp_orders").update({...changes,updated_at:new Date().toISOString()}).eq("id",id).select().single();if(error)throw error;return data}
   };
 })();

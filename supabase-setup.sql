@@ -146,3 +146,23 @@ create policy "ATP imágenes admin eliminar"
 on storage.objects for delete
 to authenticated
 using (bucket_id = 'atp-product-images');
+
+-- Actualización: cupones, entrega, pagos y gestión de pedidos
+alter table public.atp_orders add column if not exists subtotal numeric(12,2) not null default 0;
+alter table public.atp_orders add column if not exists discount numeric(12,2) not null default 0;
+alter table public.atp_orders add column if not exists coupon text not null default '';
+alter table public.atp_orders add column if not exists delivery_method text not null default 'retiro';
+alter table public.atp_orders add column if not exists status text not null default 'nuevo';
+alter table public.atp_orders add column if not exists payment_status text not null default 'pending';
+alter table public.atp_orders add column if not exists external_reference text;
+alter table public.atp_orders add column if not exists mp_preference_id text;
+alter table public.atp_orders add column if not exists mp_payment_id text;
+alter table public.atp_orders add column if not exists updated_at timestamptz not null default now();
+create unique index if not exists atp_orders_external_reference_idx on public.atp_orders(external_reference) where external_reference is not null;
+
+drop policy if exists "ATP pedidos admin actualizar" on public.atp_orders;
+create policy "ATP pedidos admin actualizar"
+on public.atp_orders for update
+to authenticated
+using (true)
+with check (true);

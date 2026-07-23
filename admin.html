@@ -30,6 +30,7 @@
       <nav>
         <button class="nav-link active" data-view="dashboard">Resumen</button>
         <button class="nav-link" data-view="products">Productos</button>
+        <button class="nav-link" data-view="orders">Pedidos</button>
         <button class="nav-link" data-view="settings">Tienda</button>
         <button class="nav-link" data-view="backup">Copias y datos</button>
       </nav>
@@ -69,6 +70,12 @@
             <tbody id="productTable"></tbody>
           </table>
         </div>
+      </section>
+
+
+      <section id="ordersView" class="view">
+        <div class="toolbar"><input id="orderSearch" placeholder="Buscar por nombre, teléfono, cupón o pedido"><select id="orderStatusFilter"><option value="">Todos los estados</option><option>nuevo</option><option>esperando_pago</option><option>pagado</option><option>preparando</option><option>listo</option><option>entregado</option><option>cancelado</option><option>pago_rechazado</option></select></div>
+        <div class="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Entrega</th><th>Total</th><th>Pago</th><th>Estado</th><th>Fecha</th></tr></thead><tbody id="orderTable"></tbody></table></div>
       </section>
 
       <section id="settingsView" class="view">
