@@ -31,6 +31,8 @@
         <button class="nav-link active" data-view="dashboard">Resumen</button>
         <button class="nav-link" data-view="products">Productos</button>
         <button class="nav-link" data-view="orders">Pedidos</button>
+        <button class="nav-link" data-view="customers">Clientes</button>
+        <button class="nav-link" data-view="coupons">Cupones</button>
         <button class="nav-link" data-view="settings">Tienda</button>
         <button class="nav-link" data-view="backup">Copias y datos</button>
       </nav>
@@ -51,7 +53,10 @@
           <article><span>Productos</span><b id="statProducts">0</b></article>
           <article><span>Unidades en stock</span><b id="statStock">0</b></article>
           <article><span>Sin stock</span><b id="statOut">0</b></article>
-          <article><span>Valor estimado</span><b id="statValue">$0</b></article>
+          <article><span>Ventas aprobadas</span><b id="statSales">$0</b></article>
+          <article><span>Pedidos pagados</span><b id="statPaid">0</b></article>
+          <article><span>Clientes</span><b id="statCustomers">0</b></article>
+          <article><span>ATP Points emitidos</span><b id="statPoints">0</b></article>
         </div>
         <div class="panel">
           <div class="panel-title"><div><p>INVENTARIO</p><h2>Stock bajo</h2></div></div>
@@ -76,6 +81,17 @@
       <section id="ordersView" class="view">
         <div class="toolbar"><input id="orderSearch" placeholder="Buscar por nombre, teléfono, cupón o pedido"><select id="orderStatusFilter"><option value="">Todos los estados</option><option>nuevo</option><option>esperando_pago</option><option>pagado</option><option>preparando</option><option>listo</option><option>entregado</option><option>cancelado</option><option>pago_rechazado</option></select></div>
         <div class="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Entrega</th><th>Total</th><th>Pago</th><th>Estado</th><th>Fecha</th></tr></thead><tbody id="orderTable"></tbody></table></div>
+      </section>
+
+
+      <section id="customersView" class="view">
+        <div class="toolbar"><input id="customerSearch" placeholder="Buscar cliente por nombre, teléfono o email"></div>
+        <div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Contacto</th><th>Pedidos</th><th>Total comprado</th><th>ATP Points</th><th>Última compra</th></tr></thead><tbody id="customerTable"></tbody></table></div>
+      </section>
+
+      <section id="couponsView" class="view">
+        <form id="couponForm" class="coupon-admin-form"><input name="code" placeholder="CÓDIGO" required><input name="discount_percent" type="number" min="1" max="100" placeholder="%" required><input name="max_uses" type="number" min="1" placeholder="Usos máximos"><input name="expires_at" type="date"><label class="check"><input name="active" type="checkbox" checked> Activo</label><button class="primary-btn">Guardar cupón</button></form>
+        <div class="table-wrap"><table><thead><tr><th>Código</th><th>Descuento</th><th>Usos</th><th>Vence</th><th>Estado</th><th></th></tr></thead><tbody id="couponTable"></tbody></table></div>
       </section>
 
       <section id="settingsView" class="view">
