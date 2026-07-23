@@ -1,14 +1,40 @@
 (() => {
-  const DEFAULT_PRODUCTS = [{"id": "ena-whey", "name": "True Made Whey Protein", "brand": "ENA", "category": "Proteínas", "detail": "2 lb · Varios sabores", "price": 84990, "stock": 8, "featured": true, "active": true, "tag": "Destacado", "image": "", "gallery": [], "flavors": ["Chocolate", "Vainilla", "Frutilla"], "presentation": "2 lb", "description": "Proteína de suero pensada para complementar la ingesta diaria de proteínas y acompañar procesos de recuperación y desarrollo muscular.", "ingredients": "Concentrado de proteína de suero, saborizantes y edulcorantes. Información demostrativa.", "nutrition": "La información nutricional definitiva se cargará cuando se confirme el producto y proveedor."}, {"id": "star-whey", "name": "Platinum Whey Protein", "brand": "Star Nutrition", "category": "Proteínas", "detail": "2 lb · Varios sabores", "price": 79990, "stock": 6, "featured": true, "active": true, "tag": "Más vendido", "image": "", "gallery": [], "flavors": ["Chocolate", "Vainilla", "Cookies"], "presentation": "2 lb", "description": "Suplemento proteico para acompañar entrenamientos de fuerza, hipertrofia y recuperación.", "ingredients": "Proteína de suero, aromatizantes y edulcorantes. Información demostrativa.", "nutrition": "Información nutricional pendiente de carga definitiva."}, {"id": "gold-whey", "name": "Whey Protein", "brand": "Gold Nutrition", "category": "Proteínas", "detail": "2 lb · Varios sabores", "price": 74990, "stock": 5, "featured": true, "active": true, "tag": "", "image": "", "gallery": [], "flavors": ["Chocolate", "Vainilla"], "presentation": "2 lb", "description": "Proteína de suero para complementar la alimentación diaria.", "ingredients": "Información demostrativa pendiente de proveedor.", "nutrition": "Información nutricional pendiente de carga definitiva."}, {"id": "ena-creatine", "name": "Creatina Monohidratada", "brand": "ENA", "category": "Creatinas", "detail": "300 g · Sin sabor", "price": 34990, "stock": 10, "featured": true, "active": true, "tag": "Destacado", "image": "", "gallery": [], "flavors": ["Sin sabor"], "presentation": "300 g", "description": "Creatina monohidratada para acompañar el rendimiento en esfuerzos breves y de alta intensidad.", "ingredients": "Creatina monohidratada.", "nutrition": "Información nutricional pendiente de carga definitiva."}, {"id": "star-creatine", "name": "Creatine Monohydrate", "brand": "Star Nutrition", "category": "Creatinas", "detail": "300 g · Sin sabor", "price": 32990, "stock": 9, "featured": true, "active": true, "tag": "", "image": "", "gallery": [], "flavors": ["Sin sabor"], "presentation": "300 g", "description": "Creatina monohidratada en polvo para uso deportivo.", "ingredients": "Creatina monohidratada.", "nutrition": "Información nutricional pendiente de carga definitiva."}, {"id": "gold-creatine", "name": "Gold Creatine", "brand": "Gold Nutrition", "category": "Creatinas", "detail": "300 g · Sin sabor", "price": 30990, "stock": 7, "featured": true, "active": true, "tag": "", "image": "", "gallery": [], "flavors": ["Sin sabor"], "presentation": "300 g", "description": "Creatina monohidratada para complementar entrenamientos de fuerza y potencia.", "ingredients": "Creatina monohidratada.", "nutrition": "Información nutricional pendiente de carga definitiva."}, {"id": "ena-prewar", "name": "Pre War", "brand": "ENA", "category": "Pre-entrenos", "detail": "30 servicios · Varios sabores", "price": 29990, "stock": 4, "featured": true, "active": true, "tag": "", "image": "", "gallery": [], "flavors": ["Frutos rojos", "Limón"], "presentation": "30 servicios", "description": "Pre-entreno formulado para acompañar energía, concentración y rendimiento.", "ingredients": "Ingredientes pendientes de confirmación con el proveedor.", "nutrition": "Información nutricional pendiente de carga definitiva."}, {"id": "star-pump", "name": "Pump V8", "brand": "Star Nutrition", "category": "Pre-entrenos", "detail": "30 servicios · Varios sabores", "price": 31990, "stock": 3, "featured": true, "active": true, "tag": "", "image": "", "gallery": [], "flavors": ["Blue raspberry", "Frutos rojos"], "presentation": "30 servicios", "description": "Pre-entreno para acompañar sesiones intensas.", "ingredients": "Ingredientes pendientes de confirmación con el proveedor.", "nutrition": "Información nutricional pendiente de carga definitiva."}];
-  const DEFAULT_SETTINGS = {"storeName": "ATP Suplementos", "whatsapp": "5493518136003", "instagram": "_atpsuplementos", "location": "Córdoba, Argentina", "heroTitle": "Potenciá tu rendimiento.", "heroText": "Las principales marcas de suplementación, con atención directa desde Córdoba."};
-  const client = null;
+  const cfg = window.ATP_CONFIG || {};
+  const configured =
+    typeof cfg.supabaseUrl === "string" &&
+    cfg.supabaseUrl.startsWith("https://") &&
+    !cfg.supabaseUrl.includes("PEGAR_") &&
+    typeof cfg.supabaseKey === "string" &&
+    cfg.supabaseKey.length > 20 &&
+    !cfg.supabaseKey.includes("PEGAR_");
 
-  const local = {
-    products: () => JSON.parse(localStorage.getItem("atp_products") || "null") || structuredClone(DEFAULT_PRODUCTS),
-    settings: () => JSON.parse(localStorage.getItem("atp_settings") || "null") || structuredClone(DEFAULT_SETTINGS),
-    saveProducts: value => localStorage.setItem("atp_products", JSON.stringify(value)),
-    saveSettings: value => localStorage.setItem("atp_settings", JSON.stringify(value))
-  };
+  if (!configured) {
+    const error = new Error("Falta configurar Supabase en config.js.");
+    const reject = async () => { throw error; };
+    window.ATPData = {
+      mode: "sin-configurar",
+      client: null,
+      getProducts: reject,
+      getSettings: reject,
+      signIn: reject,
+      signOut: async () => {},
+      getSession: async () => null,
+      saveProduct: reject,
+      deleteProduct: reject,
+      saveSettings: reject,
+      uploadProductImage: reject,
+      createOrder: async () => ({ id: null })
+    };
+    return;
+  }
+
+  if (!window.supabase || typeof window.supabase.createClient !== "function") {
+    throw new Error("No se pudo cargar Supabase.");
+  }
+
+  const client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  });
 
   const normalizeProduct = p => ({
     id: String(p.id),
@@ -31,63 +57,122 @@
   });
 
   async function getProducts({ includeInactive = false } = {}) {
-    const list = local.products().map(normalizeProduct);
-    return includeInactive ? list : list.filter(p => p.active);
+    let query = client.from("atp_products").select("*").order("created_at", { ascending: false });
+    if (!includeInactive) query = query.eq("active", true);
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data || []).map(normalizeProduct);
   }
 
   async function getSettings() {
-    return local.settings();
+    const { data, error } = await client
+      .from("atp_settings")
+      .select("*")
+      .eq("id", 1)
+      .maybeSingle();
+    if (error) throw error;
+    return data || {};
   }
 
   async function signIn(email, password) {
-    if (email === "admin@atpsuplementos.local" && password === "atp2026") {
-      sessionStorage.setItem("atp_admin", "1");
-      return { user: { email } };
-    }
-    throw new Error("Datos incorrectos.");
+    const { data, error } = await client.auth.signInWithPassword({ email, password });
+    if (error) throw new Error("Correo o contraseña incorrectos.");
+    return data;
   }
 
   async function signOut() {
-    sessionStorage.removeItem("atp_admin");
+    const { error } = await client.auth.signOut();
+    if (error) throw error;
   }
 
   async function getSession() {
-    return sessionStorage.getItem("atp_admin") === "1" ? { user: { email: "admin@atpsuplementos.local" } } : null;
+    const { data, error } = await client.auth.getSession();
+    if (error) throw error;
+    return data.session;
   }
 
   async function saveProduct(product) {
     const clean = normalizeProduct(product);
-    const list = local.products().map(normalizeProduct);
-    const exists = list.some(p => p.id === clean.id);
-    local.saveProducts(exists ? list.map(p => p.id === clean.id ? clean : p) : [clean, ...list]);
-    return clean;
+    const payload = {
+      ...clean,
+      updated_at: new Date().toISOString()
+    };
+    const { data, error } = await client
+      .from("atp_products")
+      .upsert(payload, { onConflict: "id" })
+      .select()
+      .single();
+    if (error) throw error;
+    return normalizeProduct(data);
   }
 
   async function deleteProduct(id) {
-    local.saveProducts(local.products().filter(p => String(p.id) !== String(id)));
+    const { error } = await client.from("atp_products").delete().eq("id", String(id));
+    if (error) throw error;
   }
 
   async function saveSettings(value) {
-    local.saveSettings(value);
-    return value;
+    const payload = {
+      id: 1,
+      storeName: value.storeName || "ATP Suplementos",
+      whatsapp: value.whatsapp || "5493518136003",
+      instagram: value.instagram || "_atpsuplementos",
+      location: value.location || "Córdoba, Argentina",
+      heroTitle: value.heroTitle || "Potenciá tu rendimiento.",
+      heroText: value.heroText || "Las principales marcas de suplementación, con atención directa desde Córdoba.",
+      updated_at: new Date().toISOString()
+    };
+    const { data, error } = await client
+      .from("atp_settings")
+      .upsert(payload, { onConflict: "id" })
+      .select()
+      .single();
+    if (error) throw error;
+    return data;
+  }
+
+  function safeFileName(name) {
+    return String(name || "imagen")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9._-]/g, "-")
+      .replace(/-+/g, "-");
   }
 
   async function uploadProductImage(file, productId) {
     if (!file) return "";
-    return await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = () => reject(new Error("No se pudo leer la imagen."));
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(file);
-    });
+    if (!file.type.startsWith("image/")) throw new Error("El archivo debe ser una imagen.");
+    if (file.size > 5 * 1024 * 1024) throw new Error("La imagen no puede superar 5 MB.");
+    const extension = (file.name.split(".").pop() || "jpg").toLowerCase();
+    const path = `${safeFileName(productId)}/${Date.now()}-${safeFileName(file.name || `producto.${extension}`)}`;
+    const { error } = await client.storage
+      .from("atp-product-images")
+      .upload(path, file, { cacheControl: "3600", upsert: false });
+    if (error) throw error;
+    const { data } = client.storage.from("atp-product-images").getPublicUrl(path);
+    return data.publicUrl;
   }
 
   async function createOrder({ items, customer = {}, total = 0, channel = "whatsapp" }) {
-    return { id: `local-${Date.now()}` };
+    const { data, error } = await client
+      .from("atp_orders")
+      .insert({
+        items,
+        customer,
+        total: Number(total || 0),
+        channel
+      })
+      .select("id")
+      .single();
+    if (error) {
+      console.warn("No se pudo registrar el pedido:", error.message);
+      return { id: null };
+    }
+    return data;
   }
 
   window.ATPData = {
-    mode: "local",
+    mode: "supabase",
     client,
     getProducts,
     getSettings,

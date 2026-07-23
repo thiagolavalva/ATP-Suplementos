@@ -82,9 +82,9 @@ checkoutBtn.onclick=async()=>{
     [products,settings]=await Promise.all([ATPData.getProducts(),ATPData.getSettings()]);
   }catch(err){
     console.error(err);
-    showToast("No se pudo conectar. Se usa el modo local.");
-    products=await ATPData.getProducts();
-    settings=await ATPData.getSettings();
+    showToast("No se pudo conectar con la tienda online.");
+    products=[];
+    settings={};
   }
   applySettings();renderCategories();renderBrands();renderFilters();renderProducts();updateCart();
 })();

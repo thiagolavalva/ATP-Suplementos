@@ -93,7 +93,7 @@
           <article><h2>Importar datos</h2><p>Restaurá una copia guardada anteriormente.</p><input id="importInput" type="file" accept=".json"><button id="importBtn">Importar archivo</button></article>
           <article><h2>Restablecer demostración</h2><p>Vuelve a los productos y valores iniciales.</p><button id="resetBtn" class="danger-btn">Restablecer todo</button></article>
         </div>
-        <div class="notice"><b>Importante:</b> esta versión simple guarda los cambios únicamente en el navegador donde los realizás. Usá “Descargar copia” para guardar un respaldo de tus productos.</div>
+        <div class="notice"><b>Importante:</b> los cambios se guardan online y aparecen para todos los clientes. “Descargar copia” sirve como respaldo adicional.</div>
       </section>
     </main>
   </div>
@@ -125,6 +125,8 @@
     </div>
   </div>
   <div id="adminToast" class="admin-toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
   <script src="data-service.js"></script>
   <script src="admin.js"></script>
 </body>

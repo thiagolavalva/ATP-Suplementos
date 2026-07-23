@@ -1,0 +1,19 @@
+ATP SUPLEMENTOS ONLINE
+
+Esta versión guarda productos y fotos en Supabase. Los cambios hechos desde admin.html aparecen para todos.
+
+ARCHIVOS IMPORTANTES
+- config.js: pegar la URL y la clave publicable de Supabase.
+- supabase-setup.sql: ejecutar una sola vez en Supabase SQL Editor.
+
+SEGURIDAD
+- Usar solamente la clave publicable (sb_publishable_...).
+- Nunca pegar una service_role key ni un Access Token privado.
+
+ORDEN
+1. Ejecutar supabase-setup.sql.
+2. Crear o confirmar el usuario administrador en Authentication > Users.
+3. Completar config.js.
+4. Subir todos los archivos a GitHub reemplazando los anteriores.
+5. Esperar el despliegue automático de Vercel.
+6. Entrar a /admin.html y probar un producto.

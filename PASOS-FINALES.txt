@@ -1,0 +1,32 @@
+ATP SUPLEMENTOS — VERSIÓN CONECTADA A SUPABASE
+
+Este paquete ya está configurado con:
+- Project URL: https://kmbkkzhyzyyrjdphamru.supabase.co
+- Publishable Key: configurada en config.js
+- Tablas: atp_products, atp_settings y atp_orders
+- Bucket de imágenes: atp-product-images
+
+PASO 1 — Crear el usuario administrador en Supabase
+1. Entrá al proyecto de Supabase.
+2. Abrí Authentication > Users.
+3. Tocá Add user > Create new user.
+4. Escribí el correo y la contraseña que vas a usar para entrar a admin.html.
+5. Activá Auto Confirm User si aparece esa opción.
+
+PASO 2 — Subir esta versión a GitHub
+Reemplazá los archivos actuales del repositorio por todos los archivos de esta carpeta.
+No cambies config.js.
+
+PASO 3 — Esperar el despliegue de Vercel
+Cuando finalice, abrí:
+https://TU-DOMINIO/admin.html
+
+PASO 4 — Probar
+1. Iniciá sesión con el usuario creado en Supabase.
+2. Agregá un producto.
+3. Volvé a la página principal y actualizá.
+4. El producto debe aparecer públicamente.
+
+IMPORTANTE
+- La Publishable Key puede estar en el navegador; es la clave pública.
+- Nunca pegues una Secret Key o service_role en estos archivos.
