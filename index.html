@@ -73,8 +73,14 @@
         <div><div class="eyebrow">SELECCIÓN ATP</div><h2>Productos destacados</h2></div>
         <div id="filters" class="filters"></div>
       </div>
+      <div class="catalog-search">
+        <span aria-hidden="true">⌕</span>
+        <input id="catalogSearchInput" type="search" autocomplete="off" placeholder="Buscar por producto, marca o categoría" aria-label="Buscar productos">
+        <button id="catalogSearchClear" type="button" aria-label="Borrar búsqueda">Borrar</button>
+      </div>
+      <div class="catalog-status"><span id="resultsCount"></span><button id="resetCatalog" type="button">Ver todos</button></div>
       <div id="productGrid" class="product-grid"></div>
-      <div id="emptyState" class="empty">No encontramos productos.</div>
+      <div id="emptyState" class="empty"><h3>No encontramos productos.</h3><p>Probá con otro nombre, marca o categoría.</p><button id="emptyReset" type="button">Ver todos los productos</button></div>
     </section>
 
     <section class="benefits">
