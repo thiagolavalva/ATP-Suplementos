@@ -4,8 +4,6 @@ const descriptions={Proteínas:"Recuperación y masa muscular",Creatinas:"Fuerza
 let products=[],settings={},filter="Todos",query="";
 const normalizeText=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 let cart=JSON.parse(localStorage.getItem("atp_cart")||"{}");
-const COUPONS={AMIGOSATP:10,MESSIATP:5,SORTEOATP:20,BIENVENIDOATP:10};
-let appliedCoupon=localStorage.getItem("atp_coupon")||"";
 const money=v=>new Intl.NumberFormat("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:0}).format(v);
 const jar=p=>`<div class="jar"><b>${p.brand.split(" ")[0]}</b><strong>${p.category==="Creatinas"?"CREATINE":p.category==="Proteínas"?"WHEY":"SPORT"}</strong><small>ATP SUPLEMENTOS</small></div>`;
 
@@ -46,19 +44,14 @@ function renderProducts(){
   productGrid.querySelectorAll(".add-btn").forEach(b=>b.onclick=()=>addCart(b.dataset.id));
 }
 function addCart(id){cart[id]=(cart[id]||0)+1;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showToast("Producto agregado")}
-function getTotals(){
-  const subtotal=Object.entries(cart).reduce((sum,[id,q])=>{const p=products.find(x=>x.id===id);return sum+(p?Number(p.price)*Number(q):0)},0);
-  const percent=COUPONS[appliedCoupon]||0;
-  const discount=Math.round(subtotal*percent)/100;
-  return{subtotal,discount,total:Math.max(0,subtotal-discount),percent};
-}
+function getCartTotal(){return Object.entries(cart).reduce((sum,[id,q])=>{const p=products.find(x=>x.id===id);return sum+(p?Number(p.price)*Number(q):0)},0)}
 function updateCart(){
   const entries=Object.entries(cart).filter(([id])=>products.some(p=>p.id===id));
   cartCount.textContent=entries.reduce((a,[,q])=>a+q,0);
-  if(!entries.length){cartItems.innerHTML="";cartEmpty.style.display="flex";cartSubtotal.textContent="$0";cartDiscount.textContent="-$0";cartTotal.textContent="$0";return}
+  if(!entries.length){cartItems.innerHTML="";cartEmpty.style.display="flex";cartTotal.textContent="$0";return}
   cartEmpty.style.display="none";
   cartItems.innerHTML=entries.map(([id,q])=>{const p=products.find(x=>x.id===id);return`<div class="cart-item"><div class="cart-thumb">ATP</div><div><h4>${p.name}</h4><small>${money(p.price)} c/u</small></div><div class="qty"><button data-id="${id}" data-d="-1">−</button><b>${q}</b><button data-id="${id}" data-d="1">+</button></div></div>`}).join("");
-  const t=getTotals();cartSubtotal.textContent=money(t.subtotal);cartDiscount.textContent=`-${money(t.discount)}`;cartTotal.textContent=money(t.total);discountRow.classList.toggle("visible",t.discount>0);
+  cartTotal.textContent=money(getCartTotal());
   cartItems.querySelectorAll("button").forEach(b=>b.onclick=()=>{cart[b.dataset.id]=(cart[b.dataset.id]||0)+Number(b.dataset.d);if(cart[b.dataset.id]<=0)delete cart[b.dataset.id];localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart()});
 }
 function suggestionsRender(){const q=normalizeText(searchInput.value.trim());if(!q){suggestions.innerHTML="";return}const list=products.filter(p=>normalizeText(`${p.name} ${p.brand} ${p.category}`).includes(q)).slice(0,6);suggestions.innerHTML=list.map(p=>`<div class="suggestion" data-id="${p.id}"><b>${p.name}</b><span>${p.brand} · ${money(p.price)}</span></div>`).join("");suggestions.querySelectorAll(".suggestion").forEach(s=>s.onclick=()=>location.href=`product.html?id=${encodeURIComponent(s.dataset.id)}`)}
@@ -86,35 +79,9 @@ resetCatalog.onclick=resetCatalog;emptyReset.onclick=resetCatalog;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSearch();closeCart()}});
 cartOpen.onclick=openCart;cartClose.onclick=closeCart;overlay.onclick=closeCart;
 
-function applyCoupon(){const code=couponInput.value.trim().toUpperCase();if(!COUPONS[code]){appliedCoupon="";localStorage.removeItem("atp_coupon");couponMessage.textContent="Cupón inválido";updateCart();return}appliedCoupon=code;localStorage.setItem("atp_coupon",code);couponMessage.textContent=`${code}: ${COUPONS[code]}% de descuento aplicado`;updateCart()}
-applyCouponBtn.onclick=applyCoupon;couponInput.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();applyCoupon()}};
 menuBtn.onclick=()=>mobileMenu.classList.toggle("open");
 document.querySelectorAll("#mobileMenu a").forEach(a=>a.onclick=()=>mobileMenu.classList.remove("open"));
-mercadoPagoBtn.onclick=async()=>{
-  const entries=Object.entries(cart).filter(([id])=>products.some(p=>p.id===id));
-  if(!entries.length){showToast("El carrito está vacío");return}
-  const originalText=mercadoPagoBtn.textContent;mercadoPagoBtn.disabled=true;mercadoPagoBtn.textContent="Preparando pago...";
-  try{
-    const response=await fetch("/api/create-preference",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items:entries.map(([id,quantity])=>({id,quantity})),coupon:appliedCoupon,deliveryMethod:deliveryMethod.value,customer:{name:customerName.value.trim(),phone:customerPhone.value.trim()}})});
-    const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||"No se pudo iniciar el pago.");window.location.assign(data.checkoutUrl);
-  }catch(err){console.error(err);showToast(err.message||"No se pudo iniciar el pago.");mercadoPagoBtn.disabled=false;mercadoPagoBtn.textContent=originalText}
-};
-checkoutBtn.onclick=async()=>{
-  const entries=Object.entries(cart).filter(([id])=>products.some(p=>p.id===id));if(!entries.length){showToast("El carrito está vacío");return}
-  const t=getTotals();const orderItems=entries.map(([id,q])=>{const product=products.find(x=>x.id===id);return{id:product.id,name:product.name,brand:product.brand,price:product.price,quantity:q}});
-  const customer={name:customerName.value.trim(),phone:customerPhone.value.trim()};
-  try{await ATPData.createOrder({items:orderItems,customer,subtotal:t.subtotal,discount:t.discount,total:t.total,coupon:appliedCoupon,delivery_method:deliveryMethod.value,channel:"whatsapp",status:"nuevo"})}catch(err){console.warn(err)}
-  const lines=orderItems.map(x=>`• ${x.quantity} x ${x.name} (${x.brand}) - ${money(x.price*x.quantity)}`);const couponLine=appliedCoupon?`\nCupón: ${appliedCoupon} (-${money(t.discount)})`:"";const delivery=deliveryMethod.value==="retiro"?"Retiro gratis":"Envío a coordinar";
-  window.open(`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(`Hola ATP Suplementos, quiero hacer este pedido:
-
-${lines.join("\n")}
-
-Subtotal: ${money(t.subtotal)}${couponLine}
-Total: ${money(t.total)}
-Entrega: ${delivery}
-Nombre: ${customer.name||"-"}
-Teléfono: ${customer.phone||"-"}`)}`,"_blank");
-};
+continueCheckoutBtn.onclick=()=>{if(!Object.keys(cart).length){showToast("El carrito está vacío");return}location.href="checkout.html"};
 
 (async function init(){
   year.textContent=new Date().getFullYear();
@@ -126,5 +93,5 @@ Teléfono: ${customer.phone||"-"}`)}`,"_blank");
     products=[];
     settings={};
   }
-  applySettings();renderCategories();renderBrands();renderFilters();renderProducts();couponInput.value=appliedCoupon;if(appliedCoupon&&COUPONS[appliedCoupon])couponMessage.textContent=`${appliedCoupon}: ${COUPONS[appliedCoupon]}% de descuento aplicado`;updateCart();
+  applySettings();renderCategories();renderBrands();renderFilters();renderProducts();updateCart();
 })();

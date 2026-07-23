@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Finalizá tu pedido en ATP Suplementos.">
+  <title>Finalizar compra | ATP Suplementos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+  <header class="checkout-header">
+    <a href="index.html" class="brand"><img src="logo-atp.jpg" alt="ATP Suplementos"></a>
+    <a href="index.html" class="back-link">← Volver a la tienda</a>
+  </header>
+
+  <main class="checkout-page">
+    <section class="checkout-main">
+      <div class="heading">
+        <span>PASO FINAL</span>
+        <h1>Completá tus datos</h1>
+        <p>Primero necesitamos tus datos y la forma de entrega. Después vas a poder aplicar un código de descuento y pagar.</p>
+      </div>
+
+      <form id="checkoutForm" novalidate>
+        <div class="card">
+          <div class="card-title"><b>1</b><div><h2>Datos personales</h2><p>Los usamos para identificar y coordinar tu pedido.</p></div></div>
+          <div class="fields">
+            <label>Nombre y apellido<input id="customerName" autocomplete="name" placeholder="Ej.: Thiago La Valva" required></label>
+            <label>Teléfono / WhatsApp<input id="customerPhone" type="tel" autocomplete="tel" placeholder="Ej.: 351 123 4567" required></label>
+          </div>
+          <small id="customerError" class="error"></small>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><b>2</b><div><h2>Forma de entrega</h2><p>Elegí cómo querés recibir tu compra.</p></div></div>
+          <div class="delivery-options">
+            <label class="delivery-option"><input type="radio" name="delivery" value="retiro" checked><span><strong>Retiro gratis</strong><small>Coordinamos el punto y horario de retiro.</small></span></label>
+            <label class="delivery-option"><input type="radio" name="delivery" value="coordinar"><span><strong>Envío a coordinar</strong><small>El costo y la zona se coordinan luego del pedido.</small></span></label>
+          </div>
+        </div>
+
+        <div id="couponCard" class="card locked">
+          <div class="card-title"><b>3</b><div><h2>Código de descuento</h2><p>Se habilita cuando completás correctamente tus datos.</p></div></div>
+          <div class="coupon-row">
+            <input id="couponInput" autocomplete="off" placeholder="Ingresá tu código" disabled>
+            <button id="applyCouponBtn" type="button" disabled>Aplicar</button>
+          </div>
+          <small id="couponMessage" class="coupon-message"></small>
+        </div>
+
+        <button id="mercadoPagoBtn" class="payment-button" type="submit" disabled>Pagar con Mercado Pago</button>
+        <p class="secure-note">El descuento se aplica al importe real enviado al Checkout seguro de Mercado Pago.</p>
+      </form>
+    </section>
+
+    <aside class="summary-card">
+      <div class="summary-heading"><span>TU COMPRA</span><h2>Resumen del pedido</h2></div>
+      <div id="orderItems" class="order-items"></div>
+      <div class="summary-line"><span>Subtotal</span><b id="subtotal">$0</b></div>
+      <div id="discountRow" class="summary-line discount"><span>Descuento</span><b id="discount">-$0</b></div>
+      <div class="summary-line total"><span>Total</span><b id="total">$0</b></div>
+      <a href="index.html" class="edit-cart">Modificar carrito</a>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="data-service.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>
