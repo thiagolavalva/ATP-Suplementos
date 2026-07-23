@@ -1,0 +1,26 @@
+MERCADO PAGO - CONFIGURACION EN VERCEL
+
+1. Subí TODOS estos archivos y carpetas a la raíz del repositorio.
+   Importante: la carpeta api debe quedar como /api/create-preference.js.
+
+2. En Vercel abrí el proyecto ATP Suplementos.
+
+3. Entrá en Settings > Environment Variables.
+
+4. Creá esta variable:
+   Name: MP_ACCESS_TOKEN
+   Value: copiá tu Access Token DE PRUEBA desde Mercado Pago Developers.
+   Environments: Production, Preview y Development.
+
+5. Guardá la variable.
+
+6. Entrá en Deployments y hacé Redeploy del último deployment.
+   Las variables nuevas solo se aplican al volver a desplegar.
+
+7. Probá una compra con una CUENTA DE PRUEBA de comprador y una TARJETA DE PRUEBA.
+   No pruebes comprando con la misma cuenta vendedora.
+
+SEGURIDAD
+- Nunca pongas MP_ACCESS_TOKEN en config.js, HTML ni JavaScript del navegador.
+- Nunca lo subas a GitHub ni lo envíes por chat.
+- Para pasar a producción, reemplazá solamente MP_ACCESS_TOKEN en Vercel por el token productivo y volvé a desplegar.

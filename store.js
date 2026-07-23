@@ -79,16 +79,27 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSearch();close
 cartOpen.onclick=openCart;cartClose.onclick=closeCart;overlay.onclick=closeCart;
 menuBtn.onclick=()=>mobileMenu.classList.toggle("open");
 document.querySelectorAll("#mobileMenu a").forEach(a=>a.onclick=()=>mobileMenu.classList.remove("open"));
-const MERCADOPAGO_LINK="https://link.mercadopago.com.ar/atpsuplementos";
 mercadoPagoBtn.onclick=async()=>{
-  const entries=Object.entries(cart);
+  const entries=Object.entries(cart).filter(([id])=>products.some(p=>p.id===id));
   if(!entries.length){showToast("El carrito está vacío");return}
-  let total=0;
-  const orderItems=entries.map(([id,q])=>{const product=products.find(x=>x.id===id);total+=product.price*q;return{product,quantity:q}});
-  try{await ATPData.createOrder({items:orderItems,total,channel:"mercadopago"})}catch(err){console.warn("No se pudo guardar el pedido:",err)}
-  try{await navigator.clipboard.writeText(String(total))}catch(err){}
-  showToast(`Total ${money(total)}. Ingresalo en Mercado Pago.`);
-  window.open(MERCADOPAGO_LINK,"_blank","noopener,noreferrer");
+  const originalText=mercadoPagoBtn.textContent;
+  mercadoPagoBtn.disabled=true;
+  mercadoPagoBtn.textContent="Preparando pago...";
+  try{
+    const response=await fetch("/api/create-preference",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({items:entries.map(([id,quantity])=>({id,quantity}))})
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.error||"No se pudo iniciar el pago.");
+    window.location.assign(data.checkoutUrl);
+  }catch(err){
+    console.error(err);
+    showToast(err.message||"No se pudo iniciar el pago.");
+    mercadoPagoBtn.disabled=false;
+    mercadoPagoBtn.textContent=originalText;
+  }
 };
 checkoutBtn.onclick=async()=>{
   const e=Object.entries(cart);
