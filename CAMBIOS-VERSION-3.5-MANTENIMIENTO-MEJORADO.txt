@@ -1,0 +1,7 @@
+ATP SUPLEMENTOS - VERSIÓN 3.5
+
+- Se eliminó la necesidad de una clave adicional: alcanza con el acceso protegido al administrador.
+- La pantalla de mantenimiento ahora incluye un botón directo a WhatsApp cuando hay un número configurado.
+- Se agregó un aviso visible en todo el panel administrador cuando la tienda está cerrada.
+- El aviso permite ir rápidamente a la configuración del modo mantenimiento.
+- Se mantuvo el diseño oscuro con logo, animación suave y compatibilidad con movimiento reducido.

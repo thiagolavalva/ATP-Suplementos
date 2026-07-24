@@ -6,6 +6,9 @@
     const store=escapeHtml(settings.storeName||'ATP Suplementos');
     const message=escapeHtml(settings.maintenanceMessage||DEFAULT_MESSAGE);
     const location=escapeHtml(settings.location||'Córdoba, Argentina');
+    const rawWhatsapp=String(settings.whatsapp||'').replace(/\D/g,'');
+    const whatsapp=rawWhatsapp ? (rawWhatsapp.startsWith('54') ? rawWhatsapp : `54${rawWhatsapp}`) : '';
+    const whatsappUrl=whatsapp ? `https://wa.me/${whatsapp}?text=${encodeURIComponent('Hola ATP Suplementos, quería hacer una consulta mientras la tienda está en mantenimiento.')}` : '';
     const wrapper=document.createElement('div');
     wrapper.id='atpMaintenance';
     wrapper.innerHTML=`<style>
@@ -16,11 +19,15 @@
       #atpMaintenance .eyebrow{margin-top:25px;color:#8dfc39;font-size:11px;font-weight:900;letter-spacing:.18em}
       #atpMaintenance h1{margin:11px 0 14px;font-size:clamp(30px,7vw,49px);line-height:1.04;letter-spacing:-.045em}
       #atpMaintenance p{max-width:480px;margin:0 auto;color:#aeb6aa;font-size:clamp(15px,3.7vw,18px);line-height:1.7}
-      #atpMaintenance .pulse{display:inline-flex;align-items:center;gap:9px;margin-top:27px;padding:10px 14px;border:1px solid #333c30;border-radius:99px;color:#d9dfd6;font-size:12px;font-weight:700}
+      #atpMaintenance .maintenance-actions{display:flex;justify-content:center;gap:11px;flex-wrap:wrap;margin-top:27px}
+      #atpMaintenance .pulse{display:inline-flex;align-items:center;gap:9px;padding:11px 15px;border:1px solid #333c30;border-radius:99px;color:#d9dfd6;font-size:12px;font-weight:700}
+      #atpMaintenance .whatsapp-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:10px 17px;border-radius:99px;background:#25d366;color:#071108;text-decoration:none;font-size:12px;font-weight:900;box-shadow:0 12px 30px rgba(37,211,102,.18);transition:transform .18s ease,filter .18s ease}
+      #atpMaintenance .whatsapp-btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
       #atpMaintenance .pulse i{width:9px;height:9px;border-radius:50%;background:#8dfc39;box-shadow:0 0 0 0 rgba(141,252,57,.5);animation:atpPulse 1.8s infinite}
       #atpMaintenance small{display:block;margin-top:24px;color:#71796e;font-size:11px}
+      @media(prefers-reduced-motion:reduce){#atpMaintenance .pulse i{animation:none}#atpMaintenance .whatsapp-btn{transition:none}}
       @keyframes atpPulse{70%{box-shadow:0 0 0 9px rgba(141,252,57,0)}100%{box-shadow:0 0 0 0 rgba(141,252,57,0)}}
-    </style><section class="maintenance-card" role="status" aria-live="polite"><img src="logo-atp.jpg" alt="${store}"><div class="eyebrow">${store.toUpperCase()}</div><h1>Estamos mejorando la tienda.</h1><p>${message}</p><div class="pulse"><i></i> Volvemos en breve</div><small>${location}</small></section>`;
+    </style><section class="maintenance-card" role="status" aria-live="polite"><img src="logo-atp.jpg" alt="${store}"><div class="eyebrow">${store.toUpperCase()}</div><h1>Estamos mejorando la tienda.</h1><p>${message}</p><div class="maintenance-actions"><div class="pulse"><i></i> Volvemos en breve</div>${whatsappUrl?`<a class="whatsapp-btn" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" aria-label="Contactar a ATP Suplementos por WhatsApp">Contactanos por WhatsApp</a>`:''}</div><small>${location}</small></section>`;
     document.body.appendChild(wrapper);
     document.documentElement.style.overflow='hidden';
     document.body.style.overflow='hidden';
