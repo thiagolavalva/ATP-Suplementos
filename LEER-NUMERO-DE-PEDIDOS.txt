@@ -1,0 +1,9 @@
+NUEVA NUMERACIÓN DE PEDIDOS
+
+1. En Supabase abrí SQL Editor.
+2. Pegá y ejecutá ACTUALIZAR-NUMERO-Y-BORRADO-PEDIDOS.sql.
+3. Luego subí todos los archivos del proyecto a GitHub.
+
+Los pedidos se mostrarán como ATP-000001, ATP-000002, etc.
+Los números eliminados no se vuelven a utilizar.
+El botón Eliminar borra el pedido, pero no devuelve stock ni ATP Points.
