@@ -1,1 +1,43 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pago aprobado | ATP Suplementos</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="payment-status.css"></head><body><main><img src="logo-atp.jpg" alt="ATP Suplementos"><div class="status success">✓</div><p>MERcado pago</p><h1>Pago aprobado</h1><span>Mercado Pago recibió tu pago. Conservá el comprobante mientras preparamos tu pedido.</span><a href="index.html">Volver a la tienda</a></main><script>localStorage.removeItem('atp_cart')</script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pago aprobado | ATP Suplementos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="payment-status.css">
+  <style>
+    .tracking-box{display:none;width:min(100%,420px);margin:18px 0 4px;padding:16px;border:1px solid rgba(141,252,57,.35);border-radius:14px;background:rgba(141,252,57,.07)}
+    .tracking-box.visible{display:block}.tracking-box small{display:block;margin-bottom:7px;opacity:.72}.tracking-box strong{display:block;font-size:22px;letter-spacing:1px}.tracking-link{margin-top:10px!important;background:transparent!important;border:1px solid rgba(255,255,255,.18)!important}
+  </style>
+</head>
+<body>
+  <main>
+    <img src="logo-atp.jpg" alt="ATP Suplementos">
+    <div class="status success">✓</div>
+    <p>Mercado Pago</p>
+    <h1>Pago aprobado</h1>
+    <span>Mercado Pago recibió tu pago. Ya estamos preparando tu pedido.</span>
+    <div id="trackingBox" class="tracking-box">
+      <small>Tu código de seguimiento</small>
+      <strong id="trackingCode"></strong>
+    </div>
+    <a id="trackingLink" class="tracking-link" href="seguimiento.html" style="display:none">Seguir mi pedido</a>
+    <a href="index.html">Volver a la tienda</a>
+  </main>
+  <script>
+    localStorage.removeItem('atp_cart');
+    try {
+      const lastOrder=JSON.parse(sessionStorage.getItem('atp_last_order')||'null');
+      if(lastOrder?.trackingCode){
+        trackingCode.textContent=lastOrder.trackingCode;
+        trackingBox.classList.add('visible');
+        trackingLink.href=`seguimiento.html?code=${encodeURIComponent(lastOrder.trackingCode)}`;
+        trackingLink.style.display='inline-flex';
+      }
+    } catch(error){ console.error(error); }
+  </script>
+</body>
+</html>

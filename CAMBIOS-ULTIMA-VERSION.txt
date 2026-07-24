@@ -1,0 +1,7 @@
+ATP Suplementos - última actualización
+
+- Se reemplazó el nombre personal del ejemplo del checkout por Juan Pérez.
+- El pago aprobado muestra el código de seguimiento guardado durante el checkout.
+- Se agregó acceso directo a la página de seguimiento.
+- Se mantuvieron stock automático, clientes, cupones y ATP Points sin cambios de base de datos.
+- No es necesario volver a ejecutar el SQL de Supabase.
