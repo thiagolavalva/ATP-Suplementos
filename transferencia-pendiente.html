@@ -1,1 +1,81 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pedido recibido | ATP Suplementos</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="payment-status.css"></head><body><main class="status-page"><section class="status-card"><img src="logo-atp.jpg" alt="ATP"><span class="eyebrow">TRANSFERENCIA / DEPÓSITO</span><h1>Pedido recibido</h1><p>Tu pedido quedó registrado y está esperando la acreditación de la transferencia.</p><div class="order-code"><small>CÓDIGO DE SEGUIMIENTO</small><b id="trackingCode">ATP-</b></div><p>Nos comunicaremos por WhatsApp para enviarte o confirmar los datos bancarios y coordinar la entrega. Cuando transfieras, mandanos el comprobante.</p><a id="whatsappBtn" class="primary-action" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a><a id="trackingBtn" class="secondary-action" href="seguimiento.html">Seguir mi pedido</a><a class="secondary-action" href="index.html">Volver a la tienda</a></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="data-service.js"></script><script>const p=new URLSearchParams(location.search),code=p.get('tracking')||JSON.parse(sessionStorage.getItem('atp_last_order')||'{}').trackingCode||'ATP-';trackingCode.textContent=code;trackingBtn.href='seguimiento.html?codigo='+encodeURIComponent(code);(async()=>{let w='5493518136003';try{const s=await ATPData.getSettings();w=String(s.whatsapp||w).replace(/\D/g,'')}catch(_){}const msg=`Hola, hice el pedido ${code} por transferencia/depósito. Quiero enviar el comprobante.`;whatsappBtn.href=`https://wa.me/${w}?text=${encodeURIComponent(msg)}`;localStorage.removeItem('atp_cart')})();</script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pedido confirmado | ATP Suplementos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="payment-status.css">
+  <style>
+    .status-card{width:min(620px,100%)}
+    .order-code{margin:22px auto 18px;padding:15px 18px;border:1px solid #2c343d;border-radius:15px;background:#0c1014}
+    .order-code small{display:block;color:#929ca6;font-size:11px;font-weight:800;letter-spacing:.13em;margin-bottom:7px}
+    .order-code b{font-size:22px;letter-spacing:.04em;color:#f5e900}
+    .message{margin:18px auto 0;padding:16px;border:1px solid rgba(245,233,0,.25);border-radius:15px;background:rgba(245,233,0,.06);color:#e9edf0;line-height:1.65;text-align:left}
+    .bank-box{margin:22px auto 0;padding:20px;border:1px solid #2c343d;border-radius:18px;background:#0c1014;text-align:left}
+    .bank-box h2{font-size:18px;margin:0 0 16px}
+    .bank-row{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 0;border-top:1px solid #242b32;align-items:start}
+    .bank-row:first-of-type{border-top:0}
+    .bank-row span{margin:0;color:#8f99a3;font-size:13px}
+    .bank-row strong{font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+    .primary-action,.secondary-action{display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px}
+    .secondary-action{background:transparent;color:#fff;border:1px solid #343c45}
+    .important{margin-top:18px;color:#9fa8b1;font-size:13px;line-height:1.6}
+    @media(max-width:520px){.bank-row{grid-template-columns:1fr;gap:5px}.status-card{padding:32px 20px}}
+  </style>
+</head>
+<body>
+  <main class="status-card">
+    <img src="logo-atp.jpg" alt="ATP Suplementos">
+    <div class="status pending">✓</div>
+    <p>TRANSFERENCIA / DEPÓSITO</p>
+    <h1>Pedido confirmado</h1>
+    <span>Tu pedido fue registrado correctamente y quedó pendiente hasta que confirmemos la acreditación.</span>
+
+    <div class="order-code">
+      <small>CÓDIGO DE PEDIDO</small>
+      <b id="orderCode">ATP-</b>
+    </div>
+
+    <div class="message">
+      Una vez confirmado tu pago te enviaremos un WhatsApp para confirmarlo y coordinar el envío.
+    </div>
+
+    <section class="bank-box" aria-label="Datos para transferencia">
+      <h2>Datos para realizar la transferencia</h2>
+      <div class="bank-row"><span>Alias</span><strong>SUPLEMENTOSATP</strong></div>
+      <div class="bank-row"><span>CBU</span><strong>4530000800013046090593</strong></div>
+      <div class="bank-row"><span>Titular</span><strong>Thiago La Valva</strong></div>
+      <div class="bank-row"><span>Entidad</span><strong>Naranja Digital Compañía Financiera S.A.</strong></div>
+    </section>
+
+    <a id="whatsappBtn" class="primary-action" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
+    <div class="important">Tu pedido permanecerá pendiente hasta que revisemos el comprobante y confirmemos el pago.</div>
+    <a class="secondary-action" href="index.html">Volver a la tienda</a>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="data-service.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    let lastOrder = {};
+    try { lastOrder = JSON.parse(sessionStorage.getItem('atp_last_order') || '{}'); } catch (_) {}
+    const code = params.get('tracking') || lastOrder.trackingCode || 'ATP-';
+    orderCode.textContent = code;
+
+    (async () => {
+      let whatsapp = '5493518136003';
+      try {
+        const settings = await ATPData.getSettings();
+        whatsapp = String(settings.whatsapp || whatsapp).replace(/\D/g, '');
+      } catch (_) {}
+      const message = `Hola, hice el pedido ${code} por transferencia/depósito. Te envío el comprobante para que puedan confirmar el pago y coordinar el envío.`;
+      whatsappBtn.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
+      localStorage.removeItem('atp_cart');
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+CAMBIOS REALIZADOS
+
+- La confirmación por transferencia muestra:
+  Alias: SUPLEMENTOSATP
+  CBU: 4530000800013046090593
+  Titular: Thiago La Valva
+  Entidad: Naranja Digital Compañía Financiera S.A.
+- Se cambió "código de seguimiento" por "código de pedido".
+- Se retiró el seguimiento público del envío por ahora.
+- Se conserva el botón para enviar el comprobante por WhatsApp.
+- Se agregó el aviso de confirmación del pago y coordinación del envío por WhatsApp.
+- La pantalla de Mercado Pago aprobado ya no muestra seguimiento del envío.
