@@ -21,7 +21,6 @@
     async updateCustomer(id,changes){const{data,error}=await client.from('atp_customers').update({...changes,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;return data},
     async saveCoupon(c){const payload={code:String(c.code).trim().toUpperCase(),discount_percent:Number(c.discount_percent),active:Boolean(c.active),max_uses:c.max_uses?Number(c.max_uses):null,expires_at:c.expires_at||null,updated_at:new Date().toISOString()};const{data,error}=await client.from('atp_coupons').upsert(payload,{onConflict:'code'}).select().single();if(error)throw error;return data},
     async deleteCoupon(code){const{error}=await client.from('atp_coupons').delete().eq('code',code);if(error)throw error},
-    async savePushToken(token){const{data:{user}}=await client.auth.getUser();if(!user)throw new Error('Iniciá sesión nuevamente.');const{error}=await client.from('atp_push_tokens').upsert({token,user_id:user.id,user_agent:navigator.userAgent,updated_at:new Date().toISOString()},{onConflict:'token'});if(error)throw error},
     async getOrderByTracking(code){const{data,error}=await client.from('atp_orders').select('*').eq('tracking_code',code).maybeSingle();if(error)throw error;return data}
 
   };

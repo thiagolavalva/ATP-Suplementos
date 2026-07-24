@@ -1,0 +1,13 @@
+ATP SUPLEMENTOS - VERSIÓN 2.3 SIN NOTIFICACIONES
+
+Se eliminó por completo la integración de notificaciones push y Firebase:
+- Botones de activar y probar notificaciones.
+- SDK de Firebase en el administrador.
+- Service worker de Firebase.
+- Funciones serverless de envío push.
+- Registro de tokens en Supabase desde el frontend.
+- Dependencia firebase-admin.
+
+Se mantienen intactas las demás funciones: pedidos, comprobantes, ganancias, clientes, stock, cupones y checkout.
+
+La variable FIREBASE_SERVICE_ACCOUNT_JSON puede eliminarse de Vercel porque ya no se utiliza.
