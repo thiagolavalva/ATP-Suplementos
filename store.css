@@ -89,16 +89,24 @@ body>footer{padding:35px clamp(17px,6vw,90px);border-top:1px solid var(--line);d
  .hero h1{font-size:clamp(58px,8vw,88px)}
 }
 @media(max-width:680px){
- .hero{min-height:760px;padding:105px 18px 62px;place-items:end start}
- .hero-photo{top:66px;width:100%;height:48%;bottom:auto;background-position:72% center;opacity:.52}
- .hero:after{background:linear-gradient(180deg,rgba(3,4,3,.08) 0%,rgba(3,4,3,.35) 38%,#030403 62%,#030403 100%)}
- .hero-content{margin:0;max-width:100%}
- .hero-kicker{font-size:10px;margin-bottom:14px}
- .hero h1{font-size:clamp(52px,16vw,72px);line-height:.82}
- .hero-subtitle{margin:24px 0 9px!important;font-size:19px!important}
- .hero-content>span{font-size:14px;line-height:1.7;margin-bottom:18px}
+ .hero{min-height:auto;padding:calc(var(--header) + 330px) 18px 48px;place-items:start;background:#030403}
+ .hero-photo{top:var(--header);left:0;right:0;width:100%;height:330px;bottom:auto;background-size:cover;background-position:68% center;opacity:.9}
+ .hero:after{background:linear-gradient(180deg,rgba(3,4,3,.04) 0%,rgba(3,4,3,.16) 34%,#030403 49%,#030403 100%)}
+ .hero-content{margin:0;max-width:100%;width:100%;text-align:left}
+ .hero-kicker{font-size:10px;margin-bottom:12px;letter-spacing:.18em}
+ .hero-kicker:before{width:25px}
+ .hero h1{font-size:clamp(44px,13vw,58px);line-height:.86;letter-spacing:-.05em;max-width:100%;overflow-wrap:normal}
+ .hero-subtitle{margin:22px 0 10px!important;font-size:18px!important;line-height:1.25!important}
+ .hero-content>span{font-size:13px;line-height:1.65;margin-bottom:18px;max-width:340px}
  .hero-shipping{font-size:16px;margin-bottom:22px}
- .hero-buttons .btn{min-height:52px}
+ .hero-buttons{width:100%}
+ .hero-buttons .btn{width:100%;min-height:54px;font-size:16px}
  .benefits-home{margin:0 16px 70px}
  .benefits-home article{padding:22px}
+}
+@media(max-width:390px){
+ .hero{padding-top:calc(var(--header) + 300px)}
+ .hero-photo{height:300px;background-position:67% center}
+ .hero h1{font-size:42px}
+ .hero-subtitle{font-size:17px!important}
 }

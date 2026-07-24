@@ -1,0 +1,8 @@
+VERSIÓN 2.7 — HERO OPTIMIZADO PARA CELULAR
+
+- Se redujo el tamaño del título en pantallas pequeñas.
+- La imagen de proteína, creatina y shaker ahora ocupa una franja superior independiente.
+- Se corrigió el encuadre para que los productos se vean mejor sin tapar el texto.
+- El texto, envío y botón quedan debajo de la imagen con mayor legibilidad.
+- El botón "Ver productos" ocupa el ancho disponible en celular.
+- Se agregó un ajuste adicional para teléfonos de hasta 390 px de ancho.
