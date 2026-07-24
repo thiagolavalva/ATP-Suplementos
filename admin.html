@@ -52,24 +52,25 @@
       </header>
 
       <section id="dashboardView" class="view active">
-        <div class="stats operational-stats">
-          <article class="stat-card stat-warning"><span>Pendientes de pago</span><b id="statPending">0</b><small>Requieren seguimiento</small></article>
-          <article class="stat-card stat-info"><span>Pedidos de hoy</span><b id="statToday">0</b><small>Ingresados hoy</small></article>
-          <article class="stat-card stat-success"><span>Ventas del mes</span><b id="statMonthSales">$0</b><small>Pagos acreditados</small></article>
-          <article class="stat-card stat-danger"><span>Productos con poco stock</span><b id="statLowStock">0</b><small>5 unidades o menos</small></article>
+        <div class="dashboard-heading"><div><span>RENDIMIENTO EN TIEMPO REAL</span><h2>Panel de ventas</h2><p>Datos calculados con pedidos, productos y cupones guardados en Supabase.</p></div><div class="dashboard-live"><i></i> Actualización automática</div></div>
+        <div class="dashboard-kpis">
+          <article class="kpi-card primary"><span>Ventas de hoy</span><b id="statTodaySales">$0</b><small id="statTodayPaid">0 pedidos válidos</small></article>
+          <article class="kpi-card"><span>Ventas del mes</span><b id="statMonthSales">$0</b><small id="statMonthPaid">0 pedidos válidos</small></article>
+          <article class="kpi-card"><span>Ventas totales</span><b id="statSales">$0</b><small id="statPaid">0 pedidos válidos</small></article>
+          <article class="kpi-card"><span>Ticket promedio</span><b id="statAverageTicket">$0</b><small>Solo ventas no canceladas</small></article>
         </div>
-        <div class="stats secondary-stats">
-          <article><span>Productos</span><b id="statProducts">0</b></article>
-          <article><span>Unidades en stock</span><b id="statStock">0</b></article>
-          <article><span>Sin stock</span><b id="statOut">0</b></article>
-          <article><span>Ventas aprobadas</span><b id="statSales">$0</b></article>
-          <article><span>Pedidos pagados</span><b id="statPaid">0</b></article>
-          <article><span>Clientes</span><b id="statCustomers">0</b></article>
-          <article><span>Beneficios internos</span><b id="statPoints">0</b></article>
+        <div class="dashboard-grid dashboard-grid-main">
+          <article class="dashboard-panel chart-panel"><header><div><span>VENTAS</span><h3>Evolución</h3></div><div class="chart-tabs"><button class="active" data-chart-days="7">7 días</button><button data-chart-days="30">30 días</button></div></header><div class="chart-box"><canvas id="salesChart"></canvas></div></article>
+          <article class="dashboard-panel"><header><div><span>PEDIDOS</span><h3>Por estado</h3></div><b id="statOrdersTotal" class="panel-total">0</b></header><div id="orderStatusSummary" class="status-summary"></div></article>
         </div>
-        <div class="panel">
-          <div class="panel-title"><div><p>INVENTARIO</p><h2>Stock bajo</h2></div></div>
-          <div id="lowStockList" class="simple-list"></div>
+        <div class="dashboard-grid dashboard-grid-secondary">
+          <article class="dashboard-panel"><header><div><span>PRODUCTOS</span><h3>Más vendidos</h3></div></header><div id="topProductsList" class="ranking-list"></div></article>
+          <article class="dashboard-panel"><header><div><span>INVENTARIO</span><h3>Alertas de stock</h3></div></header><div class="inventory-mini"><div><span>Stock bajo</span><b id="statLowStock">0</b></div><div><span>Agotados</span><b id="statOut">0</b></div></div><div id="lowStockList" class="simple-list compact"></div></article>
+          <article class="dashboard-panel"><header><div><span>MARKETING</span><h3>Uso de cupones</h3></div></header><div id="couponUsageList" class="ranking-list"></div></article>
+        </div>
+        <div class="dashboard-grid dashboard-grid-bottom">
+          <article class="dashboard-panel alerts-panel"><header><div><span>ATENCIÓN</span><h3>Alertas</h3></div><b id="statAlerts" class="panel-total">0</b></header><div id="dashboardAlerts" class="alerts-list"></div></article>
+          <article class="dashboard-panel quick-panel"><header><div><span>RESUMEN OPERATIVO</span><h3>Estado general</h3></div></header><div class="quick-metrics"><div><span>Pedidos de hoy</span><b id="statToday">0</b></div><div><span>Pendientes de pago</span><b id="statPending">0</b></div><div><span>Productos activos</span><b id="statProducts">0</b></div><div><span>Unidades en stock</span><b id="statStock">0</b></div><div><span>Clientes activos</span><b id="statCustomers">0</b></div><div><span>Beneficios internos</span><b id="statPoints">0</b></div></div></article>
         </div>
       </section>
 
@@ -236,6 +237,7 @@
     </div>
   </div>
   <div id="adminToast" class="admin-toast"></div>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="config.js"></script>
   <script defer src="data-service.js"></script>

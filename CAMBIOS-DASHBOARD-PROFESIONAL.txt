@@ -1,0 +1,31 @@
+ATP SUPLEMENTOS — DASHBOARD PROFESIONAL
+
+Se modificó el proyecto existente, sin rehacerlo.
+
+INCLUYE
+- Ventas de hoy, del mes y totales.
+- Ticket promedio.
+- Cantidad de pedidos válidos en cada período.
+- Pedidos agrupados por estado.
+- Productos más vendidos por unidades e ingresos.
+- Productos con stock bajo y agotados.
+- Ranking real de cupones usados.
+- Alertas operativas.
+- Gráfico de ventas de los últimos 7 o 30 días.
+- Actualización automática mediante Supabase Realtime y respaldo cada 30 segundos.
+
+REGLAS DE CÁLCULO
+- Una venta solo suma cuando payment_status es "approved".
+- Un pedido cancelado nunca suma como venta, aun si conservase payment_status "approved".
+- Todas las estadísticas se vuelven a calcular desde los registros actuales de Supabase.
+- Al eliminar un pedido desde el administrador, desaparece inmediatamente de las métricas.
+- Si un pedido se elimina o modifica externamente, Realtime actualiza el panel; además existe una sincronización de respaldo cada 30 segundos.
+
+ACCESO ADMINISTRADOR
+- No se agregó ninguna contraseña ni segundo acceso.
+- Se conserva exactamente el sistema de inicio de sesión existente con Supabase Auth.
+
+ARCHIVOS PRINCIPALES MODIFICADOS
+- admin.html
+- admin.css
+- admin.js
