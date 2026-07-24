@@ -79,7 +79,7 @@
 
 
       <section id="ordersView" class="view">
-        <div class="toolbar"><input id="orderSearch" placeholder="Buscar por nombre, teléfono, cupón o pedido"><select id="orderStatusFilter"><option value="">Todos los estados</option><option>nuevo</option><option>esperando_pago</option><option>pagado</option><option>preparando</option><option>listo</option><option>en_camino</option><option>entregado</option><option>cancelado</option><option>pago_rechazado</option></select></div>
+        <div class="toolbar"><input id="orderSearch" placeholder="Buscar por nombre, teléfono, cupón o pedido"><select id="orderStatusFilter"><option value="">Todos los estados</option><option value="pendiente_pago">Pendiente de pago</option><option value="pago_confirmado">Pago confirmado</option><option value="preparando_pedido">Preparando pedido</option><option value="enviado">Enviado</option><option value="entregado">Entregado</option><option value="cancelado">Cancelado</option></select></div>
         <div class="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Entrega</th><th>Total</th><th>Pago</th><th>Estado</th><th>Fecha</th></tr></thead><tbody id="orderTable"></tbody></table></div>
       </section>
 

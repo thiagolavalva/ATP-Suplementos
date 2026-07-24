@@ -152,7 +152,7 @@ alter table public.atp_orders add column if not exists subtotal numeric(12,2) no
 alter table public.atp_orders add column if not exists discount numeric(12,2) not null default 0;
 alter table public.atp_orders add column if not exists coupon text not null default '';
 alter table public.atp_orders add column if not exists delivery_method text not null default 'retiro';
-alter table public.atp_orders add column if not exists status text not null default 'nuevo';
+alter table public.atp_orders add column if not exists status text not null default 'pendiente_pago';
 alter table public.atp_orders add column if not exists payment_status text not null default 'pending';
 alter table public.atp_orders add column if not exists external_reference text;
 alter table public.atp_orders add column if not exists mp_preference_id text;
@@ -235,7 +235,7 @@ begin
  on conflict(phone) do update set name=excluded.name,email=case when excluded.email<>'' then excluded.email else atp_customers.email end,orders_count=atp_customers.orders_count+1,total_spent=atp_customers.total_spent+excluded.total_spent,points_balance=atp_customers.points_balance+excluded.points_balance,lifetime_points=atp_customers.lifetime_points+excluded.lifetime_points,last_order_at=now(),updated_at=now()
  returning * into c;
  update public.atp_coupons set used_count=used_count+1,updated_at=now() where code=o.coupon and o.coupon<>'';
- update public.atp_orders set payment_status='approved',status='pagado',mp_payment_id=p_payment_id,stock_processed=true,points_awarded=pts,customer_id=c.id,tracking_code=coalesce(tracking_code,'ATP-'||upper(substr(replace(id::text,'-',''),1,8))),updated_at=now() where id=o.id;
+ update public.atp_orders set payment_status='approved',status='pago_confirmado',mp_payment_id=p_payment_id,stock_processed=true,points_awarded=pts,customer_id=c.id,tracking_code=coalesce(tracking_code,'ATP-'||upper(substr(replace(id::text,'-',''),1,8))),updated_at=now() where id=o.id;
  return jsonb_build_object('ok',true,'points',pts,'tracking_code',coalesce(o.tracking_code,'ATP-'||upper(substr(replace(o.id::text,'-',''),1,8))));
 end $$;
 
