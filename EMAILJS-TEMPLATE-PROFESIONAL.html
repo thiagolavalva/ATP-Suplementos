@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{email_subject}}</title>
+</head>
+<body style="margin:0;padding:0;background:#f2f4f1;font-family:Arial,Helvetica,sans-serif;color:#151815;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">{{email_preheader}}</div>
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f2f4f1;padding:28px 12px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:620px;background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 12px 34px rgba(0,0,0,.09);">
+        <tr>
+          <td style="background:#070907;padding:26px 32px;text-align:center;">
+            <div style="font-size:24px;font-weight:900;letter-spacing:-.7px;color:#ffffff;">ATP <span style="color:#8dfc39;">SUPLEMENTOS</span></div>
+            <div style="margin-top:7px;font-size:12px;letter-spacing:1.5px;color:#aeb6aa;">POTENCIÁ TU RENDIMIENTO</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:34px 32px 12px;text-align:center;">
+            <div style="font-size:42px;line-height:1;">{{status_icon}}</div>
+            <h1 style="margin:14px 0 8px;font-size:27px;line-height:1.2;color:#111511;">{{status_heading}}</h1>
+            <p style="margin:0;color:#697067;font-size:16px;line-height:1.6;">Hola {{customer_name}}, {{status_message}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:22px 32px;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f7f9f6;border:1px solid #e4e9e1;border-radius:14px;">
+              <tr>
+                <td style="padding:18px 20px;border-bottom:1px solid #e4e9e1;color:#687066;font-size:13px;">NÚMERO DE PEDIDO</td>
+                <td align="right" style="padding:18px 20px;border-bottom:1px solid #e4e9e1;font-weight:800;color:#151815;">{{order_number}}</td>
+              </tr>
+              <tr>
+                <td style="padding:18px 20px;color:#687066;font-size:13px;">ESTADO</td>
+                <td align="right" style="padding:18px 20px;font-weight:800;color:{{status_color}};">{{order_status}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:4px 32px 10px;">
+            <h2 style="margin:0 0 12px;font-size:17px;color:#151815;">Detalle del pedido</h2>
+            <div style="padding:18px 20px;background:#f7f9f6;border:1px solid #e4e9e1;border-radius:14px;white-space:pre-line;font-size:14px;line-height:1.8;color:#343a33;">{{order_items}}</div>
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:12px;">
+              <tr>
+                <td style="font-size:16px;font-weight:700;color:#151815;">Total</td>
+                <td align="right" style="font-size:24px;font-weight:900;color:#151815;">{{order_total}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:24px 32px 34px;">
+            <a href="{{tracking_url}}" style="display:inline-block;background:#8dfc39;color:#071004;text-decoration:none;font-weight:900;font-size:15px;padding:15px 26px;border-radius:10px;">Ver estado de mi pedido</a>
+            <p style="margin:22px 0 0;color:#7b8278;font-size:12px;line-height:1.6;">Si no esperabas este correo, podés ignorarlo. Para consultas, respondé directamente a este mensaje.</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#0d100d;padding:20px 32px;text-align:center;color:#aeb6aa;font-size:12px;line-height:1.6;">
+            Gracias por confiar en {{store_name}} 💪<br>
+            Córdoba, Argentina
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

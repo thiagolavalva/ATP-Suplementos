@@ -3,6 +3,7 @@ const ICONS={Proteínas:`<svg viewBox="0 0 48 48"><path d="M15 12h18l3 8-4 19H16
 const descriptions={Proteínas:"Recuperación y masa muscular",Creatinas:"Fuerza y rendimiento","Pre-entrenos":"Energía y enfoque",Aminoácidos:"Apoyo a la recuperación",Vitaminas:"Bienestar y micronutrientes",Quemadores:"Productos para definición",Ganadores:"Ganadores de peso",Shakers:"Prepará tus suplementos",Accesorios:"Complementos para entrenar"};
 let products=[],settings={},filter="Todos",query="";
 const normalizeText=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const debounce=(fn,delay=160)=>{let timer;return(...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),delay)}};
 let cart=JSON.parse(localStorage.getItem("atp_cart")||"{}");
 const money=v=>new Intl.NumberFormat("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:0}).format(v);
 const jar=p=>`<div class="jar"><b>${p.brand.split(" ")[0]}</b><strong>${p.category==="Creatinas"?"CREATINE":p.category==="Proteínas"?"WHEY":"SPORT"}</strong><small>ATP SUPLEMENTOS</small></div>`;
@@ -42,7 +43,7 @@ function renderProducts(){
     const searchable=normalizeText(`${p.name} ${p.brand} ${p.category} ${p.detail||""} ${p.description||""} ${p.tag||""}`);
     return matchesCategory&&(!q||searchable.includes(q));
   });
-  productGrid.innerHTML=list.map(p=>`<article class="product-card"><div class="product-image">${p.tag?`<span class="tag">${p.tag}</span>`:""}${p.image?`<img src="${p.image}" alt="${p.name}" onerror="this.outerHTML='${jar(p).replaceAll("'","&apos;")}'">`:jar(p)}</div><div class="product-info"><span class="product-brand">${p.brand}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="product-detail">${p.detail||""}</div><span class="stock ${p.stock<=0?"out":""}">${p.stock>0?`${p.stock} disponibles`:"Sin stock"}</span><div class="product-bottom"><strong>${money(p.price)}</strong><button class="add-btn" data-id="${p.id}" ${p.stock<=0?"disabled":""}>+</button></div></div></article>`).join("");
+  productGrid.innerHTML=list.map(p=>`<article class="product-card"><div class="product-image">${p.tag?`<span class="tag">${p.tag}</span>`:""}${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" width="420" height="420" onerror="this.outerHTML='${jar(p).replaceAll("'","&apos;")}'">`:jar(p)}</div><div class="product-info"><span class="product-brand">${p.brand}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="product-detail">${p.detail||""}</div><span class="stock ${p.stock<=0?"out":""}">${p.stock>0?`${p.stock} disponibles`:"Sin stock"}</span><div class="product-bottom"><strong>${money(p.price)}</strong><button class="add-btn" data-id="${p.id}" ${p.stock<=0?"disabled":""}>+</button></div></div></article>`).join("");
   emptyState.style.display=list.length?"none":"block";
   resultsCount.textContent=list.length===1?"1 producto encontrado":`${list.length} productos encontrados`;
   const isFiltered=Boolean(q)||filter!=="Todos";
@@ -78,9 +79,9 @@ function setCatalogQuery(value,{scroll=false}={}){
 }
 function resetCatalog(){filter="Todos";setCatalogQuery("");renderFilters();}
 searchOpen.onclick=openSearch;searchClose.onclick=closeSearch;
-searchInput.oninput=()=>setCatalogQuery(searchInput.value);
+searchInput.oninput=debounce(()=>setCatalogQuery(searchInput.value));
 searchInput.onkeydown=e=>{if(e.key==="Enter"){closeSearch();productos.scrollIntoView({behavior:"smooth"})}if(e.key==="Escape")closeSearch()};
-catalogSearchInput.oninput=()=>setCatalogQuery(catalogSearchInput.value);
+catalogSearchInput.oninput=debounce(()=>setCatalogQuery(catalogSearchInput.value));
 catalogSearchClear.onclick=()=>{setCatalogQuery("");catalogSearchInput.focus()};
 resetCatalog.onclick=resetCatalog;emptyReset.onclick=resetCatalog;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSearch();closeCart()}});

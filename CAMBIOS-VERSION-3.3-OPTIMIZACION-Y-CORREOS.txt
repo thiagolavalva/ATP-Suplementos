@@ -1,0 +1,25 @@
+ATP SUPLEMENTOS — VERSIÓN 3.3
+
+MEJORAS DE LA WEB
+- Imagen principal convertida a WebP: baja de aproximadamente 648 KB a 48 KB.
+- Precarga de la imagen principal para que aparezca más rápido.
+- Imágenes de productos con carga diferida y decodificación asíncrona.
+- Scripts cargados con defer para no bloquear la visualización inicial.
+- Buscadores optimizados con debounce para evitar renderizados innecesarios.
+- SEO básico mejorado: descripción, Open Graph, Twitter Card, favicon, robots y color del navegador.
+- Mejoras en celular: áreas táctiles, inputs y animaciones.
+- Respeto por la preferencia del usuario de reducir movimiento.
+- Renderizado diferido de secciones y tarjetas fuera de pantalla.
+
+CORREOS PROFESIONALES
+- El endpoint ahora envía icono, título, color y preencabezado según el estado del pedido.
+- Se agregó EMAILJS-TEMPLATE-PROFESIONAL.html con el diseño completo.
+
+PASO OBLIGATORIO EN EMAILJS
+1. Abrí la plantilla template_mbdadkr.
+2. Entrá en Editar contenido.
+3. Elegí el editor de código/HTML.
+4. Copiá todo el contenido de EMAILJS-TEMPLATE-PROFESIONAL.html.
+5. Aplicá los cambios y guardá.
+
+No hay que cambiar las variables de Vercel.

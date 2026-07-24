@@ -3,31 +3,49 @@ const EMAILJS_URL = 'https://api.emailjs.com/api/v1.0/email/send';
 const STATUS_CONFIG = {
   pendiente_pago: {
     label: 'Pendiente de pago',
+    icon: '⏳',
+    heading: '¡Recibimos tu pedido!',
+    color: '#d99b12',
     subject: 'Recibimos tu pedido {{code}}',
     message: 'Recibimos tu pedido correctamente. Para confirmarlo, realizá la transferencia y envianos el comprobante por WhatsApp.'
   },
   pago_confirmado: {
     label: 'Pago confirmado',
+    icon: '✅',
+    heading: '¡Pago confirmado!',
+    color: '#54c72f',
     subject: 'Confirmamos el pago de tu pedido {{code}}',
     message: 'Tu pago fue confirmado correctamente. En breve comenzaremos a preparar tu pedido.'
   },
   preparando_pedido: {
     label: 'Preparando pedido',
+    icon: '💪',
+    heading: 'Estamos preparando tu pedido',
+    color: '#79d93b',
     subject: 'Estamos preparando tu pedido {{code}}',
     message: 'Tu pedido ya está siendo preparado. Te avisaremos cuando esté listo o haya sido enviado.'
   },
   enviado: {
     label: 'Pedido enviado',
+    icon: '📦',
+    heading: '¡Tu pedido ya fue enviado!',
+    color: '#31a8ff',
     subject: 'Tu pedido {{code}} ya fue enviado',
     message: 'Tu pedido ya fue enviado. Podés consultar su estado desde el enlace de seguimiento.'
   },
   entregado: {
     label: 'Pedido entregado',
+    icon: '🎉',
+    heading: '¡Pedido entregado!',
+    color: '#8dfc39',
     subject: 'Tu pedido {{code}} fue entregado',
     message: 'Tu pedido figura como entregado. ¡Muchas gracias por comprar en ATP Suplementos!'
   },
   cancelado: {
     label: 'Pedido cancelado',
+    icon: '❌',
+    heading: 'Información sobre tu pedido',
+    color: '#e45d5d',
     subject: 'Información sobre tu pedido {{code}}',
     message: 'Tu pedido figura como cancelado. Comunicate con nosotros si necesitás ayuda o querés realizar uno nuevo.'
   }
@@ -103,7 +121,11 @@ module.exports = async function handler(req, res) {
         order_items: itemLines,
         order_total: money(order.total),
         tracking_url: `${siteUrl}/seguimiento.html`,
-        store_name: 'ATP Suplementos'
+        store_name: 'ATP Suplementos',
+        status_icon: config.icon,
+        status_heading: config.heading,
+        status_color: config.color,
+        email_preheader: `${config.label}: ${code}`
       }
     };
 

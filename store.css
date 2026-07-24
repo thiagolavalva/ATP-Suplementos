@@ -66,7 +66,7 @@ body>footer{padding:35px clamp(17px,6vw,90px);border-top:1px solid var(--line);d
 .hero{min-height:675px;padding-top:calc(var(--header) + 42px);padding-bottom:72px;background:#030403;isolation:isolate}
 .hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 75% 42%,rgba(126,255,24,.15),transparent 31%),linear-gradient(90deg,#030403 0%,rgba(3,4,3,.98) 32%,rgba(3,4,3,.38) 64%,rgba(3,4,3,.08) 100%);z-index:0;pointer-events:none}
 .hero-grid{z-index:-1;background:linear-gradient(90deg,#020302 0%,#050705 48%,#091006 100%)}
-.hero-photo{position:absolute;z-index:-1;top:var(--header);right:0;bottom:0;width:64%;background:url('hero-atp-products.png') right center/cover no-repeat;filter:saturate(1.04) contrast(1.04)}
+.hero-photo{position:absolute;z-index:-1;top:var(--header);right:0;bottom:0;width:64%;background-image:image-set(url('hero-atp-products.webp') type('image/webp'),url('hero-atp-products.png') type('image/png'));background-position:right center;background-size:cover;background-repeat:no-repeat;filter:saturate(1.04) contrast(1.04)}
 .hero-orbit,.hero-products{display:none!important}
 .hero-content{z-index:2;max-width:650px;margin-right:46%}
 .hero-kicker{margin-bottom:18px}
@@ -110,3 +110,7 @@ body>footer{padding:35px clamp(17px,6vw,90px);border-top:1px solid var(--line);d
  .hero h1{font-size:42px}
  .hero-subtitle{font-size:17px!important}
 }
+
+
+/* Optimización visual y de rendimiento — versión 3.3 */
+img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-ratio:1/1}.section,.brands,.contact,body>footer{content-visibility:auto;contain-intrinsic-size:1px 720px}.product-card{content-visibility:auto;contain-intrinsic-size:320px 470px;transform:translateZ(0)}.product-card,.category-card,.btn,.add-btn,.filters button{transition:transform .18s ease,border-color .18s ease,background-color .18s ease,box-shadow .18s ease}.product-card:hover{transform:translateY(-4px)}.btn:active,.add-btn:active,.filters button:active{transform:scale(.98)}button,a,input,select{-webkit-tap-highlight-color:transparent}.header{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}@media(max-width:680px){button,.btn,.cart-pill,.menu-btn{min-height:44px}.catalog-search input{font-size:16px}.product-card:hover{transform:none}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
