@@ -21,7 +21,14 @@ function renderCategories(){
   document.querySelectorAll(".category-card").forEach(x=>x.onclick=()=>{filter=x.dataset.category;renderFilters();renderProducts();productos.scrollIntoView({behavior:"smooth"})});
 }
 function renderBrands(){
-  brandGrid.innerHTML=[...new Set(products.map(p=>p.brand))].slice(0,6).map(b=>`<span>${b.toUpperCase()}</span>`).join("");
+  const uniqueBrands=new Map();
+  products.forEach(product=>{
+    const brand=String(product.brand||"").trim();
+    if(!brand)return;
+    const key=normalizeText(brand).replace(/\s+/g," ");
+    if(!uniqueBrands.has(key))uniqueBrands.set(key,brand);
+  });
+  brandGrid.innerHTML=[...uniqueBrands.values()].slice(0,6).map(brand=>`<span>${brand.toUpperCase()}</span>`).join("");
 }
 function renderFilters(){
   const cats=["Todos",...new Set(products.map(p=>p.category))];
