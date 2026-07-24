@@ -1,0 +1,11 @@
+ATP SUPLEMENTOS - PROYECTO CORREGIDO
+
+1. En GitHub, dentro del repositorio ATP-Suplementos, elegí Add file > Upload files.
+2. Arrastrá TODOS los archivos y carpetas contenidos en esta carpeta (no la carpeta contenedora).
+3. Aceptá reemplazar los archivos que ya existen.
+4. Escribí como mensaje: "Corrige admin y activa gestión 2.0".
+5. Tocá Commit changes.
+6. Esperá a que Vercel muestre el deployment en Production con tilde verde.
+7. Abrí /admin.html y actualizá con Ctrl + F5.
+
+No hace falta volver a ejecutar el SQL si ya terminó correctamente.
