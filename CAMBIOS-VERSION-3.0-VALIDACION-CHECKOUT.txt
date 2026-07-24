@@ -1,0 +1,8 @@
+ATP SUPLEMENTOS - VERSIÓN 3.0
+
+- El botón para confirmar el pedido permanece disponible.
+- Al intentar confirmar con datos incompletos o inválidos, cada campo correspondiente se marca en rojo.
+- Se muestra debajo de cada campo qué dato debe corregirse.
+- La pantalla se desplaza automáticamente al primer campo con error.
+- Al corregir un campo, el aviso rojo desaparece inmediatamente.
+- No se modificó el proceso de creación ni de pago del pedido.

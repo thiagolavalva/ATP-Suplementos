@@ -5,3 +5,26 @@
 /* Mejoras visuales del checkout - versión 1.5 */
 .checkout-steps{width:min(760px,92%);margin:28px auto 0;display:grid;grid-template-columns:repeat(3,1fr);position:relative}.checkout-steps:before{content:"";position:absolute;top:18px;left:16.66%;right:16.66%;height:2px;background:var(--line)}.checkout-step{position:relative;z-index:1;display:grid;justify-items:center;gap:8px;color:var(--muted);font-size:11px}.checkout-step span{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;border:2px solid var(--line);background:var(--bg);font-weight:900}.checkout-step.active{color:#fff}.checkout-step.active span{background:var(--green);border-color:var(--green);color:#071004}.field-help{font-size:10px!important;font-weight:500!important;color:var(--muted);line-height:1.45;margin-top:-2px}.summary-total-highlight{border:1px solid rgba(183,255,53,.28);background:linear-gradient(135deg,rgba(183,255,53,.12),rgba(183,255,53,.03));border-radius:17px;padding:18px;margin-bottom:22px;display:grid;gap:5px}.summary-total-highlight span{font-size:10px;font-weight:900;letter-spacing:.12em;color:var(--green);text-transform:uppercase}.summary-total-highlight b{font-size:32px;line-height:1}.summary-total-highlight small{color:var(--muted);font-size:10px}.card{transition:border-color .2s,transform .2s}.card:focus-within{border-color:rgba(183,255,53,.5)}.summary-line.total{background:#0a0e0a;border:1px solid var(--line);border-radius:13px;padding:16px;margin-top:18px;align-items:center}.summary-line.total span{font-weight:800}.summary-line.total b{color:var(--green);font-size:27px}.payment-button.transfer{box-shadow:0 12px 30px rgba(183,255,53,.12)}
 @media(max-width:600px){.checkout-steps{margin-top:20px}.checkout-step b{font-size:10px}.summary-total-highlight b{font-size:28px}}
+
+
+/* Validación visual de campos obligatorios - versión 3.0 */
+.fields input.invalid{
+  border-color:#ff5757;
+  background:rgba(255,87,87,.07);
+  box-shadow:0 0 0 3px rgba(255,87,87,.12);
+}
+.fields input.invalid:focus{
+  border-color:#ff6b6b;
+  box-shadow:0 0 0 4px rgba(255,87,87,.16);
+}
+.fields label:has(input.invalid){color:#ff9a9a}
+.field-error{
+  display:block;
+  min-height:0;
+  color:#ff8585;
+  font-size:10px!important;
+  font-weight:600!important;
+  line-height:1.35;
+  margin-top:-2px;
+}
+.field-error:empty{display:none}
