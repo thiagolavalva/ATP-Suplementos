@@ -61,3 +61,44 @@ body>footer{padding:35px clamp(17px,6vw,90px);border-top:1px solid var(--line);d
   .hero-buttons .btn{width:100%}
   .benefits-home{margin:-28px 16px 0}
 }
+
+/* Hero final ATP con productos fotorrealistas — versión 2.5 */
+.hero{min-height:675px;padding-top:calc(var(--header) + 42px);padding-bottom:72px;background:#030403;isolation:isolate}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 75% 42%,rgba(126,255,24,.15),transparent 31%),linear-gradient(90deg,#030403 0%,rgba(3,4,3,.98) 32%,rgba(3,4,3,.38) 64%,rgba(3,4,3,.08) 100%);z-index:0;pointer-events:none}
+.hero-grid{z-index:-1;background:linear-gradient(90deg,#020302 0%,#050705 48%,#091006 100%)}
+.hero-photo{position:absolute;z-index:-1;top:var(--header);right:0;bottom:0;width:64%;background:url('hero-atp-products.png') right center/cover no-repeat;filter:saturate(1.04) contrast(1.04)}
+.hero-orbit,.hero-products{display:none!important}
+.hero-content{z-index:2;max-width:650px;margin-right:46%}
+.hero-kicker{margin-bottom:18px}
+.hero h1{display:flex;flex-direction:column;font-size:clamp(64px,7.4vw,112px);line-height:.78;letter-spacing:-.065em;font-weight:950;text-transform:uppercase}
+.hero h1 span{color:#fff}
+.hero h1 strong{color:var(--green);font-weight:950}
+.hero-subtitle{margin:34px 0 12px!important;color:#f1f3ef!important;font-size:clamp(20px,2vw,30px)!important;letter-spacing:-.02em!important;font-weight:500!important}
+.hero-content>span{margin:0 0 25px;font-size:clamp(14px,1.35vw,18px);color:#f0f2ed}
+.hero-shipping{font-size:clamp(16px,1.45vw,22px);font-weight:800;border:0;background:transparent;padding:0;margin-bottom:28px}
+.hero-buttons .btn{min-width:210px;min-height:58px;font-size:16px}
+.benefits-home{margin:-4px clamp(17px,3.5vw,58px) 0;background:rgba(13,16,13,.96);border-radius:16px}
+.benefits-home article{padding:25px 36px}
+.benefits-home .icon{width:48px;height:48px;font-size:22px;border-color:rgba(141,252,57,.36)}
+.benefits-home h3{font-size:15px}
+.benefits-home p{font-size:12px}
+
+@media(max-width:1050px){
+ .hero-photo{width:58%;opacity:.77}
+ .hero-content{margin-right:37%;max-width:600px}
+ .hero h1{font-size:clamp(58px,8vw,88px)}
+}
+@media(max-width:680px){
+ .hero{min-height:760px;padding:105px 18px 62px;place-items:end start}
+ .hero-photo{top:66px;width:100%;height:48%;bottom:auto;background-position:72% center;opacity:.52}
+ .hero:after{background:linear-gradient(180deg,rgba(3,4,3,.08) 0%,rgba(3,4,3,.35) 38%,#030403 62%,#030403 100%)}
+ .hero-content{margin:0;max-width:100%}
+ .hero-kicker{font-size:10px;margin-bottom:14px}
+ .hero h1{font-size:clamp(52px,16vw,72px);line-height:.82}
+ .hero-subtitle{margin:24px 0 9px!important;font-size:19px!important}
+ .hero-content>span{font-size:14px;line-height:1.7;margin-bottom:18px}
+ .hero-shipping{font-size:16px;margin-bottom:22px}
+ .hero-buttons .btn{min-height:52px}
+ .benefits-home{margin:0 16px 70px}
+ .benefits-home article{padding:22px}
+}
