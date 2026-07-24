@@ -1,1 +1,42 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seguimiento | ATP Suplementos</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="seguimiento.css"></head><body><header><a href="index.html"><img src="logo-atp.jpg" alt="ATP"></a><a href="index.html">Volver a la tienda</a></header><main><section class="hero"><span>SEGUIMIENTO DE PEDIDO</span><h1>¿Dónde está tu compra?</h1><p>Ingresá el código que comienza con ATP-. Lo encontrás al finalizar tu compra.</p><form id="trackForm"><input id="trackCode" placeholder="ATP-XXXXXXXX" autocomplete="off" required><button>Buscar pedido</button></form><small id="trackError"></small></section><section id="result" class="result hidden"><div class="order-head"><div><span>PEDIDO</span><h2 id="orderCode"></h2></div><b id="orderStatus"></b></div><div id="steps" class="steps"></div><div class="details"><div><span>Cliente</span><b id="orderCustomer"></b></div><div><span>Total</span><b id="orderTotal"></b></div><div><span>Fecha</span><b id="orderDate"></b></div><div><span>ATP Points</span><b id="orderPoints"></b></div></div><div id="orderItems" class="items"></div></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="data-service.js"></script><script src="seguimiento.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Consultá el estado de tu pedido de ATP Suplementos con tu número de pedido y DNI.">
+  <title>Seguí tu pedido | ATP Suplementos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="seguimiento.css">
+</head>
+<body>
+  <header><a href="index.html"><img src="logo-atp.jpg" alt="ATP Suplementos"></a><a href="index.html">Volver a la tienda</a></header>
+  <main>
+    <section class="hero">
+      <span>SEGUIMIENTO DE PEDIDO</span>
+      <h1>Seguí tu compra</h1>
+      <p>Ingresá el número de pedido que recibiste al comprar y el DNI/CUIT informado en el checkout.</p>
+      <form id="trackForm">
+        <label><span>Número de pedido</span><input id="trackCode" placeholder="ATP-2026-000022" autocomplete="off" autocapitalize="characters" required></label>
+        <label><span>DNI / CUIT</span><input id="trackDni" inputmode="numeric" placeholder="45123456" autocomplete="off" required></label>
+        <button id="trackButton" type="submit">Consultar pedido</button>
+      </form>
+      <small id="trackError" role="alert"></small>
+    </section>
+
+    <section id="result" class="result hidden" aria-live="polite">
+      <div class="order-head"><div><span>PEDIDO</span><h2 id="orderCode"></h2></div><b id="orderStatus"></b></div>
+      <div id="steps" class="steps"></div>
+      <div class="details">
+        <div><span>Cliente</span><b id="orderCustomer"></b></div>
+        <div><span>Total</span><b id="orderTotal"></b></div>
+        <div><span>Fecha</span><b id="orderDate"></b></div>
+      </div>
+      <div id="orderItems" class="items"></div>
+      <p class="privacy-note">Por seguridad, solo mostramos los datos necesarios para el seguimiento.</p>
+    </section>
+  </main>
+  <script src="seguimiento.js"></script>
+</body>
+</html>

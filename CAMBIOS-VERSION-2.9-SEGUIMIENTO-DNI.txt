@@ -1,0 +1,13 @@
+VERSIÓN 2.9 — SEGUIMIENTO DE PEDIDOS CON DNI/CUIT
+
+Cambios realizados:
+- Nueva consulta de pedidos usando número de pedido + DNI/CUIT.
+- El DNI/CUIT ya era obligatorio en el checkout; se mantuvo esa validación.
+- La consulta se procesa en /api/track-order para no exponer directamente los datos completos del pedido desde el navegador.
+- Se muestran únicamente: estado, progreso, cliente, fecha, total y productos.
+- Se agregaron accesos a “Seguí tu pedido” en el menú, menú móvil, pie de página y pantalla posterior a la transferencia.
+- Se contemplan los estados actuales del administrador: pendiente de pago, pago confirmado, preparando pedido, enviado, entregado y cancelado.
+
+IMPORTANTE PARA VERCEL:
+- Debe estar configurada la variable SUPABASE_SERVICE_ROLE_KEY para que la API pueda consultar los pedidos de forma segura.
+- También debe existir SUPABASE_URL, aunque el proyecto conserva la URL actual como respaldo.

@@ -65,6 +65,7 @@
     <a id="receiptBtn" class="primary-action" target="_blank">Ver y descargar comprobante</a>
     <a id="whatsappBtn" class="primary-action" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
     <div class="important">Tu pedido permanecerá pendiente hasta que revisemos el comprobante y confirmemos el pago.</div>
+    <a id="trackingBtn" class="secondary-action">Seguir estado del pedido</a>
     <a class="secondary-action" href="index.html">Volver a la tienda</a>
   </main>
 
@@ -81,6 +82,7 @@
     orderCode.textContent = code;
     orderTotal.textContent = money(totalValue);
     receiptBtn.href = `comprobante.html?tracking=${encodeURIComponent(code)}`;
+    trackingBtn.href = `seguimiento.html?code=${encodeURIComponent(code)}`;
 
     document.querySelectorAll('[data-copy]').forEach(button => {
       button.addEventListener('click', async () => {
