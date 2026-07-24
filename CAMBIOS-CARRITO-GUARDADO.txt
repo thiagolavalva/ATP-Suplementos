@@ -1,0 +1,8 @@
+ATP Suplementos — carrito persistente
+
+- El carrito ya se guarda automáticamente con localStorage.
+- Los productos permanecen al cerrar y volver a abrir el navegador en el mismo dispositivo.
+- Los datos de checkout (nombre, teléfono y email) también quedan recordados en ese dispositivo.
+- El carrito se elimina después de un pago aprobado.
+
+Las cuentas de clientes no se agregaron en esta etapa. El proyecto actual usa cualquier sesión autenticada como administrador en las políticas de Supabase; antes de permitir registros públicos hay que separar de forma segura los roles administrador y cliente.
