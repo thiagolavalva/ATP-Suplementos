@@ -29,6 +29,9 @@
     .primary-action,.secondary-action{display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px}
     .secondary-action{background:transparent;color:#fff;border:1px solid #343c45}
     .important{margin-top:18px;color:#9fa8b1;font-size:13px;line-height:1.6}
+    .email-notice{margin:16px auto 0;padding:17px 18px;border:1px solid rgba(83,190,255,.35);border-radius:15px;background:rgba(83,190,255,.08);color:#eaf6ff;line-height:1.6;text-align:left}
+    .email-notice strong{display:block;margin-bottom:4px;color:#fff}
+    .email-notice span{display:block;color:#b9cbd8;font-size:13px}
     @media(max-width:520px){.bank-row{grid-template-columns:1fr;gap:5px}.status-card{padding:32px 20px}}
   </style>
 </head>
@@ -47,6 +50,11 @@
 
     <div class="message">
       Una vez confirmado tu pago te enviaremos un WhatsApp para confirmarlo y coordinar el envío.
+    </div>
+
+    <div class="email-notice" role="status">
+      <strong>📧 Te enviamos la confirmación por correo.</strong>
+      <span>Si no la encontrás en Recibidos, revisá Spam, Correo no deseado o Promociones. Si aparece allí, marcala como “No es spam” para recibir correctamente los próximos avisos.</span>
     </div>
 
     <section class="amount-box" aria-label="Importe a transferir">

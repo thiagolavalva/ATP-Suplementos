@@ -1,0 +1,5 @@
+ATP SUPLEMENTOS — VERSIÓN 3.2
+
+Se agregó un aviso visible después de confirmar el pedido para informar que la confirmación fue enviada por correo y que, si no aparece en Recibidos, el cliente debe revisar Spam, Correo no deseado o Promociones.
+
+También se agregó una aclaración debajo del campo Email en el checkout.
