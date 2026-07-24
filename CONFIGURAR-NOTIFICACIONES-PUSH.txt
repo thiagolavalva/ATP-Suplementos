@@ -1,0 +1,60 @@
+ATP SUPLEMENTOS 2.1 — NOTIFICACIONES PUSH
+================================================
+
+IMPORTANTE
+----------
+La clave privada de Firebase NO está incluida en este ZIP. No subas el archivo
+*firebase-adminsdk*.json a GitHub. El archivo .gitignore ya está preparado para bloquearlo.
+
+1) SUBIR ESTA VERSIÓN A GITHUB
+------------------------------
+Reemplazá los archivos del repositorio por los de esta carpeta y confirmá los cambios.
+Vercel instalará automáticamente firebase-admin desde package.json.
+
+2) EJECUTAR SQL EN SUPABASE
+----------------------------
+Si todavía no ejecutaste ACTUALIZAR-VERSION-2.0.sql, abrilo, copiá todo y ejecutalo
+en Supabase > SQL Editor. Esto crea la tabla atp_push_tokens.
+
+3) VARIABLES DE ENTORNO EN VERCEL
+----------------------------------
+Entrá al proyecto de Vercel > Settings > Environment Variables. Agregá estas variables
+para Production, Preview y Development:
+
+SUPABASE_URL
+  La URL del proyecto Supabase.
+
+SUPABASE_ANON_KEY
+  La clave pública/publishable de Supabase que ya usa config.js.
+
+SUPABASE_SERVICE_ROLE_KEY
+  Supabase > Project Settings > API Keys > service_role. Es secreta.
+
+FIREBASE_SERVICE_ACCOUNT_JSON
+  Abrí en Bloc de notas el JSON privado descargado de Firebase. Copiá TODO su contenido,
+  desde { hasta }, y pegalo como valor de esta variable. No agregues comillas externas.
+
+No hace falta crear FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL ni FIREBASE_PRIVATE_KEY
+si usás FIREBASE_SERVICE_ACCOUNT_JSON.
+
+4) REDEPLOY
+-----------
+Después de guardar las variables, andá a Deployments, abrí el último deployment y elegí
+Redeploy. Las variables nuevas no se aplican a un deployment anterior.
+
+5) ACTIVAR Y PROBAR
+-------------------
+1. Abrí https://TU-DOMINIO/admin.html desde Chrome o Edge.
+2. Iniciá sesión.
+3. Tocá “Activar notificaciones” y aceptá el permiso del navegador.
+4. Tocá “Probar notificación”.
+5. Hacé un pedido de prueba desde la tienda. Debe llegar una notificación con el código,
+   el cliente y el total. Al tocarla se abre el administrador.
+
+NOTAS
+-----
+- En PC y Android funciona desde navegadores compatibles.
+- En iPhone/iPad, las notificaciones web requieren agregar la tienda a la pantalla de inicio
+  y aceptar los permisos desde esa aplicación web instalada.
+- Para recibir avisos en varios dispositivos, repetí “Activar notificaciones” en cada uno.
+- Si borrás datos del navegador o revocás el permiso, tenés que activarlas otra vez.

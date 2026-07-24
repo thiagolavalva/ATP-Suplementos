@@ -1,0 +1,10 @@
+ATP Suplementos 2.1
+
+- Firebase web configurado con el proyecto ATP Suplementos.
+- Clave VAPID configurada.
+- Registro seguro de dispositivos del administrador.
+- Notificación automática cuando entra un pedido nuevo.
+- Botón para enviar una notificación de prueba.
+- Limpieza automática de tokens vencidos.
+- Credencial privada excluida del proyecto y de GitHub.
+- Guía exacta para las variables de entorno de Vercel.

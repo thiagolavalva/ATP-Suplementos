@@ -51,8 +51,44 @@ productForm.onsubmit=async e=>{e.preventDefault();const fd=new FormData(productF
 
 function updateProfitPreview(){const cost=Number(productForm.elements.cost?.value||0),price=Number(productForm.elements.price?.value||0),profit=price-cost,margin=cost>0?profit/cost*100:0;productProfitPreview.textContent=money(profit);productMarginPreview.textContent=`Margen: ${margin.toFixed(1)}%`}
 productForm.elements.cost?.addEventListener('input',updateProfitPreview);productForm.elements.price?.addEventListener('input',updateProfitPreview);
-async function enablePushNotifications(){try{const cfg=window.ATP_CONFIG?.firebase;if(!cfg||String(cfg.apiKey).startsWith('PEGAR_'))throw new Error('Primero configurá Firebase en config.js.');if(!('Notification'in window)||!('serviceWorker'in navigator))throw new Error('Este navegador no admite notificaciones push.');const permission=await Notification.requestPermission();if(permission!=='granted')throw new Error('No se concedió permiso para notificaciones.');if(!firebase.apps.length)firebase.initializeApp(cfg);const registration=await navigator.serviceWorker.register('/firebase-messaging-sw.js');const token=await firebase.messaging().getToken({vapidKey:cfg.vapidKey,serviceWorkerRegistration:registration});if(!token)throw new Error('No se pudo obtener el dispositivo.');await ATPData.savePushToken(token);enableNotificationsBtn.textContent='Notificaciones activadas';toastMsg('Notificaciones activadas')}catch(err){alert(err.message||'No se pudieron activar las notificaciones.')}}
+let pushMessaging = null;
+async function enablePushNotifications(){
+  try{
+    const cfg=window.ATP_CONFIG?.firebase;
+    if(!cfg?.apiKey||!cfg?.vapidKey)throw new Error('La configuración pública de Firebase está incompleta.');
+    if(!('Notification'in window)||!('serviceWorker'in navigator))throw new Error('Este navegador no admite notificaciones push.');
+    const permission=await Notification.requestPermission();
+    if(permission!=='granted')throw new Error('No se concedió permiso para notificaciones.');
+    if(!firebase.apps.length)firebase.initializeApp(cfg);
+    const registration=await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    pushMessaging=firebase.messaging();
+    const token=await pushMessaging.getToken({vapidKey:cfg.vapidKey,serviceWorkerRegistration:registration});
+    if(!token)throw new Error('No se pudo registrar este dispositivo.');
+    await ATPData.savePushToken(token);
+    pushMessaging.onMessage(payload=>{
+      const data=payload.data||{};
+      toastMsg(data.body||'Tenés una nueva notificación.');
+      if(Notification.permission==='granted')new Notification(data.title||'ATP Suplementos',{body:data.body||'Tenés una novedad.',icon:'/logo-atp.jpg'});
+    });
+    enableNotificationsBtn.textContent='Notificaciones activadas';
+    enableNotificationsBtn.disabled=true;
+    toastMsg('Notificaciones activadas en este dispositivo');
+  }catch(err){alert(err.message||'No se pudieron activar las notificaciones.')}
+}
+async function testPushNotification(){
+  try{
+    const {data}=await ATPData.client.auth.getSession();
+    const token=data.session?.access_token;
+    if(!token)throw new Error('Iniciá sesión nuevamente.');
+    const response=await fetch('/api/test-push',{method:'POST',headers:{Authorization:`Bearer ${token}`}});
+    const result=await response.json();
+    if(!response.ok)throw new Error(result.error||'No se pudo enviar la prueba.');
+    if(result.noDevices)throw new Error('Primero activá las notificaciones en este dispositivo.');
+    toastMsg(`Prueba enviada a ${result.successCount||0} dispositivo(s)`);
+  }catch(err){alert(err.message||'No se pudo enviar la notificación de prueba.')}
+}
 enableNotificationsBtn.onclick=enablePushNotifications;
+testNotificationsBtn.onclick=testPushNotification;
 
 adminSearch.oninput=renderTable;orderSearch.oninput=renderOrders;orderStatusFilter.onchange=renderOrders;customerSearch.oninput=renderCustomers;customerSort.onchange=renderCustomers;customerVisibility.onchange=renderCustomers;
 settingsForm.onsubmit=async e=>{e.preventDefault();settings=Object.fromEntries(new FormData(settingsForm).entries());await ATPData.saveSettings(settings);await loadData();toastMsg('Configuración guardada')};
