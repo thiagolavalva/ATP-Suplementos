@@ -14,12 +14,18 @@
     .order-code small{display:block;color:#929ca6;font-size:11px;font-weight:800;letter-spacing:.13em;margin-bottom:7px}
     .order-code b{font-size:22px;letter-spacing:.04em;color:#f5e900}
     .message{margin:18px auto 0;padding:16px;border:1px solid rgba(245,233,0,.25);border-radius:15px;background:rgba(245,233,0,.06);color:#e9edf0;line-height:1.65;text-align:left}
-    .bank-box{margin:22px auto 0;padding:20px;border:1px solid #2c343d;border-radius:18px;background:#0c1014;text-align:left}
+    .amount-box{margin:22px auto 0;padding:18px;border:1px solid rgba(245,233,0,.38);border-radius:18px;background:rgba(245,233,0,.08);text-align:center}
+    .amount-box small{display:block;color:#aeb7c0;font-size:11px;font-weight:800;letter-spacing:.13em;margin-bottom:8px}
+    .amount-box strong{display:block;color:#f5e900;font-size:32px;line-height:1.1;letter-spacing:-.02em}
+    .bank-box{margin:16px auto 0;padding:20px;border:1px solid #2c343d;border-radius:18px;background:#0c1014;text-align:left}
     .bank-box h2{font-size:18px;margin:0 0 16px}
     .bank-row{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 0;border-top:1px solid #242b32;align-items:start}
     .bank-row:first-of-type{border-top:0}
     .bank-row span{margin:0;color:#8f99a3;font-size:13px}
     .bank-row strong{font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+    .bank-value{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .copy-btn{flex:0 0 auto;border:1px solid #3a434c;background:#171d22;color:#fff;border-radius:9px;padding:7px 10px;font:inherit;font-size:11px;font-weight:800;cursor:pointer}
+    .copy-btn:hover{border-color:#f5e900;color:#f5e900}
     .primary-action,.secondary-action{display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px}
     .secondary-action{background:transparent;color:#fff;border:1px solid #343c45}
     .important{margin-top:18px;color:#9fa8b1;font-size:13px;line-height:1.6}
@@ -43,10 +49,15 @@
       Una vez confirmado tu pago te enviaremos un WhatsApp para confirmarlo y coordinar el envío.
     </div>
 
+    <section class="amount-box" aria-label="Importe a transferir">
+      <small>IMPORTE EXACTO A TRANSFERIR</small>
+      <strong id="orderTotal">$ 0</strong>
+    </section>
+
     <section class="bank-box" aria-label="Datos para transferencia">
       <h2>Datos para realizar la transferencia</h2>
-      <div class="bank-row"><span>Alias</span><strong>SUPLEMENTOSATP</strong></div>
-      <div class="bank-row"><span>CBU</span><strong>4530000800013046090593</strong></div>
+      <div class="bank-row"><span>Alias</span><div class="bank-value"><strong id="bankAlias">SUPLEMENTOSATP</strong><button class="copy-btn" type="button" data-copy="bankAlias">Copiar</button></div></div>
+      <div class="bank-row"><span>CBU</span><div class="bank-value"><strong id="bankCbu">4530000800013046090593</strong><button class="copy-btn" type="button" data-copy="bankCbu">Copiar</button></div></div>
       <div class="bank-row"><span>Titular</span><strong>Thiago La Valva</strong></div>
       <div class="bank-row"><span>Entidad</span><strong>Naranja Digital Compañía Financiera S.A.</strong></div>
     </section>
@@ -64,7 +75,24 @@
     let lastOrder = {};
     try { lastOrder = JSON.parse(sessionStorage.getItem('atp_last_order') || '{}'); } catch (_) {}
     const code = params.get('tracking') || lastOrder.trackingCode || 'ATP-';
+    const totalValue = Number(lastOrder.total || 0);
+    const money = value => new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',minimumFractionDigits:0,maximumFractionDigits:0}).format(value);
     orderCode.textContent = code;
+    orderTotal.textContent = money(totalValue);
+
+    document.querySelectorAll('[data-copy]').forEach(button => {
+      button.addEventListener('click', async () => {
+        const value = document.getElementById(button.dataset.copy)?.textContent?.trim() || '';
+        try {
+          await navigator.clipboard.writeText(value);
+          const original = button.textContent;
+          button.textContent = 'Copiado ✓';
+          setTimeout(() => button.textContent = original, 1600);
+        } catch (_) {
+          window.prompt('Copiá este dato:', value);
+        }
+      });
+    });
 
     (async () => {
       let whatsapp = '5493518136003';
@@ -72,7 +100,8 @@
         const settings = await ATPData.getSettings();
         whatsapp = String(settings.whatsapp || whatsapp).replace(/\D/g, '');
       } catch (_) {}
-      const message = `Hola, hice el pedido ${code} por transferencia/depósito. Te envío el comprobante para que puedan confirmar el pago y coordinar el envío.`;
+      const amountText = money(totalValue);
+      const message = `Hola ATP Suplementos 👋\n\nRealicé la transferencia correspondiente al pedido ${code}.\nImporte transferido: ${amountText}.\n\nAdjunto el comprobante de pago para que puedan confirmarlo y coordinar el envío.`;
       whatsappBtn.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
       localStorage.removeItem('atp_cart');
     })();

@@ -1,0 +1,11 @@
+ATP SUPLEMENTOS - VERSION 1.0
+
+Cambios finales:
+- Pago únicamente por transferencia o depósito bancario.
+- Se muestra el importe exacto a transferir.
+- Botones para copiar Alias y CBU.
+- Mensaje automático de WhatsApp con número de pedido e importe.
+- Mercado Pago eliminado del proyecto.
+
+Para publicar: subí todos los archivos a GitHub y esperá el deploy de Vercel.
+No hace falta ejecutar SQL nuevamente.

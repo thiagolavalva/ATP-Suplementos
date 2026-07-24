@@ -26,7 +26,6 @@ buyBtn.onclick=()=>{const flavor=flavorSelect.value?` Sabor: ${flavorSelect.valu
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentTab=b.dataset.tab;renderTab()});
 cartOpen.onclick=()=>{cartDrawer.classList.add("open");overlay.classList.add("open");document.body.classList.add("locked")};
 cartClose.onclick=overlay.onclick=()=>{cartDrawer.classList.remove("open");overlay.classList.remove("open");document.body.classList.remove("locked")};
-const MERCADOPAGO_LINK="https://link.mercadopago.com.ar/atpsuplementos";
 continueCheckoutBtn.onclick=()=>{if(!Object.keys(cart).length){showToast("El carrito está vacío");return}location.href="checkout.html"};
 
 (async function init(){
