@@ -3,7 +3,7 @@
   const reject=async()=>{throw new Error('Falta configurar Supabase en config.js.')};
   if(!configured){window.ATPData={mode:'sin-configurar',getProducts:reject,getSettings:reject,signIn:reject,signOut:async()=>{},getSession:async()=>null,getOrders:async()=>[],getCustomers:async()=>[],getCoupons:async()=>[],saveCoupon:reject,deleteCoupon:reject,updateOrder:reject,deleteOrder:reject,updateCustomer:reject};return}
   const client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  const normalizeProduct=p=>({id:String(p.id),name:p.name||'',brand:p.brand||'',category:p.category||'',detail:p.detail||'',price:Number(p.price||0),stock:Number(p.stock||0),featured:p.featured!==false,active:p.active!==false,tag:p.tag||'',image:p.image||'',gallery:Array.isArray(p.gallery)?p.gallery:[],flavors:Array.isArray(p.flavors)?p.flavors:[],presentation:p.presentation||'',description:p.description||'',ingredients:p.ingredients||'',nutrition:p.nutrition||''});
+  const normalizeProduct=p=>({id:String(p.id),name:p.name||'',brand:p.brand||'',category:p.category||'',detail:p.detail||'',cost:Number(p.cost||0),price:Number(p.price||0),stock:Number(p.stock||0),featured:p.featured!==false,active:p.active!==false,tag:p.tag||'',image:p.image||'',gallery:Array.isArray(p.gallery)?p.gallery:[],flavors:Array.isArray(p.flavors)?p.flavors:[],presentation:p.presentation||'',description:p.description||'',ingredients:p.ingredients||'',nutrition:p.nutrition||''});
   async function getProducts({includeInactive=false}={}){let q=client.from('atp_products').select('*').order('created_at',{ascending:false});if(!includeInactive)q=q.eq('active',true);const{data,error}=await q;if(error)throw error;return(data||[]).map(normalizeProduct)}
   async function getSettings(){const{data,error}=await client.from('atp_settings').select('*').eq('id',1).maybeSingle();if(error)throw error;return data||{}}
   async function signIn(email,password){const{data,error}=await client.auth.signInWithPassword({email,password});if(error)throw new Error('Correo o contraseña incorrectos.');return data}
@@ -20,6 +20,9 @@
     async deleteOrder(id){const{error}=await client.from('atp_orders').delete().eq('id',id);if(error)throw error},
     async updateCustomer(id,changes){const{data,error}=await client.from('atp_customers').update({...changes,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;return data},
     async saveCoupon(c){const payload={code:String(c.code).trim().toUpperCase(),discount_percent:Number(c.discount_percent),active:Boolean(c.active),max_uses:c.max_uses?Number(c.max_uses):null,expires_at:c.expires_at||null,updated_at:new Date().toISOString()};const{data,error}=await client.from('atp_coupons').upsert(payload,{onConflict:'code'}).select().single();if(error)throw error;return data},
-    async deleteCoupon(code){const{error}=await client.from('atp_coupons').delete().eq('code',code);if(error)throw error}
+    async deleteCoupon(code){const{error}=await client.from('atp_coupons').delete().eq('code',code);if(error)throw error},
+    async savePushToken(token){const{data:{user}}=await client.auth.getUser();if(!user)throw new Error('Iniciá sesión nuevamente.');const{error}=await client.from('atp_push_tokens').upsert({token,user_id:user.id,user_agent:navigator.userAgent,updated_at:new Date().toISOString()},{onConflict:'token'});if(error)throw error},
+    async getOrderByTracking(code){const{data,error}=await client.from('atp_orders').select('*').eq('tracking_code',code).maybeSingle();if(error)throw error;return data}
+
   };
 })();

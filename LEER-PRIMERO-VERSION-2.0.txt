@@ -1,0 +1,12 @@
+ATP SUPLEMENTOS - VERSIÓN 2.0
+
+1. Ejecutá ACTUALIZAR-VERSION-2.0.sql en Supabase SQL Editor.
+2. Subí todos los archivos a GitHub/Vercel.
+3. Para notificaciones push, creá un proyecto Web en Firebase y habilitá Cloud Messaging.
+4. Pegá la configuración web y la clave VAPID en config.js y firebase-messaging-sw.js.
+5. En Vercel agregá FIREBASE_SERVICE_ACCOUNT_JSON con el JSON completo de una cuenta de servicio de Firebase.
+6. Conservá SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY en Vercel.
+7. Entrá al administrador desde el celular y tocá “Activar notificaciones”.
+
+La opción “Descargar PDF” usa el cuadro de impresión del navegador: elegí Guardar como PDF.
+El comprobante es comercial y no reemplaza una factura fiscal de ARCA.

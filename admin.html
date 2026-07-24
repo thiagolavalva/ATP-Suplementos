@@ -45,7 +45,7 @@
     <main class="admin-main">
       <header class="admin-header">
         <div><p>ATP SUPLEMENTOS</p><h1 id="viewTitle">Resumen</h1></div>
-        <div style="display:flex;align-items:center;gap:10px"><span id="modeBadge" style="font-size:10px;color:#9da59a"></span><button id="newProductTop" class="primary-btn">Nuevo producto</button></div>
+        <div style="display:flex;align-items:center;gap:10px"><span id="modeBadge" style="font-size:10px;color:#9da59a"></span><button id="enableNotificationsBtn" type="button">Activar notificaciones</button><button id="newProductTop" class="primary-btn">Nuevo producto</button></div>
       </header>
 
       <section id="dashboardView" class="view active">
@@ -77,7 +77,7 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th></th></tr></thead>
+            <thead><tr><th>Producto</th><th>Categoría</th><th>Costo</th><th>Venta</th><th>Ganancia</th><th>Stock</th><th>Estado</th><th></th></tr></thead>
             <tbody id="productTable"></tbody>
           </table>
         </div>
@@ -168,7 +168,9 @@
           <label class="wide">Nombre<input name="name" required></label>
           <label>Marca<input name="brand" required></label>
           <label>Categoría<select name="category" required></select></label>
-          <label>Precio<input name="price" type="number" min="0" required></label>
+          <label>Costo<input name="cost" type="number" min="0" step="0.01" required></label>
+          <label>Precio de venta<input name="price" type="number" min="0" step="0.01" required></label>
+          <div class="profit-preview"><small>GANANCIA ESTIMADA</small><b id="productProfitPreview">$0</b><span id="productMarginPreview">Margen: 0%</span></div>
           <label>Stock<input name="stock" type="number" min="0" required></label>
           <label class="wide">Detalle corto<input name="detail" placeholder="Ej.: 300 g · Sin sabor"></label>
           <label>Presentación<input name="presentation" placeholder="Ej.: 300 g"></label>
@@ -193,6 +195,8 @@
   </div>
   <div id="adminToast" class="admin-toast"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js"></script>
   <script src="config.js"></script>
   <script src="data-service.js"></script>
   <script src="admin.js"></script>
