@@ -1,0 +1,8 @@
+ATP Suplementos - Versión 1.3
+
+Cambios realizados únicamente en el apartado Clientes:
+- Teléfono y email ahora aparecen separados y claramente identificados.
+- Botón de WhatsApp directo cuando hay teléfono.
+- Botón para llamar directamente cuando hay teléfono.
+- Botón para redactar un email cuando hay correo electrónico.
+- No se modificaron otras funcionalidades.
