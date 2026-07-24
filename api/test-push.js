@@ -10,7 +10,7 @@ async function authenticated(req) {
   const auth = req.headers.authorization || '';
   if (!auth.startsWith('Bearer ')) return false;
   const base = process.env.SUPABASE_URL;
-  const anon = process.env.SUPABASE_ANON_KEY;
+  const anon = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!base || !anon) return false;
   const response = await fetch(`${base}/auth/v1/user`, {
     headers: { apikey: anon, Authorization: auth }
