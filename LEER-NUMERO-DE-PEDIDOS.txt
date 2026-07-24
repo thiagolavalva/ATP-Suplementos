@@ -6,4 +6,4 @@ NUEVA NUMERACIÓN DE PEDIDOS
 
 Los pedidos se mostrarán como ATP-000001, ATP-000002, etc.
 Los números eliminados no se vuelven a utilizar.
-El botón Eliminar borra el pedido, pero no devuelve stock ni ATP Points.
+El botón Eliminar borra el pedido, pero no devuelve stock ni beneficios internos.

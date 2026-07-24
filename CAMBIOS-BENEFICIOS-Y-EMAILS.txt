@@ -1,0 +1,7 @@
+CAMBIOS REALIZADOS
+
+- Se eliminó toda mención de ATP Points de la tienda y del checkout del cliente.
+- El sistema interno sigue registrando el beneficio del cliente para que el administrador pueda usarlo en descuentos futuros.
+- En el panel se muestra como “Beneficios internos” / “Saldo interno”.
+- Actualmente cambiar el estado de un pedido NO envía correos automáticos.
+- La comunicación con el cliente sigue siendo manual mediante WhatsApp.
