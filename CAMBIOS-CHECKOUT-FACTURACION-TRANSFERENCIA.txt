@@ -1,0 +1,8 @@
+CAMBIOS INCLUIDOS
+- Datos completos de facturación: país, DNI/CUIT, nombre, apellido, teléfono, email y dirección.
+- Aviso de contacto por WhatsApp para coordinar el envío.
+- Pago por Mercado Pago.
+- Pago por transferencia/depósito bancario.
+- Pedido por transferencia con código de seguimiento y botón para enviar comprobante.
+- El stock y ATP Points se procesan cuando el administrador marca la transferencia como pagada.
+- Protección para evitar abrir Mercado Pago con credenciales TEST en producción.

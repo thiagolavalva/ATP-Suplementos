@@ -6,7 +6,7 @@ function send(res,status,payload){res.statusCode=status;res.setHeader('Content-T
 function baseUrl(req){const protocol=String(req.headers['x-forwarded-proto']||'https').split(',')[0].trim();const host=String(req.headers['x-forwarded-host']||req.headers.host||'').split(',')[0].trim();if(!host)throw new Error('URL inválida');return `${protocol}://${host}`}
 module.exports=async function(req,res){
  if(req.method!=='POST'){res.setHeader('Allow','POST');return send(res,405,{error:'Método no permitido.'})}
- const accessToken=process.env.MP_ACCESS_TOKEN;if(!accessToken)return send(res,500,{error:'Falta configurar MP_ACCESS_TOKEN en Vercel.'});
+ const accessToken=process.env.MP_ACCESS_TOKEN;if(!accessToken)return send(res,500,{error:'Falta configurar MP_ACCESS_TOKEN en Vercel.'});if(/^TEST-/i.test(accessToken))return send(res,503,{error:'Mercado Pago está configurado con credenciales de prueba. Cambiá MP_ACCESS_TOKEN por el Access Token de producción en Vercel.'});
  try{
   const body=typeof req.body==='string'?JSON.parse(req.body||'{}'):(req.body||{});const rawItems=Array.isArray(body.items)?body.items:[];
   if(!rawItems.length||rawItems.length>50)return send(res,400,{error:'El carrito está vacío o no es válido.'});
@@ -24,6 +24,6 @@ module.exports=async function(req,res){
   const base=baseUrl(req);const preference={items:discountedItems.map(x=>({id:x.id,title:String(x.name).slice(0,120),description:String(x.brand||'ATP Suplementos').slice(0,256),quantity:x.quantity,currency_id:'ARS',unit_price:x.unit_price})),external_reference:externalReference,notification_url:`${base}/api/mercadopago-webhook`,back_urls:{success:`${base}/pago-exitoso.html?order=${order.id}`,failure:`${base}/pago-error.html?order=${order.id}`,pending:`${base}/pago-pendiente.html?order=${order.id}`},auto_return:'approved',statement_descriptor:'ATP SUPLEMENTOS',metadata:{order_id:order.id,coupon,discount,delivery_method:deliveryMethod}};
   const mr=await fetch('https://api.mercadopago.com/checkout/preferences',{method:'POST',headers:{Authorization:`Bearer ${accessToken}`,'Content-Type':'application/json','X-Idempotency-Key':externalReference},body:JSON.stringify(preference)});const md=await mr.json();if(!mr.ok){await fetch(`${SUPABASE_URL}/rest/v1/atp_orders?id=eq.${order.id}`,{method:'PATCH',headers,body:JSON.stringify({status:'error_pago'})});return send(res,502,{error:md.message||'Mercado Pago no pudo crear el pago.'})}
   await fetch(`${SUPABASE_URL}/rest/v1/atp_orders?id=eq.${order.id}`,{method:'PATCH',headers,body:JSON.stringify({mp_preference_id:md.id,updated_at:new Date().toISOString()})});
-  return send(res,200,{preferenceId:md.id,checkoutUrl:md.init_point||md.sandbox_init_point,externalReference,orderId:order.id,trackingCode,total,discount});
+  return send(res,200,{preferenceId:md.id,checkoutUrl:md.init_point,externalReference,orderId:order.id,trackingCode,total,discount});
  }catch(e){console.error(e);return send(res,500,{error:'No se pudo iniciar el pago. Intentá nuevamente.'})}
 };

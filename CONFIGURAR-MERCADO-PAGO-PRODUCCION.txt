@@ -1,0 +1,12 @@
+IMPORTANTE: MERCADO PAGO EN PRODUCCIÓN
+
+El mensaje “Una de las partes con la que intentás hacer el pago es de prueba” aparece cuando Vercel usa un Access Token de prueba.
+
+1. Entrá a Mercado Pago Developers y abrí tu aplicación.
+2. Abrí Credenciales de producción.
+3. Copiá el Access Token de producción (normalmente comienza con APP_USR-).
+4. Entrá a Vercel > proyecto ATP Suplementos > Settings > Environment Variables.
+5. Editá MP_ACCESS_TOKEN y pegá el Access Token de producción.
+6. Aplicalo a Production y hacé Redeploy.
+
+No publiques ni subas el Access Token dentro de GitHub.
