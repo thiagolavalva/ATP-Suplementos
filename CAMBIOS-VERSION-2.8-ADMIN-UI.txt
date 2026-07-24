@@ -1,0 +1,14 @@
+ATP SUPLEMENTOS - VERSIÓN 2.8
+
+CAMBIOS VISUALES EN EL PANEL ADMINISTRADOR
+- Se mantiene la tipografía Inter en todo el administrador.
+- Nuevo diseño profesional para los buscadores de Productos, Pedidos y Clientes.
+- Ícono de lupa integrado dentro del campo.
+- Borde y halo verde al seleccionar el buscador.
+- Nuevos encabezados para cada sección.
+- Filtros de estado, orden y visibilidad con una estética unificada.
+- Botón Agregar producto modernizado.
+- Mejoras de espaciado, jerarquía tipográfica y tablas.
+- Adaptación para celular y tablet.
+
+No se modificó la lógica ni el funcionamiento de productos, pedidos o clientes.

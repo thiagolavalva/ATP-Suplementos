@@ -71,9 +71,16 @@
       </section>
 
       <section id="productsView" class="view">
-        <div class="toolbar">
-          <input id="adminSearch" placeholder="Buscar por nombre, marca o categoría">
-          <button id="newProductBtn" class="primary-btn">Agregar producto</button>
+        <div class="admin-section-head">
+          <div><span>CATÁLOGO</span><h2>Gestión de productos</h2><p>Buscá, editá y controlá el stock de tu tienda.</p></div>
+          <button id="newProductBtn" class="primary-btn admin-add-btn"><span>+</span> Agregar producto</button>
+        </div>
+        <div class="toolbar toolbar-card">
+          <label class="admin-search" for="adminSearch">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+            <input id="adminSearch" placeholder="Buscar por nombre, marca o categoría" autocomplete="off">
+            <kbd>⌘ K</kbd>
+          </label>
         </div>
         <div class="table-wrap">
           <table>
@@ -85,24 +92,48 @@
 
 
       <section id="ordersView" class="view">
-        <div class="toolbar"><input id="orderSearch" placeholder="Buscar por nombre, teléfono, cupón o pedido"><select id="orderStatusFilter"><option value="">Todos los estados</option><option value="pendiente_pago">Pendiente de pago</option><option value="pago_confirmado">Pago confirmado</option><option value="preparando_pedido">Preparando pedido</option><option value="enviado">Enviado</option><option value="entregado">Entregado</option><option value="cancelado">Cancelado</option></select></div>
+        <div class="admin-section-head">
+          <div><span>OPERACIONES</span><h2>Gestión de pedidos</h2><p>Encontrá pedidos rápidamente y filtrá por estado.</p></div>
+        </div>
+        <div class="toolbar toolbar-card toolbar-with-filter">
+          <label class="admin-search" for="orderSearch">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+            <input id="orderSearch" placeholder="Buscar por cliente, teléfono, cupón o número de pedido" autocomplete="off">
+          </label>
+          <label class="admin-select-wrap">
+            <span>Estado</span>
+            <select id="orderStatusFilter"><option value="">Todos los estados</option><option value="pendiente_pago">Pendiente de pago</option><option value="pago_confirmado">Pago confirmado</option><option value="preparando_pedido">Preparando pedido</option><option value="enviado">Enviado</option><option value="entregado">Entregado</option><option value="cancelado">Cancelado</option></select>
+          </label>
+        </div>
         <div class="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Entrega</th><th>Total</th><th>Pago</th><th>Estado</th><th>Fecha</th></tr></thead><tbody id="orderTable"></tbody></table></div>
       </section>
 
       <section id="customersView" class="view">
-        <div class="toolbar customer-toolbar">
-          <input id="customerSearch" placeholder="Buscar por nombre, teléfono, email o DNI">
-          <select id="customerSort">
-            <option value="recent">Más recientes</option>
-            <option value="orders">Más compras</option>
-            <option value="spent">Mayor gasto</option>
-            <option value="name">Nombre A-Z</option>
-          </select>
-          <select id="customerVisibility">
-            <option value="active">Clientes activos</option>
-            <option value="deleted">Clientes eliminados</option>
-            <option value="all">Todos</option>
-          </select>
+        <div class="admin-section-head">
+          <div><span>BASE DE CLIENTES</span><h2>Gestión de clientes</h2><p>Buscá por datos personales y ordená la información como necesites.</p></div>
+        </div>
+        <div class="toolbar toolbar-card customer-toolbar">
+          <label class="admin-search" for="customerSearch">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+            <input id="customerSearch" placeholder="Buscar por nombre, teléfono, email o DNI" autocomplete="off">
+          </label>
+          <label class="admin-select-wrap">
+            <span>Ordenar</span>
+            <select id="customerSort">
+              <option value="recent">Más recientes</option>
+              <option value="orders">Más compras</option>
+              <option value="spent">Mayor gasto</option>
+              <option value="name">Nombre A-Z</option>
+            </select>
+          </label>
+          <label class="admin-select-wrap">
+            <span>Mostrar</span>
+            <select id="customerVisibility">
+              <option value="active">Clientes activos</option>
+              <option value="deleted">Clientes eliminados</option>
+              <option value="all">Todos</option>
+            </select>
+          </label>
         </div>
         <div class="table-wrap">
           <table>
