@@ -1,0 +1,15 @@
+VERSIÓN 3.1 — EMAILJS GRATIS
+
+Cambios implementados sobre ATP-Suplementos-main (4).zip:
+
+- Nuevo endpoint seguro: api/send-order-email.js
+- Email automático al crear un pedido por transferencia.
+- Email automático al cambiar el estado desde el administrador:
+  * Pago confirmado
+  * Preparando pedido
+  * Enviado
+  * Entregado
+  * Cancelado
+- Una sola plantilla reutilizable de EmailJS.
+- Los errores de correo no bloquean las compras ni los cambios de estado.
+- Verificado: los productos con stock 0 ya permanecen visibles como “Sin stock” y el botón de compra queda deshabilitado.

@@ -1,0 +1,48 @@
+ATP SUPLEMENTOS — CONFIGURACIÓN DE EMAILJS
+
+1. En EmailJS, conservá el servicio Gmail ya creado:
+   service_3nnucii
+
+2. Creá UNA sola plantilla. Usá exactamente estas variables:
+
+Destinatario / To Email:
+{{to_email}}
+
+Asunto:
+{{email_subject}}
+
+Contenido sugerido:
+Hola {{customer_name}},
+
+{{status_message}}
+
+Pedido: {{order_number}}
+Estado: {{order_status}}
+
+Productos:
+{{order_items}}
+
+Total: {{order_total}}
+
+Consultá el estado de tu pedido:
+{{tracking_url}}
+
+Gracias por confiar en {{store_name}}.
+
+3. En Vercel > proyecto ATP > Settings > Environment Variables agregá:
+
+EMAILJS_SERVICE_ID=service_3nnucii
+EMAILJS_TEMPLATE_ID=el ID de la plantilla
+EMAILJS_PUBLIC_KEY=tu Public Key de EmailJS
+SITE_URL=https://atp-suplementos.vercel.app
+
+Opcional, solo si EmailJS te entrega una Private Key:
+EMAILJS_PRIVATE_KEY=tu Private Key
+
+4. Guardá las variables para Production, Preview y Development.
+5. Hacé un nuevo deployment después de agregarlas.
+
+IMPORTANTE:
+- No pongas claves privadas dentro de GitHub.
+- Si EmailJS no está configurado, la compra y el cambio de estado siguen funcionando; solamente no se envía el correo.
+- El plan mostrado en tu cuenta permite 200 solicitudes mensuales. Cada correo consume una solicitud.
