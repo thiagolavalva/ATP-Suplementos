@@ -1,0 +1,13 @@
+ATP SUPLEMENTOS - VERSIÓN 1.4
+
+Cambios realizados únicamente en el apartado Clientes:
+- DNI/CUIT visible y disponible en el buscador.
+- Búsqueda por nombre, teléfono, email o DNI/CUIT.
+- Ordenamiento por recientes, cantidad de compras, gasto o nombre.
+- Botón para ver los pedidos de cada cliente.
+- Eliminación segura: el cliente se oculta sin borrar sus pedidos.
+- Vista de clientes eliminados y opción para restaurarlos.
+- Compras nuevas guardan y actualizan el DNI/CUIT del cliente.
+
+IMPORTANTE:
+Ejecutar ACTUALIZAR-CLIENTES-DNI-Y-ELIMINACION.sql en Supabase una sola vez.

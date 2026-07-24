@@ -84,12 +84,23 @@
       </section>
 
       <section id="customersView" class="view">
-        <div class="toolbar">
-          <input id="customerSearch" placeholder="Buscar por nombre, teléfono o email">
+        <div class="toolbar customer-toolbar">
+          <input id="customerSearch" placeholder="Buscar por nombre, teléfono, email o DNI">
+          <select id="customerSort">
+            <option value="recent">Más recientes</option>
+            <option value="orders">Más compras</option>
+            <option value="spent">Mayor gasto</option>
+            <option value="name">Nombre A-Z</option>
+          </select>
+          <select id="customerVisibility">
+            <option value="active">Clientes activos</option>
+            <option value="deleted">Clientes eliminados</option>
+            <option value="all">Todos</option>
+          </select>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Cliente</th><th>Datos y contacto directo</th><th>Pedidos</th><th>Total gastado</th><th>Saldo interno</th><th>Última compra</th></tr></thead>
+            <thead><tr><th>Cliente</th><th>Datos y contacto directo</th><th>Pedidos</th><th>Total gastado</th><th>Saldo interno</th><th>Última compra</th><th>Acciones</th></tr></thead>
             <tbody id="customerTable"></tbody>
           </table>
         </div>
