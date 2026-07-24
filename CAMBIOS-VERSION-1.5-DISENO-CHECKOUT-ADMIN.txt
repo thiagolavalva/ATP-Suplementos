@@ -1,0 +1,16 @@
+ATP Suplementos - Versión 1.5
+
+CHECKOUT
+- Barra visual: Carrito > Datos > Confirmación.
+- Separación visual más clara de las etapas.
+- Aclaración debajo de DNI/CUIT.
+- Total a pagar destacado en el resumen.
+- Mejoras visuales de foco, tarjetas y botón de confirmación.
+
+ADMINISTRADOR
+- Tarjetas operativas: pendientes de pago, pedidos de hoy, ventas del mes y productos con poco stock.
+- Colores específicos para cada estado del pedido.
+- Confirmación adicional antes de marcar un pedido como entregado.
+- Acciones peligrosas visualmente más discretas.
+
+No se modificó la tienda ni la lógica general del proyecto.

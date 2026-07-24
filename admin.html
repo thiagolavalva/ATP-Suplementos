@@ -49,7 +49,13 @@
       </header>
 
       <section id="dashboardView" class="view active">
-        <div class="stats">
+        <div class="stats operational-stats">
+          <article class="stat-card stat-warning"><span>Pendientes de pago</span><b id="statPending">0</b><small>Requieren seguimiento</small></article>
+          <article class="stat-card stat-info"><span>Pedidos de hoy</span><b id="statToday">0</b><small>Ingresados hoy</small></article>
+          <article class="stat-card stat-success"><span>Ventas del mes</span><b id="statMonthSales">$0</b><small>Pagos acreditados</small></article>
+          <article class="stat-card stat-danger"><span>Productos con poco stock</span><b id="statLowStock">0</b><small>5 unidades o menos</small></article>
+        </div>
+        <div class="stats secondary-stats">
           <article><span>Productos</span><b id="statProducts">0</b></article>
           <article><span>Unidades en stock</span><b id="statStock">0</b></article>
           <article><span>Sin stock</span><b id="statOut">0</b></article>

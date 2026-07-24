@@ -10,6 +10,7 @@
 </head>
 <body>
 <header class="checkout-header"><a href="index.html" class="brand"><img src="logo-atp.jpg" alt="ATP Suplementos"></a><a href="index.html" class="back-link">← Volver a la tienda</a></header>
+<div class="checkout-steps" aria-label="Progreso de compra"><div class="checkout-step active"><span>1</span><b>Carrito</b></div><div class="checkout-step active"><span>2</span><b>Datos</b></div><div class="checkout-step"><span>3</span><b>Confirmación</b></div></div>
 <main class="checkout-page">
 <section class="checkout-main">
   <div class="heading"><span>FINALIZAR COMPRA</span><h1>Completá tu pedido</h1><p>Ingresá los datos de facturación, elegí la entrega y aplicá tu cupón. El pago se realiza únicamente por transferencia o depósito bancario.</p></div>
@@ -19,7 +20,7 @@
       <div class="fields">
         <label>Nombre<input id="customerFirstName" autocomplete="given-name" placeholder="Ej.: Juan" required></label>
         <label>Apellido<input id="customerLastName" autocomplete="family-name" placeholder="Ej.: Pérez" required></label>
-        <label>DNI o CUIT<input id="customerTaxId" inputmode="numeric" placeholder="Sin puntos ni guiones" required></label>
+        <label>DNI o CUIT<input id="customerTaxId" inputmode="numeric" placeholder="Sin puntos ni guiones" required><small class="field-help">Lo solicitamos únicamente para identificar correctamente el pedido.</small></label>
         <label>Teléfono / WhatsApp<input id="customerPhone" type="tel" autocomplete="tel" placeholder="Ej.: 351 123 4567" required></label>
         <label class="wide">Email<input id="customerEmail" type="email" autocomplete="email" placeholder="cliente@ejemplo.com" required></label>
       </div>
@@ -68,7 +69,7 @@
     <p id="secureNote" class="secure-note">El stock se descontará cuando confirmemos la acreditación del pago.</p>
   </form>
 </section>
-<aside class="summary-card"><div class="summary-heading"><span>TU COMPRA</span><h2>Resumen del pedido</h2></div><div id="orderItems" class="order-items"></div><div class="summary-line"><span>Subtotal</span><b id="subtotal">$0</b></div><div id="discountRow" class="summary-line discount"><span>Descuento</span><b id="discount">-$0</b></div><div class="summary-line total"><span>Total</span><b id="total">$0</b></div><a href="index.html" class="edit-cart">Modificar carrito</a></aside>
+<aside class="summary-card"><div class="summary-total-highlight"><span>Total a pagar</span><b id="totalHighlight">$0</b><small>Transferencia o depósito bancario</small></div><div class="summary-heading"><span>TU COMPRA</span><h2>Resumen del pedido</h2></div><div id="orderItems" class="order-items"></div><div class="summary-line"><span>Subtotal</span><b id="subtotal">$0</b></div><div id="discountRow" class="summary-line discount"><span>Descuento</span><b id="discount">-$0</b></div><div class="summary-line total"><span>Total</span><b id="total">$0</b></div><a href="index.html" class="edit-cart">Modificar carrito</a></aside>
 </main>
 <div id="toast" class="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="data-service.js"></script><script src="checkout.js"></script>
