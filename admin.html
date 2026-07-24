@@ -175,7 +175,15 @@
             <label>Ubicación<input name="location"></label>
             <label class="wide">Título principal<input name="heroTitle"></label>
             <label class="wide">Texto principal<textarea name="heroText"></textarea></label>
-            
+          </div>
+          <div class="maintenance-admin-card">
+            <div class="maintenance-admin-heading">
+              <div><p>MODO MANTENIMIENTO</p><h3>Cerrar temporalmente la tienda</h3></div>
+              <span id="maintenanceStatusBadge" class="maintenance-badge">Tienda activa</span>
+            </div>
+            <p class="maintenance-help">Al activarlo, los clientes verán una pantalla con el logo y no podrán navegar ni comprar. El administrador seguirá disponible.</p>
+            <label class="maintenance-switch"><input id="maintenanceModeInput" name="maintenanceMode" type="checkbox"><span></span><b>Activar modo mantenimiento</b></label>
+            <label>Mensaje para los clientes<textarea name="maintenanceMessage" placeholder="Estamos agregando y actualizando productos. En breve la tienda volverá a estar disponible."></textarea></label>
           </div>
           <button class="primary-btn">Guardar cambios</button>
         </form>

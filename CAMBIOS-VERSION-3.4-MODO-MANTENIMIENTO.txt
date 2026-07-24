@@ -1,0 +1,7 @@
+ATP Suplementos v3.4 — Modo mantenimiento
+
+1. Ejecutar ACTIVAR-MODO-MANTENIMIENTO.sql en Supabase.
+2. Subir todos los archivos a GitHub.
+3. Desde Administrador > Configuración se puede cerrar o abrir la tienda.
+4. Al cerrar, los visitantes ven una pantalla con el logo y un mensaje editable.
+5. El panel administrador continúa funcionando normalmente.

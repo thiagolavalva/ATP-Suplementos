@@ -5,5 +5,7 @@
   "location": "Córdoba, Argentina",
   "heroTitle": "Potenciá tu rendimiento.",
   "heroText": "Las principales marcas de suplementación, con atención directa desde Córdoba.",
-  "adminPassword": "atp2026"
+  "adminPassword": "atp2026",
+  "maintenanceMode": false,
+  "maintenanceMessage": "Estamos agregando y actualizando productos. En breve la tienda volverá a estar disponible."
 }
