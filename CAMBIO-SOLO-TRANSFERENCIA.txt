@@ -1,0 +1,6 @@
+ATP SUPLEMENTOS — SOLO TRANSFERENCIA
+
+Se eliminó Mercado Pago como opción visible del checkout.
+El checkout ahora crea siempre pedidos por transferencia/depósito bancario.
+No hace falta ejecutar SQL ni modificar Supabase.
+Subí todos los archivos a GitHub y esperá el deploy de Vercel.
