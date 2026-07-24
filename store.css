@@ -15,3 +15,49 @@ body>footer{padding:35px clamp(17px,6vw,90px);border-top:1px solid var(--line);d
 .cart-footer #continueCheckoutBtn{background:#009ee3;color:#fff}.cart-footer .total-row{margin-bottom:14px!important}
 
 .cart-footer .cart-saved-note{color:#b9e7a9;font-weight:700;margin-top:5px}
+
+/* Banner principal ATP — versión 2.4 */
+.hero{min-height:760px;background:linear-gradient(115deg,#050705 0%,#0a0e09 52%,#10170d 100%);text-align:left;place-items:center start;padding-left:clamp(22px,8vw,118px);padding-right:clamp(22px,8vw,118px)}
+.hero-grid{background:radial-gradient(circle at 73% 46%,rgba(141,252,57,.16),transparent 27%),linear-gradient(110deg,rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(20deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:auto,95px 95px,120px 120px}
+.hero-orbit{right:clamp(-90px,4vw,80px);left:auto;width:min(660px,60vw)}
+.hero-content{max-width:760px;margin-right:42%;text-align:left}
+.hero-kicker{display:inline-flex;align-items:center;gap:10px;color:var(--green);font-size:12px;letter-spacing:.22em;font-weight:900;margin-bottom:22px}
+.hero-kicker:before{content:"";width:34px;height:2px;background:var(--green)}
+.hero h1{font-size:clamp(45px,6.3vw,82px);line-height:1.02;letter-spacing:-.055em;margin:0}
+.hero-content>span{margin:24px 0 16px;max-width:none;font-size:clamp(15px,1.7vw,19px);color:#c6cdc2}
+.hero-content>span b{color:var(--green);padding:0 5px}
+.hero-shipping{display:inline-flex;align-items:center;gap:8px;margin:0 0 30px;padding:10px 15px;border:1px solid rgba(141,252,57,.25);border-radius:999px;background:rgba(141,252,57,.07);font-size:13px;font-weight:750;color:#e7eee3}
+.hero-buttons{justify-content:flex-start}
+.hero-buttons .btn{min-width:158px}
+.hero-products{position:absolute;right:clamp(20px,8vw,120px);bottom:11%;width:min(500px,39vw);height:510px;z-index:1;filter:drop-shadow(0 35px 45px rgba(0,0,0,.55))}
+.supplement{position:absolute;display:block}
+.tub{bottom:42px;width:175px;height:240px;border:1px solid #55634f;border-radius:24px 24px 34px 34px;background:linear-gradient(145deg,#20261e,#0d110d 65%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03),0 24px 40px rgba(0,0,0,.45)}
+.tub:before{content:"";position:absolute;left:8px;right:8px;top:-24px;height:31px;border:1px solid #566250;border-radius:12px 12px 8px 8px;background:repeating-linear-gradient(90deg,#293126 0 5px,#20261e 5px 10px)}
+.tub:after{content:"ATP";position:absolute;left:15px;right:15px;top:72px;padding:18px 5px;text-align:center;border-top:1px solid rgba(141,252,57,.4);border-bottom:1px solid rgba(141,252,57,.4);color:var(--green);font-size:35px;font-weight:950;letter-spacing:-.06em}
+.tub-one{right:35px;transform:rotate(4deg);height:270px;width:195px}
+.tub-two{left:30px;bottom:20px;transform:rotate(-7deg) scale(.84);opacity:.92}
+.shaker{right:185px;top:22px;width:95px;height:215px;border:1px solid #64705e;border-radius:18px 18px 28px 28px;background:linear-gradient(90deg,rgba(255,255,255,.12),rgba(255,255,255,.025));transform:rotate(7deg)}
+.shaker:before{content:"";position:absolute;top:-32px;left:3px;right:3px;height:38px;border-radius:10px 10px 5px 5px;background:#273024;border:1px solid #596653}
+.shaker:after{content:"ATP";position:absolute;inset:73px 0 auto;text-align:center;color:var(--green);font-size:22px;font-weight:950}
+.scoop{right:286px;top:97px;width:78px;height:78px;border:8px solid #252d22;border-radius:50%;transform:rotate(-25deg)}
+.scoop:after{content:"";position:absolute;left:-81px;top:25px;width:88px;height:15px;border-radius:10px;background:#252d22}
+.benefits-home{position:relative;z-index:4;margin:-42px clamp(17px,6vw,90px) 0;box-shadow:0 24px 60px rgba(0,0,0,.32)}
+.benefits-home .icon{font-size:16px;background:rgba(141,252,57,.06)}
+
+@media(max-width:960px){
+  .hero{min-height:730px;padding-left:clamp(22px,6vw,60px)}
+  .hero-content{margin-right:35%}
+  .hero-products{right:-20px;width:42vw;opacity:.78;transform:scale(.85);transform-origin:right bottom}
+}
+@media(max-width:680px){
+  .hero{min-height:690px;place-items:end start;padding:110px 18px 78px;background:linear-gradient(180deg,#050705 0%,#0b1009 100%)}
+  .hero-content{margin:0;max-width:100%;text-align:left}
+  .hero h1{font-size:clamp(42px,13vw,58px)}
+  .hero-content>span{margin:20px 0 14px;line-height:1.75}
+  .hero-content>span b{padding:0 2px}
+  .hero-products{right:-72px;top:80px;bottom:auto;width:330px;height:350px;opacity:.22;transform:scale(.72);transform-origin:right top}
+  .hero-orbit{right:-210px;top:60px;width:500px}
+  .hero-buttons{width:100%}
+  .hero-buttons .btn{width:100%}
+  .benefits-home{margin:-28px 16px 0}
+}

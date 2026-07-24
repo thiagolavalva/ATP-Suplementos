@@ -1,0 +1,10 @@
+VERSIÓN 2.4 — BANNER PRINCIPAL
+
+- Nuevo banner principal de ATP Suplementos.
+- Texto: “Suplementos deportivos al mejor precio”.
+- Categorías visibles: Proteínas, Creatinas, Pre entrenos y Vitaminas.
+- Mensaje actualizado a “Envíos a todo el país”.
+- Botón principal “Ver productos”.
+- Ilustración propia de suplementos (potes, shaker y scoop), sin mancuernas.
+- Las tres ventajas ahora aparecen inmediatamente debajo del banner.
+- Diseño adaptado para computadora y celular.
