@@ -102,7 +102,7 @@ module.exports = async function handler(req, res) {
     const code = orderCode(order);
     const items = Array.isArray(order.items) ? order.items : [];
     const itemLines = items.length
-      ? items.map(item => `${Number(item.quantity) || 1} × ${item.name || 'Producto'} — ${money((Number(item.price) || 0) * (Number(item.quantity) || 1))}`).join('\n')
+      ? items.map(item => `${Number(item.quantity) || 1} × ${item.name || 'Producto'}${item.variant_name ? ` (${item.variant_name})` : ''} — ${money((Number(item.price) || 0) * (Number(item.quantity) || 1))}`).join('\n')
       : 'Sin detalle de productos.';
     const siteUrl = String(process.env.SITE_URL || 'https://atp-suplementos.vercel.app').replace(/\/$/, '');
     const firstName = String(customer.name || customer.first_name || 'cliente').trim().split(/\s+/)[0];

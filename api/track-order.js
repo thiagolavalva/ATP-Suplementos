@@ -19,6 +19,6 @@ module.exports=async function(req,res){
     const rows=await response.json();
     const order=rows[0];
     if(!order||digits(order.customer?.tax_id)!==dni)return send(res,404,{error:'No encontramos un pedido con ese número y DNI.'});
-    return send(res,200,{order:{trackingCode:order.tracking_code,status:normalizeStatus(order),total:Number(order.total||0),createdAt:order.created_at,customerName:order.customer?.name||'Cliente ATP',items:(Array.isArray(order.items)?order.items:[]).map(item=>({name:item.name||'Producto',quantity:Number(item.quantity||0),price:Number(item.price||0)}))}});
+    return send(res,200,{order:{trackingCode:order.tracking_code,status:normalizeStatus(order),total:Number(order.total||0),createdAt:order.created_at,customerName:order.customer?.name||'Cliente ATP',items:(Array.isArray(order.items)?order.items:[]).map(item=>({name:item.name||'Producto',variantName:item.variant_name||'',quantity:Number(item.quantity||0),price:Number(item.price||0)}))}});
   }catch(error){console.error(error);return send(res,500,{error:'No se pudo consultar el pedido. Intentá nuevamente.'})}
 };

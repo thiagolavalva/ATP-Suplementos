@@ -5,6 +5,9 @@ let products=[],settings={},filter="Todos",query="";
 const normalizeText=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const debounce=(fn,delay=160)=>{let timer;return(...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),delay)}};
 let cart=JSON.parse(localStorage.getItem("atp_cart")||"{}");
+const variantsOf=p=>Array.isArray(p?.variants)&&p.variants.length?p.variants:[];
+const splitCartKey=key=>{const pos=String(key).indexOf("::");return pos<0?{productId:String(key),variantId:""}:{productId:String(key).slice(0,pos),variantId:String(key).slice(pos+2)}};
+const cartEntries=()=>Object.entries(cart).map(([key,q])=>({...splitCartKey(key),key,q:Number(q)})).filter(e=>products.some(p=>String(p.id)===e.productId));
 const money=v=>new Intl.NumberFormat("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:0}).format(v);
 const jar=p=>`<div class="jar"><b>${p.brand.split(" ")[0]}</b><strong>${p.category==="Creatinas"?"CREATINE":p.category==="Proteínas"?"WHEY":"SPORT"}</strong><small>ATP SUPLEMENTOS</small></div>`;
 
@@ -43,24 +46,24 @@ function renderProducts(){
     const searchable=normalizeText(`${p.name} ${p.brand} ${p.category} ${p.detail||""} ${p.description||""} ${p.tag||""}`);
     return matchesCategory&&(!q||searchable.includes(q));
   });
-  productGrid.innerHTML=list.map(p=>`<article class="product-card"><div class="product-image">${p.tag?`<span class="tag">${p.tag}</span>`:""}${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" width="420" height="420" onerror="this.outerHTML='${jar(p).replaceAll("'","&apos;")}'">`:jar(p)}</div><div class="product-info"><span class="product-brand">${p.brand}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="product-detail">${p.detail||""}</div><span class="stock ${p.stock<=0?"out":""}">${p.stock>0?`${p.stock} disponibles`:"Sin stock"}</span><div class="product-bottom"><strong>${money(p.price)}</strong><button class="add-btn" data-id="${p.id}" ${p.stock<=0?"disabled":""}>+</button></div></div></article>`).join("");
+  productGrid.innerHTML=list.map(p=>`<article class="product-card" data-product-card="${p.id}"><div class="product-image">${p.tag?`<span class="tag">${p.tag}</span>`:""}${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" width="420" height="420" onerror="this.outerHTML='${jar(p).replaceAll("'","&apos;")}'">`:jar(p)}</div><div class="product-info"><span class="product-brand">${p.brand}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="product-detail">${p.detail||""}</div><span class="stock ${p.stock<=0?"out":""}">${p.stock>0?`${p.stock} disponibles`:"Sin stock"}</span><div class="product-bottom"><strong>${money(p.price)}</strong><button class="add-btn" data-id="${p.id}" data-has-variants="${variantsOf(p).length?'1':'0'}" ${p.stock<=0?"disabled":""}>${variantsOf(p).length?'Ver':'+'}</button></div></div></article>`).join("");
   emptyState.style.display=list.length?"none":"block";
   resultsCount.textContent=list.length===1?"1 producto encontrado":`${list.length} productos encontrados`;
   const isFiltered=Boolean(q)||filter!=="Todos";
   document.querySelector(".catalog-status").classList.toggle("filtered",isFiltered);
   catalogSearchClear.parentElement.classList.toggle("has-value",Boolean(query));
-  productGrid.querySelectorAll(".add-btn").forEach(b=>b.onclick=()=>addCart(b.dataset.id));
+  productGrid.querySelectorAll(".add-btn").forEach(b=>b.onclick=e=>{e.stopPropagation();b.dataset.hasVariants==="1"?location.href=`product.html?id=${encodeURIComponent(b.dataset.id)}`:addCart(b.dataset.id)});productGrid.querySelectorAll("[data-product-card]").forEach(card=>card.onclick=()=>location.href=`product.html?id=${encodeURIComponent(card.dataset.productCard)}`);
 }
-function addCart(id){cart[id]=(cart[id]||0)+1;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showToast("Producto agregado")}
-function getCartTotal(){return Object.entries(cart).reduce((sum,[id,q])=>{const p=products.find(x=>x.id===id);return sum+(p?Number(p.price)*Number(q):0)},0)}
+function addCart(id){const p=products.find(x=>String(x.id)===String(id));if(variantsOf(p).length){location.href=`product.html?id=${encodeURIComponent(id)}`;return}cart[id]=(cart[id]||0)+1;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showToast("Producto agregado")}
+function getCartTotal(){return cartEntries().reduce((sum,e)=>{const p=products.find(x=>String(x.id)===e.productId);return sum+(p?Number(p.price)*e.q:0)},0)}
 function updateCart(){
-  const entries=Object.entries(cart).filter(([id])=>products.some(p=>p.id===id));
-  cartCount.textContent=entries.reduce((a,[,q])=>a+q,0);
+  const entries=cartEntries();
+  cartCount.textContent=entries.reduce((a,e)=>a+e.q,0);
   if(!entries.length){cartItems.innerHTML="";cartEmpty.style.display="flex";cartTotal.textContent="$0";return}
   cartEmpty.style.display="none";
-  cartItems.innerHTML=entries.map(([id,q])=>{const p=products.find(x=>x.id===id);return`<div class="cart-item"><div class="cart-thumb">ATP</div><div><h4>${p.name}</h4><small>${money(p.price)} c/u</small></div><div class="qty"><button data-id="${id}" data-d="-1">−</button><b>${q}</b><button data-id="${id}" data-d="1">+</button></div></div>`}).join("");
+  cartItems.innerHTML=entries.map(e=>{const p=products.find(x=>String(x.id)===e.productId),v=variantsOf(p).find(x=>String(x.id)===e.variantId);return`<div class="cart-item"><div class="cart-thumb">ATP</div><div><h4>${p.name}</h4><small>${v?`${v.name} · `:""}${money(p.price)} c/u</small></div><div class="qty"><button data-key="${e.key}" data-d="-1">−</button><b>${e.q}</b><button data-key="${e.key}" data-d="1">+</button></div></div>`}).join("");
   cartTotal.textContent=money(getCartTotal());
-  cartItems.querySelectorAll("button").forEach(b=>b.onclick=()=>{cart[b.dataset.id]=(cart[b.dataset.id]||0)+Number(b.dataset.d);if(cart[b.dataset.id]<=0)delete cart[b.dataset.id];localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart()});
+  cartItems.querySelectorAll("button").forEach(b=>b.onclick=()=>{cart[b.dataset.key]=(cart[b.dataset.key]||0)+Number(b.dataset.d);if(cart[b.dataset.key]<=0)delete cart[b.dataset.key];localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart()});
 }
 function suggestionsRender(){const q=normalizeText(searchInput.value.trim());if(!q){suggestions.innerHTML="";return}const list=products.filter(p=>normalizeText(`${p.name} ${p.brand} ${p.category}`).includes(q)).slice(0,6);suggestions.innerHTML=list.map(p=>`<div class="suggestion" data-id="${p.id}"><b>${p.name}</b><span>${p.brand} · ${money(p.price)}</span></div>`).join("");suggestions.querySelectorAll(".suggestion").forEach(s=>s.onclick=()=>location.href=`product.html?id=${encodeURIComponent(s.dataset.id)}`)}
 function openSearch(){searchLayer.classList.add("open");document.body.classList.add("locked");setTimeout(()=>searchInput.focus(),150)}
@@ -89,7 +92,7 @@ cartOpen.onclick=openCart;cartClose.onclick=closeCart;overlay.onclick=closeCart;
 
 menuBtn.onclick=()=>mobileMenu.classList.toggle("open");
 document.querySelectorAll("#mobileMenu a").forEach(a=>a.onclick=()=>mobileMenu.classList.remove("open"));
-continueCheckoutBtn.onclick=()=>{if(!Object.keys(cart).length){showToast("El carrito está vacío");return}location.href="checkout.html"};
+continueCheckoutBtn.onclick=()=>{if(!cartEntries().length){showToast("El carrito está vacío");return}location.href="checkout.html"};
 
 (async function init(){
   year.textContent=new Date().getFullYear();

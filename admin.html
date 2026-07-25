@@ -231,10 +231,11 @@
           <label>Costo<input name="cost" type="number" min="0" step="0.01" required></label>
           <label>Precio de venta<input name="price" type="number" min="0" step="0.01" required></label>
           <div class="profit-preview"><small>GANANCIA ESTIMADA</small><b id="productProfitPreview">$0</b><span id="productMarginPreview">Margen: 0%</span></div>
-          <label>Stock<input name="stock" type="number" min="0" required></label>
+          <label>Stock total<input name="stock" type="number" min="0" required><small class="field-help">Si cargás variantes, se calcula automáticamente.</small></label>
           <label class="wide">Detalle corto<input name="detail" placeholder="Ej.: 300 g · Sin sabor"></label>
           <label>Presentación<input name="presentation" placeholder="Ej.: 300 g"></label>
-          <label>Sabores separados por coma<input name="flavors" placeholder="Chocolate, Vainilla"></label>
+          <label class="wide">Sabores o variantes<textarea name="variantsText" rows="5" placeholder="Una por línea: Chocolate | 8
+Vainilla | 5"></textarea><small class="field-help">El número después de | es el stock de esa variante.</small></label>
           <label class="wide">Descripción<textarea name="description"></textarea></label>
           <label class="wide">Ingredientes<textarea name="ingredients"></textarea></label>
           <label class="wide">Información nutricional<textarea name="nutrition"></textarea></label>

@@ -1,0 +1,11 @@
+1. Entrá a Supabase > SQL Editor > New query.
+2. Pegá todo el contenido de ACTIVAR-FICHA-Y-VARIANTES.sql y tocá Run.
+3. Subí después el proyecto completo a GitHub.
+
+En el administrador, cargá las variantes así, una por línea:
+Chocolate | 8
+Vainilla | 5
+Frutilla | 0
+
+El stock total se calcula automáticamente sumando las variantes.
+Los productos sin variantes siguen funcionando con el campo Stock total normal.
