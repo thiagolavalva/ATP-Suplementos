@@ -1,0 +1,11 @@
+HISTORIAL DE MOVIMIENTOS DE STOCK
+
+1. Abrí Supabase > SQL Editor > New query.
+2. Pegá todo el contenido de ACTIVAR-HISTORIAL-STOCK.sql.
+3. Tocá Run.
+4. Subí el proyecto completo a GitHub.
+
+Desde ese momento:
+- Las ventas confirmadas descuentan stock y registran el pedido.
+- Los cambios manuales preguntan el motivo.
+- El administrador muestra el historial y permite filtrar por tipo.

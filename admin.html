@@ -32,6 +32,7 @@
       <nav>
         <button class="nav-link active" data-view="dashboard">Resumen</button>
         <button class="nav-link" data-view="products">Productos</button>
+        <button class="nav-link" data-view="stock">Movimientos de stock</button>
         <button class="nav-link" data-view="orders">Pedidos</button>
         <button class="nav-link" data-view="customers">Clientes</button>
         <button class="nav-link" data-view="coupons">Cupones</button>
@@ -94,6 +95,22 @@
         </div>
       </section>
 
+      <section id="stockView" class="view">
+        <div class="admin-section-head">
+          <div><span>INVENTARIO</span><h2>Historial de movimientos</h2><p>Cada venta, reposición y corrección queda registrada directamente en Supabase.</p></div>
+        </div>
+        <div class="stock-summary-cards">
+          <article><span>Ingresos registrados</span><b id="stockEntriesTotal">0</b><small>Unidades agregadas</small></article>
+          <article><span>Salidas registradas</span><b id="stockExitsTotal">0</b><small>Unidades descontadas</small></article>
+          <article><span>Movimientos</span><b id="stockMovementsTotal">0</b><small>Registros totales</small></article>
+        </div>
+        <div class="toolbar toolbar-card toolbar-with-filter">
+          <label class="admin-search"><input id="stockSearch" placeholder="Buscar producto, motivo o pedido" autocomplete="off"></label>
+          <label class="admin-select-wrap"><span>Tipo</span><select id="stockTypeFilter"><option value="">Todos</option><option value="sale">Ventas</option><option value="restock">Reposiciones</option><option value="correction">Correcciones</option><option value="initial">Stock inicial</option></select></label>
+        </div>
+        <div id="stockSetupNotice" class="notice hidden"><b>Falta activar el historial:</b> ejecutá el archivo <code>ACTIVAR-HISTORIAL-STOCK.sql</code> en Supabase.</div>
+        <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Producto</th><th>Movimiento</th><th>Antes</th><th>Después</th><th>Motivo</th><th>Pedido</th></tr></thead><tbody id="stockMovementTable"></tbody></table></div>
+      </section>
 
       <section id="ordersView" class="view">
         <div class="admin-section-head">
@@ -227,6 +244,18 @@
           <label class="check"><input name="active" type="checkbox" checked> Producto activo</label>
         </div>
         <div class="modal-actions"><button type="button" id="cancelProduct">Cancelar</button><button class="primary-btn">Guardar producto</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="stockReasonModal" class="modal">
+    <div class="modal-card stock-reason-card">
+      <header><div><p>INVENTARIO</p><h2>Registrar cambio de stock</h2></div><button id="stockReasonClose" type="button">×</button></header>
+      <form id="stockReasonForm">
+        <p id="stockChangeSummary" class="stock-change-summary"></p>
+        <label>Motivo<select id="stockReasonType" required><option value="restock">Reposición del proveedor</option><option value="correction">Corrección de inventario</option><option value="gift">Regalo o muestra</option><option value="other">Otro</option></select></label>
+        <label>Detalle<textarea id="stockReasonText" placeholder="Ej.: ingreso de mercadería del proveedor"></textarea></label>
+        <div class="modal-actions"><button type="button" id="stockReasonCancel">Cancelar</button><button class="primary-btn">Confirmar cambio</button></div>
       </form>
     </div>
   </div>
