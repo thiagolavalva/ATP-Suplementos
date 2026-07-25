@@ -1,4 +1,5 @@
 let products=[],settings={},product=null,quantity=1,currentTab="description";
+let galleryImages=[],currentImageIndex=0;
 let cart=JSON.parse(localStorage.getItem("atp_cart")||"{}");
 const money=v=>new Intl.NumberFormat("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:0}).format(v);
 const params=new URLSearchParams(location.search),id=params.get("id");
@@ -9,11 +10,45 @@ const splitCartKey=key=>{const pos=String(key).indexOf('::');return pos<0?{produ
 const selectedVariant=()=>variantsOf(product).find(v=>String(v.id)===String(flavorSelect.value))||null;
 const availableStock=()=>selectedVariant()?.stock??product?.stock??0;
 
+function renderCurrentImage(){
+  const src=galleryImages[currentImageIndex];
+  if(!src){visualStage.innerHTML=jarHTML(product);return}
+  visualStage.innerHTML=`<img src="${src}" alt="${product.name} - imagen ${currentImageIndex+1}" draggable="false">`;
+  const image=visualStage.querySelector('img');
+  image.onerror=()=>{visualStage.innerHTML=jarHTML(product)};
+  thumbs.querySelectorAll('.thumb').forEach((thumb,index)=>{
+    thumb.classList.toggle('active',index===currentImageIndex);
+    thumb.setAttribute('aria-current',index===currentImageIndex?'true':'false');
+  });
+}
+function setCurrentImage(index){
+  if(!galleryImages.length)return;
+  currentImageIndex=(index+galleryImages.length)%galleryImages.length;
+  renderCurrentImage();
+}
+function setupZoom(){
+  mainVisual.onmousemove=e=>{
+    const image=visualStage.querySelector('img');
+    if(!image||matchMedia('(hover: none)').matches)return;
+    const rect=mainVisual.getBoundingClientRect();
+    const x=Math.max(0,Math.min(100,((e.clientX-rect.left)/rect.width)*100));
+    const y=Math.max(0,Math.min(100,((e.clientY-rect.top)/rect.height)*100));
+    image.style.transformOrigin=`${x}% ${y}%`;
+    image.classList.add('zoomed');
+  };
+  mainVisual.onmouseleave=()=>visualStage.querySelector('img')?.classList.remove('zoomed');
+}
 function renderVisual(){
-  mainVisual.innerHTML=product.image?`<img src="${product.image}" alt="${product.name}" onerror="this.outerHTML='${jarHTML(product).replaceAll("'","&apos;")}'">`:jarHTML(product);
-  const gallery=[product.image,...(product.gallery||[])].filter(Boolean);
-  thumbs.innerHTML=gallery.length?gallery.map((img,i)=>`<button class="thumb ${i===0?"active":""}" data-img="${img}">Imagen ${i+1}</button>`).join(""):`<button class="thumb active">Principal</button>`;
-  thumbs.querySelectorAll("[data-img]").forEach(t=>t.onclick=()=>{mainVisual.innerHTML=`<img src="${t.dataset.img}" alt="${product.name}">`;thumbs.querySelectorAll(".thumb").forEach(x=>x.classList.remove("active"));t.classList.add("active")});
+  galleryImages=[product.image,...(Array.isArray(product.gallery)?product.gallery:[])].filter((src,index,array)=>src&&array.indexOf(src)===index);
+  currentImageIndex=0;
+  thumbs.innerHTML=galleryImages.map((img,index)=>`<button class="thumb ${index===0?'active':''}" type="button" data-index="${index}" aria-label="Ver imagen ${index+1}"><img src="${img}" alt="Miniatura ${index+1}" loading="lazy"></button>`).join('');
+  thumbs.querySelectorAll('.thumb').forEach(thumb=>thumb.onclick=()=>setCurrentImage(Number(thumb.dataset.index)));
+  const multiple=galleryImages.length>1;
+  galleryPrev.hidden=!multiple;galleryNext.hidden=!multiple;thumbs.hidden=!multiple;
+  galleryPrev.onclick=()=>setCurrentImage(currentImageIndex-1);
+  galleryNext.onclick=()=>setCurrentImage(currentImageIndex+1);
+  renderCurrentImage();
+  setupZoom();
 }
 function updateVariantState(){const available=availableStock();stock.textContent=available>0?`${available} disponibles${selectedVariant()?` de ${selectedVariant().name}`:''}`:"Sin stock";stock.className=available>0?"":"out";addBtn.disabled=available<=0;quantity=Math.min(Math.max(1,quantity),Math.max(1,available));qtyValue.textContent=quantity;[...flavorSelect.options].forEach(o=>{const v=variantsOf(product).find(x=>String(x.id)===o.value);o.disabled=Boolean(v&&v.stock<=0);o.textContent=v?`${v.name}${v.stock<=0?' — agotado':` — ${v.stock} disponibles`}`:o.textContent})}
 function renderProduct(){
@@ -35,5 +70,6 @@ document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelect
 cartOpen.onclick=()=>{cartDrawer.classList.add("open");overlay.classList.add("open");document.body.classList.add("locked")};
 cartClose.onclick=overlay.onclick=()=>{cartDrawer.classList.remove("open");overlay.classList.remove("open");document.body.classList.remove("locked")};
 continueCheckoutBtn.onclick=()=>{if(!cartEntries().length){showToast("El carrito está vacío");return}location.href="checkout.html"};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')setCurrentImage(currentImageIndex-1);if(e.key==='ArrowRight')setCurrentImage(currentImageIndex+1)});
 
 (async function init(){try{[products,settings]=await Promise.all([ATPData.getProducts(),ATPData.getSettings()]);product=products.find(p=>p.id===id)}catch(err){console.error(err)}if(!product){productPage.style.display="none";notFound.style.display="grid";return}renderProduct();updateCart()})();

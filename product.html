@@ -21,8 +21,12 @@
   <main id="productPage" class="product-page">
     <section class="product-main">
       <div class="gallery">
-        <div id="mainVisual" class="main-visual"></div>
-        <div id="thumbs" class="thumbs"></div>
+        <div id="mainVisual" class="main-visual" aria-live="polite">
+          <button id="galleryPrev" class="gallery-arrow gallery-prev" type="button" aria-label="Imagen anterior">‹</button>
+          <div id="visualStage" class="visual-stage"></div>
+          <button id="galleryNext" class="gallery-arrow gallery-next" type="button" aria-label="Imagen siguiente">›</button>
+        </div>
+        <div id="thumbs" class="thumbs" aria-label="Galería de imágenes"></div>
       </div>
 
       <div class="product-copy">
