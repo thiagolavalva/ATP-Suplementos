@@ -70,15 +70,49 @@ function renderProduct(){
   renderVisual();updateVariantState();renderTab();renderRelated();
 }
 function renderTab(){tabContent.textContent=product[currentTab]||"Información pendiente de carga."}
-function renderRelated(){const related=products.filter(p=>p.id!==product.id&&(p.category===product.category||p.brand===product.brand)).slice(0,4);relatedGrid.innerHTML=related.map(p=>`<article class="related-card"><div class="visual">${p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;padding:12px">`:jarHTML(p)}</div><div class="copy"><b>${p.name}</b><span>${p.brand} · ${money(p.price)}</span><a href="product.html?id=${encodeURIComponent(p.id)}">Ver producto</a></div></article>`).join("")}
+function renderRelated(){
+  const related=products.filter(p=>String(p.id)!==String(product.id)&&(p.category===product.category||p.brand===product.brand)).slice(0,4);
+  relatedGrid.innerHTML=related.map(p=>`<article class="related-card"><a class="related-card-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="Ver ${p.name}"><div class="related-image">${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" data-related-image="${p.id}">`:jarHTML(p)}</div></a><div class="related-info"><span class="related-brand">${p.brand||"ATP"}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="related-detail">${p.detail||p.presentation||""}</div><span class="related-stock ${Number(p.stock)<=0?"out":""}">${Number(p.stock)>0?`${p.stock} disponibles`:"Sin stock"}</span><strong class="related-price">${money(p.price)}</strong><div class="related-card-actions"><a href="product.html?id=${encodeURIComponent(p.id)}">Ver producto</a><button type="button" data-related-add="${p.id}" ${Number(p.stock)<=0?"disabled":""}>Agregar</button></div></div></article>`).join("");
+  relatedGrid.querySelectorAll("img[data-related-image]").forEach(image=>image.addEventListener("error",()=>{const p=products.find(item=>String(item.id)===String(image.dataset.relatedImage));if(p)image.replaceWith(document.createRange().createContextualFragment(jarHTML(p)))},{once:true}));
+  relatedGrid.querySelectorAll("[data-related-add]").forEach(button=>button.onclick=()=>quickAddRelated(button.dataset.relatedAdd));
+}
+
+function ensureAddedPanel(){
+  let panel=document.getElementById("addedPanel");
+  if(panel)return panel;
+  document.body.insertAdjacentHTML("beforeend",`<div id="addedOverlay" class="added-overlay"></div><aside id="addedPanel" class="added-panel" aria-hidden="true"><button id="addedClose" class="added-panel-close" type="button" aria-label="Cerrar">×</button><div class="added-panel-check">✓</div><h2>Producto agregado</h2><div id="addedSummary"></div><div class="added-panel-actions"><button id="addedContinue" class="added-continue" type="button">Seguir comprando</button><button id="addedCart" class="added-cart" type="button">Ir al carrito</button></div></aside>`);
+  panel=document.getElementById("addedPanel");
+  const close=()=>{panel.classList.remove("open");addedOverlay.classList.remove("open");panel.setAttribute("aria-hidden","true")};
+  addedClose.onclick=close;addedContinue.onclick=close;addedOverlay.onclick=close;
+  addedCart.onclick=()=>{close();cartDrawer.classList.add("open");overlay.classList.add("open");document.body.classList.add("locked")};
+  return panel;
+}
+function showAddedPanel(p,variant,qty){
+  const panel=ensureAddedPanel();
+  addedSummary.innerHTML=`<div class="added-summary"><div class="added-summary-image">${p.image?`<img src="${p.image}" alt="${p.name}">`:jarHTML(p)}</div><div><h3>${p.name}</h3>${variant?`<p>Sabor: ${variant.name}</p>`:""}<p>Cantidad: ${qty}</p><strong>${money(p.price)}</strong></div></div><div class="added-subtotal"><span>Subtotal</span><strong>${money(Number(p.price)*qty)}</strong></div>`;
+  panel.classList.add("open");addedOverlay.classList.add("open");panel.setAttribute("aria-hidden","false");
+}
+function quickAddRelated(productId){
+  const p=products.find(x=>String(x.id)===String(productId));if(!p)return;
+  const variants=variantsOf(p);const variant=variants.find(v=>Number(v.stock)>0)||null;
+  const available=variant?Number(variant.stock):Number(p.stock||0);if(available<=0)return showToast("Sin stock");
+  const key=cartKey(p.id,variant?.id||"");const current=Number(cart[key]||0);if(current>=available)return showToast("No hay más stock disponible");
+  cart[key]=current+1;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showAddedPanel(p,variant,1);
+}
+async function shareProduct(){
+  const data={title:product.name,text:`Mirá ${product.name} en ATP Suplementos`,url:location.href};
+  try{if(navigator.share){await navigator.share(data);return}await navigator.clipboard.writeText(location.href);showToast("Enlace copiado al portapapeles")}catch(err){if(err?.name!=="AbortError")showToast("No se pudo compartir el producto")}
+}
+
 function cartEntries(){return Object.entries(cart).map(([key,q])=>({...splitCartKey(key),key,q:Number(q)})).filter(e=>products.some(p=>String(p.id)===e.productId))}
 function updateCart(){const entries=cartEntries();cartCount.textContent=entries.reduce((a,e)=>a+e.q,0);if(!entries.length){cartItems.innerHTML="";cartEmpty.style.display="flex";cartTotal.textContent="$0";return}cartEmpty.style.display="none";let total=0;cartItems.innerHTML=entries.map(e=>{const p=products.find(x=>String(x.id)===e.productId),v=variantsOf(p).find(x=>String(x.id)===e.variantId);total+=p.price*e.q;return`<div class="cart-item"><div class="cart-thumb">ATP</div><div><h4>${p.name}</h4><small>${v?`${v.name} · `:''}${money(p.price)} c/u</small></div><div class="qty"><button data-key="${e.key}" data-d="-1">−</button><b>${e.q}</b><button data-key="${e.key}" data-d="1">+</button></div></div>`}).join("");cartTotal.textContent=money(total);cartItems.querySelectorAll("button").forEach(b=>b.onclick=()=>{cart[b.dataset.key]=(cart[b.dataset.key]||0)+Number(b.dataset.d);if(cart[b.dataset.key]<=0)delete cart[b.dataset.key];localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart()})}
 function showToast(t){toast.textContent=t;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1600)}
 qtyMinus.onclick=()=>{quantity=Math.max(1,quantity-1);qtyValue.textContent=quantity};
 qtyPlus.onclick=()=>{quantity=Math.min(availableStock()||1,quantity+1);qtyValue.textContent=quantity};
 flavorSelect.onchange=()=>{quantity=1;updateVariantState()};
-addBtn.onclick=()=>{const v=selectedVariant();if(variantsOf(product).length&&!v)return showToast('Elegí una variante');const key=cartKey(product.id,v?.id||'');const current=Number(cart[key]||0);if(current+quantity>availableStock())return showToast('No hay stock suficiente');cart[key]=current+quantity;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showToast("Producto agregado")};
-buyBtn.onclick=()=>{const v=selectedVariant();const variant=v?` Variante: ${v.name}.`:"";window.open(`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(`Hola ATP Suplementos, quiero consultar por ${quantity} x ${product.name}.${variant}`)}`,"_blank")};
+addBtn.onclick=()=>{const v=selectedVariant();if(variantsOf(product).length&&!v)return showToast('Elegí una variante');const key=cartKey(product.id,v?.id||'');const current=Number(cart[key]||0);if(current+quantity>availableStock())return showToast('No hay stock suficiente');cart[key]=current+quantity;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showAddedPanel(product,v,quantity)};
+shareBtn.onclick=shareProduct;
+    buyBtn.onclick=()=>{const v=selectedVariant();const variant=v?` Variante: ${v.name}.`:"";window.open(`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(`Hola ATP Suplementos, quiero consultar por ${quantity} x ${product.name}.${variant}`)}`,"_blank")};
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentTab=b.dataset.tab;renderTab()});
 cartOpen.onclick=()=>{cartDrawer.classList.add("open");overlay.classList.add("open");document.body.classList.add("locked")};
 cartClose.onclick=overlay.onclick=()=>{cartDrawer.classList.remove("open");overlay.classList.remove("open");document.body.classList.remove("locked")};

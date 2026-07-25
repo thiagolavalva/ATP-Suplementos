@@ -133,3 +133,24 @@ img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-rati
 .brand-button:hover,.brand-button.active{border-color:var(--green);background:#182016;color:var(--green);transform:translateY(-2px)}
 .brand-button:focus-visible{outline:3px solid rgba(141,252,57,.28);outline-offset:2px}
 @media(max-width:680px){.brand-button{min-height:62px;font-size:12px}.brand-button:hover{transform:none}}
+
+/* Panel lateral de confirmación al agregar */
+.added-overlay{position:fixed;z-index:125;inset:0;background:rgba(0,0,0,.65);opacity:0;visibility:hidden;transition:.22s}
+.added-overlay.open{opacity:1;visibility:visible}
+.added-panel{position:fixed;z-index:130;top:0;right:0;width:min(430px,100%);height:100dvh;background:#0d110d;border-left:1px solid var(--line);transform:translateX(105%);transition:transform .28s ease;display:flex;flex-direction:column;padding:26px}
+.added-panel.open{transform:translateX(0)}
+.added-panel-close{align-self:flex-end;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#151a14;color:#fff;font-size:24px;cursor:pointer}
+.added-panel-check{width:54px;height:54px;border-radius:50%;background:var(--green);color:#071004;display:grid;place-items:center;font-size:27px;font-weight:900;margin-top:34px}
+.added-panel h2{font-size:28px;margin:18px 0 25px}
+.added-summary{display:grid;grid-template-columns:84px 1fr;gap:15px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#121612}
+.added-summary-image{width:84px;height:96px;border-radius:12px;background:#fff;display:grid;place-items:center;overflow:hidden;padding:7px}
+.added-summary-image img{width:100%;height:100%;object-fit:contain}
+.added-summary h3{margin:2px 0 8px;font-size:16px}
+.added-summary p{margin:4px 0;color:var(--muted);font-size:11px}
+.added-summary strong{display:block;margin-top:10px;font-size:17px}
+.added-subtotal{display:flex;justify-content:space-between;margin-top:18px;padding-top:18px;border-top:1px solid var(--line);font-size:15px}
+.added-panel-actions{display:grid;gap:10px;margin-top:auto}
+.added-panel-actions button{height:52px;border-radius:99px;font-weight:900;cursor:pointer}
+.added-continue{border:1px solid #465043;background:transparent;color:#fff}
+.added-cart{border:0;background:var(--green);color:#071004}
+@media(max-width:600px){.added-panel{padding:20px}}

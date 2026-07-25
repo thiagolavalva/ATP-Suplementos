@@ -70,7 +70,24 @@ function renderProducts(){
   catalogSearchClear.parentElement.classList.toggle("has-value",Boolean(query));
   productGrid.querySelectorAll(".quick-add-btn").forEach(button=>button.onclick=()=>addCart(button.dataset.id));
 }
-function addCart(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;const variants=variantsOf(p);const variant=variants.find(v=>Number(v.stock)>0)||null;const available=variant?Number(variant.stock):Number(p.stock||0);if(available<=0)return showToast("Sin stock");const key=variant?`${p.id}::${variant.id}`:String(p.id);const current=Number(cart[key]||0);if(current>=available)return showToast("No hay más stock disponible");cart[key]=current+1;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showToast(variant?`Agregado · ${variant.name}`:"Producto agregado")}
+
+function ensureAddedPanel(){
+  let panel=document.getElementById("addedPanel");
+  if(panel)return panel;
+  document.body.insertAdjacentHTML("beforeend",`<div id="addedOverlay" class="added-overlay"></div><aside id="addedPanel" class="added-panel" aria-hidden="true"><button id="addedClose" class="added-panel-close" type="button" aria-label="Cerrar">×</button><div class="added-panel-check">✓</div><h2>Producto agregado</h2><div id="addedSummary"></div><div class="added-panel-actions"><button id="addedContinue" class="added-continue" type="button">Seguir comprando</button><button id="addedCart" class="added-cart" type="button">Ir al carrito</button></div></aside>`);
+  panel=document.getElementById("addedPanel");
+  const close=()=>{panel.classList.remove("open");addedOverlay.classList.remove("open");panel.setAttribute("aria-hidden","true")};
+  addedClose.onclick=close;addedContinue.onclick=close;addedOverlay.onclick=close;
+  addedCart.onclick=()=>{close();openCart()};
+  return panel;
+}
+function showAddedPanel(p,variant,qty){
+  const panel=ensureAddedPanel();
+  addedSummary.innerHTML=`<div class="added-summary"><div class="added-summary-image">${p.image?`<img src="${p.image}" alt="${p.name}">`:jar(p)}</div><div><h3>${p.name}</h3>${variant?`<p>Sabor: ${variant.name}</p>`:""}<p>Cantidad: ${qty}</p><strong>${money(p.price)}</strong></div></div><div class="added-subtotal"><span>Subtotal</span><strong>${money(Number(p.price)*qty)}</strong></div>`;
+  panel.classList.add("open");addedOverlay.classList.add("open");panel.setAttribute("aria-hidden","false");
+}
+
+function addCart(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;const variants=variantsOf(p);const variant=variants.find(v=>Number(v.stock)>0)||null;const available=variant?Number(variant.stock):Number(p.stock||0);if(available<=0)return showToast("Sin stock");const key=variant?`${p.id}::${variant.id}`:String(p.id);const current=Number(cart[key]||0);if(current>=available)return showToast("No hay más stock disponible");cart[key]=current+1;localStorage.setItem("atp_cart",JSON.stringify(cart));updateCart();showAddedPanel(p,variant,1)}
 function getCartTotal(){return cartEntries().reduce((sum,e)=>{const p=products.find(x=>String(x.id)===e.productId);return sum+(p?Number(p.price)*e.q:0)},0)}
 function updateCart(){
   const entries=cartEntries();
