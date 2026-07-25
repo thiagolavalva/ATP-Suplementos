@@ -27,16 +27,29 @@ function setCurrentImage(index){
   renderCurrentImage();
 }
 function setupZoom(){
+  let lens=mainVisual.querySelector('.zoom-lens');
+  if(!lens){
+    lens=document.createElement('div');
+    lens.className='zoom-lens';
+    lens.setAttribute('aria-hidden','true');
+    mainVisual.appendChild(lens);
+  }
+  const hideLens=()=>lens.classList.remove('visible');
   mainVisual.onmousemove=e=>{
     const image=visualStage.querySelector('img');
-    if(!image||matchMedia('(hover: none)').matches)return;
+    if(!image||matchMedia('(hover: none)').matches)return hideLens();
     const rect=mainVisual.getBoundingClientRect();
-    const x=Math.max(0,Math.min(100,((e.clientX-rect.left)/rect.width)*100));
-    const y=Math.max(0,Math.min(100,((e.clientY-rect.top)/rect.height)*100));
-    image.style.transformOrigin=`${x}% ${y}%`;
-    image.classList.add('zoomed');
+    const x=Math.max(0,Math.min(rect.width,e.clientX-rect.left));
+    const y=Math.max(0,Math.min(rect.height,e.clientY-rect.top));
+    const px=(x/rect.width)*100;
+    const py=(y/rect.height)*100;
+    lens.style.left=`${x}px`;
+    lens.style.top=`${y}px`;
+    lens.style.backgroundImage=`url("${image.currentSrc||image.src}")`;
+    lens.style.backgroundPosition=`${px}% ${py}%`;
+    lens.classList.add('visible');
   };
-  mainVisual.onmouseleave=()=>visualStage.querySelector('img')?.classList.remove('zoomed');
+  mainVisual.onmouseleave=hideLens;
 }
 function renderVisual(){
   galleryImages=[product.image,...(Array.isArray(product.gallery)?product.gallery:[])].filter((src,index,array)=>src&&array.indexOf(src)===index);
