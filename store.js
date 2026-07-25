@@ -1,7 +1,7 @@
 const CATEGORIES=["Proteínas","Creatinas","Pre-entrenos","Aminoácidos","Vitaminas","Quemadores","Ganadores","Shakers","Accesorios"];
 const ICONS={Proteínas:`<svg viewBox="0 0 48 48"><path d="M15 12h18l3 8-4 19H16l-4-19 3-8Z"/><path d="M14 17h20M18 12V8h12v4M19 27h10"/></svg>`,Creatinas:`<svg viewBox="0 0 48 48"><path d="M17 10h14l2 6v23H15V16l2-6Z"/><path d="M16 17h16M20 10V6h8v4M20 28h8"/></svg>`,"Pre-entrenos":`<svg viewBox="0 0 48 48"><path d="m27 5-15 22h11l-2 16 15-23H25l2-15Z"/></svg>`,Aminoácidos:`<svg viewBox="0 0 48 48"><circle cx="16" cy="16" r="6"/><circle cx="33" cy="17" r="5"/><circle cx="25" cy="33" r="7"/><path d="m21 18 7-1M19 21l3 6M30 21l-2 6"/></svg>`,Vitaminas:`<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M24 8v32M8 24h32"/></svg>`,Quemadores:`<svg viewBox="0 0 48 48"><path d="M27 5c2 8-4 10-1 17 2-4 6-6 7-11 7 9 7 17 2 24-3 4-7 6-12 6-9 0-15-7-13-16 1-5 5-9 9-13-1 6 1 9 4 11 1-7 5-11 4-18Z"/></svg>`,Ganadores:`<svg viewBox="0 0 48 48"><path d="M8 35h32M13 35V21h22v14M17 21v-7h14v7M18 28h12"/></svg>`,Shakers:`<svg viewBox="0 0 48 48"><path d="M16 9h16l3 8-4 24H17l-4-24 3-8Z"/><path d="M14 17h20M19 9V5h10v4"/></svg>`,Accesorios:`<svg viewBox="0 0 48 48"><path d="M15 13h18l5 10-4 18H14l-4-18 5-10Z"/><path d="M18 13c0-5 12-5 12 0M15 29h18"/></svg>`};
 const descriptions={Proteínas:"Recuperación y masa muscular",Creatinas:"Fuerza y rendimiento","Pre-entrenos":"Energía y enfoque",Aminoácidos:"Apoyo a la recuperación",Vitaminas:"Bienestar y micronutrientes",Quemadores:"Productos para definición",Ganadores:"Ganadores de peso",Shakers:"Prepará tus suplementos",Accesorios:"Complementos para entrenar"};
-let products=[],settings={},filter="Todos",query="";
+let products=[],settings={},filter="Todos",brandFilter="",query="";
 const normalizeText=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const debounce=(fn,delay=160)=>{let timer;return(...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),delay)}};
 let cart=JSON.parse(localStorage.getItem("atp_cart")||"{}");
@@ -32,7 +32,18 @@ function renderBrands(){
     const key=normalizeText(brand).replace(/\s+/g," ");
     if(!uniqueBrands.has(key))uniqueBrands.set(key,brand);
   });
-  brandGrid.innerHTML=[...uniqueBrands.values()].slice(0,6).map(brand=>`<span>${brand.toUpperCase()}</span>`).join("");
+  brandGrid.innerHTML=[...uniqueBrands.values()].slice(0,6).map(brand=>`<button type="button" class="brand-button ${brandFilter===brand?'active':''}" data-brand="${brand}">${brand.toUpperCase()}</button>`).join("");
+  brandGrid.querySelectorAll(".brand-button").forEach(button=>button.onclick=()=>{
+    brandFilter=button.dataset.brand;
+    filter="Todos";
+    query="";
+    catalogSearchInput.value="";
+    searchInput.value="";
+    renderBrands();
+    renderFilters();
+    renderProducts();
+    productos.scrollIntoView({behavior:"smooth",block:"start"});
+  });
 }
 function renderFilters(){
   const cats=["Todos",...new Set(products.map(p=>p.category))];
@@ -43,13 +54,14 @@ function renderProducts(){
   const q=normalizeText(query.trim());
   const list=products.filter(p=>{
     const matchesCategory=filter==="Todos"||p.category===filter;
+    const matchesBrand=!brandFilter||p.brand===brandFilter;
     const searchable=normalizeText(`${p.name} ${p.brand} ${p.category} ${p.detail||""} ${p.description||""} ${p.tag||""}`);
-    return matchesCategory&&(!q||searchable.includes(q));
+    return matchesCategory&&matchesBrand&&(!q||searchable.includes(q));
   });
   productGrid.innerHTML=list.map(p=>`<article class="product-card"><a class="product-card-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="Ver ${p.name}"><div class="product-image">${p.tag?`<span class="tag">${p.tag}</span>`:""}${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" width="420" height="420" onerror="this.outerHTML='${jar(p).replaceAll("'","&apos;")}'">`:jar(p)}</div></a><div class="product-info"><span class="product-brand">${p.brand}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="product-detail">${p.detail||""}</div><span class="stock ${p.stock<=0?"out":""}">${p.stock>0?`${p.stock} disponibles`:"Sin stock"}</span><div class="product-bottom"><strong>${money(p.price)}</strong></div><div class="product-card-actions"><a class="view-product-btn" href="product.html?id=${encodeURIComponent(p.id)}">Ver producto</a><button class="quick-add-btn" data-id="${p.id}" ${p.stock<=0?"disabled":""}>Agregar</button></div></div></article>`).join("");
   emptyState.style.display=list.length?"none":"block";
   resultsCount.textContent=list.length===1?"1 producto encontrado":`${list.length} productos encontrados`;
-  const isFiltered=Boolean(q)||filter!=="Todos";
+  const isFiltered=Boolean(q)||filter!=="Todos"||Boolean(brandFilter);
   document.querySelector(".catalog-status").classList.toggle("filtered",isFiltered);
   catalogSearchClear.parentElement.classList.toggle("has-value",Boolean(query));
   productGrid.querySelectorAll(".quick-add-btn").forEach(button=>button.onclick=()=>addCart(button.dataset.id));
@@ -80,7 +92,7 @@ function setCatalogQuery(value,{scroll=false}={}){
   renderProducts();
   if(scroll)productos.scrollIntoView({behavior:"smooth",block:"start"});
 }
-function resetCatalog(){filter="Todos";setCatalogQuery("");renderFilters();}
+function resetCatalog(){filter="Todos";brandFilter="";setCatalogQuery("");renderBrands();renderFilters();}
 searchOpen.onclick=openSearch;searchClose.onclick=closeSearch;
 searchInput.oninput=debounce(()=>setCatalogQuery(searchInput.value));
 searchInput.onkeydown=e=>{if(e.key==="Enter"){closeSearch();productos.scrollIntoView({behavior:"smooth"})}if(e.key==="Escape")closeSearch()};

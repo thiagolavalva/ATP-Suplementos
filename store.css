@@ -126,3 +126,10 @@ img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-rati
 .quick-add-btn:hover{filter:brightness(1.06)}
 .quick-add-btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
 @media(max-width:480px){.product-card-actions{grid-template-columns:1fr}.view-product-btn,.quick-add-btn{min-height:44px}}
+
+/* Marcas clickeables */
+.brand-grid{align-items:stretch}
+.brand-button{min-height:76px;border:1px solid var(--line);border-radius:14px;background:#101410;color:#f5f7f3;font:inherit;font-size:14px;font-weight:900;letter-spacing:.08em;cursor:pointer;padding:14px;transition:transform .18s ease,border-color .18s ease,background-color .18s ease,color .18s ease}
+.brand-button:hover,.brand-button.active{border-color:var(--green);background:#182016;color:var(--green);transform:translateY(-2px)}
+.brand-button:focus-visible{outline:3px solid rgba(141,252,57,.28);outline-offset:2px}
+@media(max-width:680px){.brand-button{min-height:62px;font-size:12px}.brand-button:hover{transform:none}}
