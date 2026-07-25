@@ -58,7 +58,11 @@ function renderProducts(){
     const searchable=normalizeText(`${p.name} ${p.brand} ${p.category} ${p.detail||""} ${p.description||""} ${p.tag||""}`);
     return matchesCategory&&matchesBrand&&(!q||searchable.includes(q));
   });
-  productGrid.innerHTML=list.map(p=>`<article class="product-card"><a class="product-card-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="Ver ${p.name}"><div class="product-image">${p.tag?`<span class="tag">${p.tag}</span>`:""}${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" width="420" height="420" onerror="this.outerHTML='${jar(p).replaceAll("'","&apos;")}'">`:jar(p)}</div></a><div class="product-info"><span class="product-brand">${p.brand}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="product-detail">${p.detail||""}</div><span class="stock ${p.stock<=0?"out":""}">${p.stock>0?`${p.stock} disponibles`:"Sin stock"}</span><div class="product-bottom"><strong>${money(p.price)}</strong></div><div class="product-card-actions"><a class="view-product-btn" href="product.html?id=${encodeURIComponent(p.id)}">Ver producto</a><button class="quick-add-btn" data-id="${p.id}" ${p.stock<=0?"disabled":""}>Agregar</button></div></div></article>`).join("");
+  productGrid.innerHTML=list.map(p=>`<article class="product-card"><a class="product-card-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="Ver ${p.name}"><div class="product-image">${p.tag?`<span class="tag">${p.tag}</span>`:""}${p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" width="420" height="420" data-product-image="${p.id}">`:jar(p)}</div></a><div class="product-info"><span class="product-brand">${p.brand}</span><h3><a href="product.html?id=${encodeURIComponent(p.id)}">${p.name}</a></h3><div class="product-detail">${p.detail||""}</div><span class="stock ${p.stock<=0?"out":""}">${p.stock>0?`${p.stock} disponibles`:"Sin stock"}</span><div class="product-bottom"><strong>${money(p.price)}</strong></div><div class="product-card-actions"><a class="view-product-btn" href="product.html?id=${encodeURIComponent(p.id)}">Ver producto</a><button class="quick-add-btn" data-id="${p.id}" ${p.stock<=0?"disabled":""}>Agregar</button></div></div></article>`).join("");
+  productGrid.querySelectorAll("img[data-product-image]").forEach(image=>image.addEventListener("error",()=>{
+    const product=products.find(item=>String(item.id)===String(image.dataset.productImage));
+    if(product)image.replaceWith(document.createRange().createContextualFragment(jar(product)));
+  },{once:true}));
   emptyState.style.display=list.length?"none":"block";
   resultsCount.textContent=list.length===1?"1 producto encontrado":`${list.length} productos encontrados`;
   const isFiltered=Boolean(q)||filter!=="Todos"||Boolean(brandFilter);
@@ -92,13 +96,14 @@ function setCatalogQuery(value,{scroll=false}={}){
   renderProducts();
   if(scroll)productos.scrollIntoView({behavior:"smooth",block:"start"});
 }
-function resetCatalog(){filter="Todos";brandFilter="";setCatalogQuery("");renderBrands();renderFilters();}
+function clearCatalogFilters(){filter="Todos";brandFilter="";setCatalogQuery("");renderBrands();renderFilters();}
 searchOpen.onclick=openSearch;searchClose.onclick=closeSearch;
 searchInput.oninput=debounce(()=>setCatalogQuery(searchInput.value));
 searchInput.onkeydown=e=>{if(e.key==="Enter"){closeSearch();productos.scrollIntoView({behavior:"smooth"})}if(e.key==="Escape")closeSearch()};
 catalogSearchInput.oninput=debounce(()=>setCatalogQuery(catalogSearchInput.value));
 catalogSearchClear.onclick=()=>{setCatalogQuery("");catalogSearchInput.focus()};
-resetCatalog.onclick=resetCatalog;emptyReset.onclick=resetCatalog;
+document.getElementById("resetCatalog").onclick=clearCatalogFilters;
+emptyReset.onclick=clearCatalogFilters;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSearch();closeCart()}});
 cartOpen.onclick=openCart;cartClose.onclick=closeCart;overlay.onclick=closeCart;
 
