@@ -16,7 +16,7 @@ module.exports=async function(req,res){
       grouped.set(key,{id,variantId,quantity:Math.min(20,(grouped.get(key)?.quantity||0)+q)});
     }
     const ids=[...new Set([...grouped.values()].map(x=>x.id))],inFilter=`(${ids.map(id=>`"${id.replaceAll('"','')}"`).join(',')})`;
-    const pr=await fetch(`${SUPABASE_URL}/rest/v1/products?select=id,name,brand,price,stock,active,variants&id=in.${encodeURIComponent(inFilter)}`,{headers});
+    const pr=await fetch(`${SUPABASE_URL}/rest/v1/atp_products?select=id,name,brand,price,stock,active,variants&id=in.${encodeURIComponent(inFilter)}`,{headers});
     if(!pr.ok)throw new Error(`Supabase respondió ${pr.status}`);
     const products=await pr.json(),byId=new Map(products.map(p=>[String(p.id),p]));let subtotal=0;const orderItems=[];
     for(const entry of grouped.values()){
@@ -32,9 +32,9 @@ module.exports=async function(req,res){
     const discount=Math.round(subtotal*percent)/100,total=Math.round((subtotal-discount)*100)/100,deliveryMethod=['retiro','coordinar'].includes(body.deliveryMethod)?body.deliveryMethod:'retiro',customer=body.customer||{};
     if(!customer.name||!customer.phone||!customer.email||!customer.tax_id)return send(res,400,{error:'Faltan datos de facturación.'});
     const externalReference=`ATP-TR-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`,trackingCode=`ATP-${new Date().getFullYear()}-${Date.now()}`;
-    const or=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{method:'POST',headers:{...headers,Prefer:'return=representation'},body:JSON.stringify({items:orderItems,customer,subtotal,discount,total,coupon,delivery_method:deliveryMethod,channel:'transferencia',status:'pendiente_pago',payment_status:'pending',external_reference:externalReference,tracking_code:trackingCode,status_history:[{status:'pendiente_pago',at:new Date().toISOString()}]})});
+    const or=await fetch(`${SUPABASE_URL}/rest/v1/atp_orders`,{method:'POST',headers:{...headers,Prefer:'return=representation'},body:JSON.stringify({items:orderItems,customer,subtotal,discount,total,coupon,delivery_method:deliveryMethod,channel:'transferencia',status:'pendiente_pago',payment_status:'pending',external_reference:externalReference,tracking_code:trackingCode,status_history:[{status:'pendiente_pago',at:new Date().toISOString()}]})});
     if(!or.ok)throw new Error(`No se pudo guardar el pedido (${or.status})`);const[order]=await or.json();const orderCode=`ATP-${new Date(order.created_at||Date.now()).getFullYear()}-${String(Number(order.order_number)||0).padStart(6,'0')}`;
-    await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${order.id}`,{method:'PATCH',headers,body:JSON.stringify({tracking_code:orderCode})});
+    await fetch(`${SUPABASE_URL}/rest/v1/atp_orders?id=eq.${order.id}`,{method:'PATCH',headers,body:JSON.stringify({tracking_code:orderCode})});
     try{const protocol=req.headers['x-forwarded-proto']||'https',host=req.headers.host;await fetch(`${protocol}://${host}/api/send-order-email`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order:{...order,tracking_code:orderCode,total,customer,items:orderItems,status:'pendiente_pago'},status:'pendiente_pago'})})}catch(emailError){console.warn('Pedido creado, pero no se pudo enviar el email:',emailError)}
     return send(res,200,{orderId:order.id,trackingCode:orderCode,orderCode,total,discount,externalReference});
   }catch(e){console.error(e);return send(res,500,{error:'No se pudo crear el pedido. Intentá nuevamente.'})}

@@ -1,0 +1,15 @@
+ATP SUPLEMENTOS — VERSIÓN CORRECTA
+
+Esta carpeta parte exactamente del commit 3cd1080 que funciona en Vercel.
+No se cambiaron los nombres de las tablas ni la conexión de Supabase.
+No se borran ni reemplazan productos, pedidos o datos de la tienda.
+
+PARA SUBIR LA WEB:
+1. Subí todo el contenido de esta carpeta a tu repositorio de GitHub.
+2. Esperá el despliegue de Vercel.
+
+PARA ACTIVAR EL BORRADO PERMANENTE DEL HISTORIAL:
+El archivo EJECUTAR-UNA-SOLA-VEZ-BORRADO-HISTORIAL.sql debe ejecutarse una única vez en el SQL Editor del proyecto de Supabase que usa la tienda.
+
+IMPORTANTE:
+Subir archivos a GitHub no puede modificar por sí solo los permisos internos de una base de datos Supabase. Por seguridad, esa activación requiere una ejecución única dentro de Supabase.
