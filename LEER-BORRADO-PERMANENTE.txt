@@ -1,0 +1,7 @@
+BORRADO PERMANENTE DE MOVIMIENTOS DE STOCK
+
+1. Subí primero este proyecto a GitHub y esperá el deploy de Vercel.
+2. En Supabase > SQL Editor ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.
+3. Cerrá y volvé a abrir el administrador.
+
+Ahora el panel verifica en Supabase que cada movimiento haya sido eliminado antes de quitarlo de la pantalla. Si Supabase lo bloquea, muestra un error y el movimiento no desaparece falsamente. El stock actual de los productos no se modifica.

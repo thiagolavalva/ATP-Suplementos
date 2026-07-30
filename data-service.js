@@ -17,20 +17,26 @@
   window.ATPData={mode:'supabase',client,getProducts,getSettings,signIn,signOut,getSession,saveProduct,deleteProduct,saveSettings,uploadProductImage,
     getOrders:()=>table('atp_orders'),getStockMovements:()=>table('atp_stock_movements','created_at'),
     async clearStockMovements(){
-      const {data,error}=await client.from('atp_stock_movements').delete().not('id','is',null).select('id');
+      const {error}=await client.from('atp_stock_movements').delete().not('id','is',null);
       if(error){
-        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase todavía no permite borrar movimientos. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
+        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase no permite borrar movimientos todavía. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
         throw error;
       }
-      return(data||[]).length;
+      const {count,error:verifyError}=await client.from('atp_stock_movements').select('id',{count:'exact',head:true});
+      if(verifyError)throw verifyError;
+      if(Number(count||0)>0)throw new Error('Supabase no confirmó el borrado. El historial sigue guardado; revisá la política DELETE de la tabla.');
+      return true;
     },
     async deleteStockMovement(id){
-      const {data,error}=await client.from('atp_stock_movements').delete().eq('id',String(id)).select('id').maybeSingle();
+      const movementId=String(id);
+      const {error}=await client.from('atp_stock_movements').delete().eq('id',movementId);
       if(error){
-        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase todavía no permite borrar movimientos. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
+        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase no permite borrar movimientos todavía. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
         throw error;
       }
-      if(!data)throw new Error('El movimiento no se encontró o Supabase bloqueó su eliminación.');
+      const {data:remaining,error:verifyError}=await client.from('atp_stock_movements').select('id').eq('id',movementId).maybeSingle();
+      if(verifyError)throw verifyError;
+      if(remaining)throw new Error('Supabase no confirmó la eliminación. El movimiento continúa guardado; revisá la política DELETE de la tabla.');
       return true;
     },getCustomers:()=>table('atp_customers','updated_at'),getCoupons:()=>table('atp_coupons','created_at'),
     async updateOrder(id,changes){const{data,error}=await client.from('atp_orders').update({...changes,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;return data},

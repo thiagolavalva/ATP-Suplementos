@@ -37,7 +37,7 @@ function renderStockMovements(){if(!window.stockMovementTable)return;stockSetupN
 
 async function deleteSingleStockMovement(id){const movement=stockMovements.find(m=>String(m.id)===String(id));if(!movement)return;if(!confirm(`¿Eliminar este movimiento de ${movement.product_name||'stock'}?
 
-Se borra únicamente del historial. El stock actual no cambia.`))return;try{const button=stockMovementTable.querySelector(`[data-delete-stock-movement="${CSS.escape(String(id))}"]`);if(button){button.disabled=true;button.textContent='Eliminando...'}await ATPData.deleteStockMovement(id);stockMovements=stockMovements.filter(m=>String(m.id)!==String(id));renderStockMovements();toastMsg('Movimiento eliminado')}catch(err){alert(`No se pudo eliminar el movimiento.
+Se borra únicamente del historial. El stock actual no cambia.`))return;try{const button=stockMovementTable.querySelector(`[data-delete-stock-movement="${CSS.escape(String(id))}"]`);if(button){button.disabled=true;button.textContent='Eliminando...'}await ATPData.deleteStockMovement(id);await loadData();toastMsg('Movimiento eliminado definitivamente')}catch(err){alert(`No se pudo eliminar el movimiento.
 
 ${err.message||'No se pudo completar la eliminación.'}`)}}
 
@@ -53,9 +53,8 @@ clearStockHistoryButton?.addEventListener('click',async()=>{
     clearStockHistoryButton.disabled=true;
     clearStockHistoryButton.textContent='Eliminando...';
     await ATPData.clearStockMovements();
-    stockMovements=[];
-    renderStockMovements();
-    toastMsg('Historial de stock reiniciado');
+    await loadData();
+    toastMsg('Historial eliminado definitivamente');
   }catch(err){
     alert(`No se pudo borrar el historial.\n\n${err.message||'No se pudo completar la eliminación.'}`);
   }finally{
