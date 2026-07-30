@@ -1090,3 +1090,41 @@ img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-rati
     padding-top: 4px !important;
   }
 }
+
+/* ===== Corrección móvil: banner único, sin duplicación ni deformación ===== */
+.hero-mobile-link{display:none}
+@media (max-width:760px){
+  .hero{
+    position:relative!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:0!important;
+    display:block!important;
+    overflow:hidden!important;
+    background:#020302!important;
+  }
+  .hero-grid,
+  .hero-photo,
+  .hero-content{
+    display:none!important;
+  }
+  .hero:before{
+    content:""!important;
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1717 / 916!important;
+    margin:0!important;
+    background-image:url('hero-atp-mobile-hq.webp')!important;
+    background-repeat:no-repeat!important;
+    background-position:center center!important;
+    background-size:100% 100%!important;
+  }
+  .hero:after{display:none!important}
+  .hero-mobile-link{
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:3!important;
+  }
+}
