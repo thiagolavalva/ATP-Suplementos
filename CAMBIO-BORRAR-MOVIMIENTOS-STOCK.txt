@@ -1,0 +1,12 @@
+NUEVO: REINICIAR HISTORIAL DE STOCK
+
+En Administrador > Movimientos de stock ahora aparece el botón “Eliminar movimientos”.
+
+Qué hace:
+- Borra todos los movimientos registrados.
+- Reinicia a 0 los contadores de ingresos, salidas y movimientos.
+- NO modifica el stock actual de los productos.
+- Pide dos confirmaciones para evitar borrados accidentales.
+
+IMPORTANTE PARA UNA TIENDA QUE YA TIENE SUPABASE CONFIGURADO:
+Ejecutá una sola vez el archivo ACTUALIZAR-BORRADO-HISTORIAL-STOCK.sql en Supabase > SQL Editor.

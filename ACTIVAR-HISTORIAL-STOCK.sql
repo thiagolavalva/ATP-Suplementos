@@ -62,3 +62,30 @@ begin
  update public.atp_orders set payment_status='approved',status='pago_confirmado',mp_payment_id=p_payment_id,stock_processed=true,points_awarded=pts,customer_id=c.id,tracking_code=coalesce(tracking_code,'ATP-'||upper(substr(replace(id::text,'-',''),1,8))),updated_at=now() where id=o.id;
  return jsonb_build_object('ok',true,'points',pts,'tracking_code',coalesce(o.tracking_code,'ATP-'||upper(substr(replace(o.id::text,'-',''),1,8))));
 end $$;
+
+
+-- ATP Suplementos: habilitar el borrado seguro del historial de stock
+-- Ejecutar UNA VEZ en Supabase > SQL Editor.
+-- Borra únicamente los registros del historial. No cambia el stock de los productos.
+
+create or replace function public.atp_clear_stock_movements()
+returns integer
+language plpgsql
+security definer
+set search_path=public
+as $$
+declare
+  deleted_count integer;
+begin
+  if auth.uid() is null then
+    raise exception 'No autorizado';
+  end if;
+
+  delete from public.atp_stock_movements;
+  get diagnostics deleted_count = row_count;
+  return deleted_count;
+end;
+$$;
+
+revoke all on function public.atp_clear_stock_movements() from public;
+grant execute on function public.atp_clear_stock_movements() to authenticated;
