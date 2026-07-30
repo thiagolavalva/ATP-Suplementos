@@ -1,0 +1,13 @@
+BORRADO DE MOVIMIENTOS DE STOCK
+
+1. Abrí Supabase.
+2. Entrá en SQL Editor.
+3. Creá una consulta nueva.
+4. Copiá TODO el contenido de ACTUALIZAR-BORRADO-HISTORIAL-STOCK.sql.
+5. Tocá Run.
+
+Después vas a poder:
+- Eliminar un movimiento puntual con el botón de cada fila.
+- Eliminar todo el historial con el botón superior.
+
+Ninguna de estas acciones cambia el stock actual de los productos.
