@@ -1,80 +1,126 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8"><script>document.documentElement.classList.add('atp-maintenance-pending');</script><style>html.atp-maintenance-pending{background:#070907}html.atp-maintenance-pending body{visibility:hidden}html.atp-maintenance-pending::before{content:"ATP SUPLEMENTOS";position:fixed;inset:0;z-index:2147483646;display:grid;place-items:center;background:#070907;color:#8dfc39;font:900 13px/1 Inter,Arial,sans-serif;letter-spacing:.18em}html.atp-maintenance-pending::after{content:"";position:fixed;z-index:2147483647;left:50%;top:calc(50% + 30px);width:22px;height:22px;margin:-11px;border:2px solid rgba(141,252,57,.22);border-top-color:#8dfc39;border-radius:50%;animation:atpBootSpin .7s linear infinite}@keyframes atpBootSpin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){html.atp-maintenance-pending::after{animation:none;border-top-color:rgba(141,252,57,.22)}}</style>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Pedido confirmado | ATP Suplementos</title>
+  <meta charset="utf-8">
+  <script>document.documentElement.classList.add('atp-maintenance-pending');</script>
+  <style>html.atp-maintenance-pending{background:#070907}html.atp-maintenance-pending body{visibility:hidden}html.atp-maintenance-pending::before{content:"ATP SUPLEMENTOS";position:fixed;inset:0;z-index:2147483646;display:grid;place-items:center;background:#070907;color:#8dfc39;font:900 13px/1 Inter,Arial,sans-serif;letter-spacing:.18em}html.atp-maintenance-pending::after{content:"";position:fixed;z-index:2147483647;left:50%;top:calc(50% + 30px);width:22px;height:22px;margin:-11px;border:2px solid rgba(141,252,57,.22);border-top-color:#8dfc39;border-radius:50%;animation:atpBootSpin .7s linear infinite}@keyframes atpBootSpin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){html.atp-maintenance-pending::after{animation:none;border-top-color:rgba(141,252,57,.22)}}</style>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070907">
+  <meta name="description" content="Datos para completar el pago por transferencia de tu pedido en ATP Suplementos.">
+  <title>Completá tu pago | ATP Suplementos</title>
+  <link rel="icon" href="logo-atp.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="payment-status.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    .status-card{width:min(620px,100%)}
-    .order-code{margin:22px auto 18px;padding:15px 18px;border:1px solid #2c343d;border-radius:15px;background:#0c1014}
-    .order-code small{display:block;color:#929ca6;font-size:11px;font-weight:800;letter-spacing:.13em;margin-bottom:7px}
-    .order-code b{font-size:22px;letter-spacing:.04em;color:#f5e900}
-    .message{margin:18px auto 0;padding:16px;border:1px solid rgba(245,233,0,.25);border-radius:15px;background:rgba(245,233,0,.06);color:#e9edf0;line-height:1.65;text-align:left}
-    .amount-box{margin:22px auto 0;padding:18px;border:1px solid rgba(245,233,0,.38);border-radius:18px;background:rgba(245,233,0,.08);text-align:center}
-    .amount-box small{display:block;color:#aeb7c0;font-size:11px;font-weight:800;letter-spacing:.13em;margin-bottom:8px}
-    .amount-box strong{display:block;color:#f5e900;font-size:32px;line-height:1.1;letter-spacing:-.02em}
-    .bank-box{margin:16px auto 0;padding:20px;border:1px solid #2c343d;border-radius:18px;background:#0c1014;text-align:left}
-    .bank-box h2{font-size:18px;margin:0 0 16px}
-    .bank-row{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 0;border-top:1px solid #242b32;align-items:start}
-    .bank-row:first-of-type{border-top:0}
-    .bank-row span{margin:0;color:#8f99a3;font-size:13px}
-    .bank-row strong{font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+    :root{--bg:#070907;--panel:#101410;--panel2:#151a15;--line:#293128;--text:#f4f7f2;--muted:#9da79c;--green:#8dfc39;--green2:#63d719;--yellow:#f5e900;--whatsapp:#25d366}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -15%,rgba(141,252,57,.13),transparent 36%),var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
+    button,a{font:inherit}
+    .topbar{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px;width:min(1040px,calc(100% - 32px));margin:auto}
+    .brand img{display:block;width:72px;height:48px;object-fit:cover;border-radius:9px}
+    .back{color:#c7cec5;text-decoration:none;font-size:13px;font-weight:700}
+    .back:hover{color:var(--green)}
+    .steps{width:min(720px,calc(100% - 32px));margin:5px auto 22px;display:grid;grid-template-columns:repeat(3,1fr);position:relative}
+    .steps:before{content:"";position:absolute;left:16%;right:16%;top:15px;height:2px;background:var(--line)}
+    .step{position:relative;text-align:center;color:#7d877c;font-size:11px;font-weight:800;letter-spacing:.04em}
+    .step span{display:grid;place-items:center;width:31px;height:31px;margin:0 auto 7px;border-radius:50%;border:2px solid var(--line);background:#0b0e0b;color:#7d877c}
+    .step.done,.step.active{color:#eaf0e7}.step.done span,.step.active span{border-color:var(--green);background:var(--green);color:#071006}.step.active span{box-shadow:0 0 0 5px rgba(141,252,57,.1)}
+    .page{width:min(1040px,calc(100% - 32px));margin:0 auto 48px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:20px;align-items:start}
+    .hero,.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(21,26,21,.98),rgba(12,15,12,.98));border-radius:22px;box-shadow:0 18px 60px rgba(0,0,0,.25)}
+    .hero{padding:28px}
+    .success{display:flex;gap:14px;align-items:center;margin-bottom:22px}
+    .success-icon{flex:0 0 auto;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--green);color:#071006;font-size:24px;font-weight:900}
+    .eyebrow{margin:0 0 4px;color:var(--green);font-size:11px;font-weight:900;letter-spacing:.15em}
+    h1{margin:0;font-size:clamp(25px,4vw,38px);line-height:1.08;letter-spacing:-.035em}
+    .intro{margin:12px 0 0;color:#b8c1b6;font-size:14px;line-height:1.65}
+    .order-pill{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#0b0f0b}
+    .order-pill span{color:var(--muted);font-size:12px;font-weight:700}.order-pill b{color:var(--yellow);font-size:18px;overflow-wrap:anywhere;text-align:right}
+    .amount{margin-top:18px;padding:25px 20px;border:1px solid rgba(141,252,57,.42);border-radius:19px;background:linear-gradient(145deg,rgba(141,252,57,.13),rgba(141,252,57,.04));text-align:center}
+    .amount small{display:block;color:#b9c7b4;font-size:11px;font-weight:900;letter-spacing:.14em}
+    .amount strong{display:block;margin:8px 0 17px;color:#fff;font-size:clamp(39px,8vw,57px);line-height:1;letter-spacing:-.055em}
+    .copy-amount{border:1px solid rgba(141,252,57,.55);background:#0c120b;color:var(--green);border-radius:11px;padding:11px 18px;font-weight:900;cursor:pointer}
+    .copy-amount:hover{background:var(--green);color:#071006}
+    .instruction{display:flex;gap:12px;margin-top:18px;padding:16px;border-radius:15px;background:rgba(245,233,0,.07);border:1px solid rgba(245,233,0,.25);color:#e5e7d3;font-size:13px;line-height:1.55}
+    .instruction b{color:var(--yellow)}
+    .side{display:grid;gap:16px}
+    .card{padding:22px}
+    .card h2{margin:0 0 5px;font-size:18px}.card-sub{margin:0 0 15px;color:var(--muted);font-size:12px;line-height:1.5}
+    .bank-row{padding:14px 0;border-top:1px solid var(--line)}.bank-row:first-of-type{border-top:0}
+    .bank-label{display:block;margin-bottom:7px;color:#8e998d;font-size:10px;font-weight:900;letter-spacing:.13em}
     .bank-value{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .copy-btn{flex:0 0 auto;border:1px solid #3a434c;background:#171d22;color:#fff;border-radius:9px;padding:7px 10px;font:inherit;font-size:11px;font-weight:800;cursor:pointer}
-    .copy-btn:hover{border-color:#f5e900;color:#f5e900}
-    .primary-action,.secondary-action{display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px}
-    .secondary-action{background:transparent;color:#fff;border:1px solid #343c45}
-    .important{margin-top:18px;color:#9fa8b1;font-size:13px;line-height:1.6}
-    .email-notice{margin:16px auto 0;padding:17px 18px;border:1px solid rgba(83,190,255,.35);border-radius:15px;background:rgba(83,190,255,.08);color:#eaf6ff;line-height:1.6;text-align:left}
-    .email-notice strong{display:block;margin-bottom:4px;color:#fff}
-    .email-notice span{display:block;color:#b9cbd8;font-size:13px}
-    @media(max-width:520px){.bank-row{grid-template-columns:1fr;gap:5px}.status-card{padding:32px 20px}}
+    .bank-value strong{font-size:15px;line-height:1.4;overflow-wrap:anywhere}
+    .copy{flex:0 0 auto;border:1px solid #394438;background:#0b0f0b;color:#e8eee5;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
+    .copy:hover{border-color:var(--green);color:var(--green)}
+    .whatsapp-card{border-color:rgba(37,211,102,.35)}
+    .whatsapp-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;margin-top:14px;border-radius:13px;background:var(--whatsapp);color:#05270f;text-decoration:none;font-weight:900;text-align:center;box-shadow:0 10px 28px rgba(37,211,102,.16)}
+    .whatsapp-btn:hover{filter:brightness(1.06)}
+    .whatsapp-note{margin:12px 0 0;color:#aeb8ad;font-size:11px;line-height:1.5;text-align:center}
+    .reserve{padding:14px 15px;border-radius:13px;border:1px solid rgba(245,233,0,.23);background:rgba(245,233,0,.055);color:#cfd2bf;font-size:12px;line-height:1.55}
+    .reserve b{color:#f5e900}
+    .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.trust div{padding:11px 7px;border:1px solid var(--line);border-radius:11px;background:#0a0d0a;text-align:center;color:#aeb7ac;font-size:10px;font-weight:700;line-height:1.35}
+    .secondary{display:flex;align-items:center;justify-content:center;min-height:45px;border:1px solid #303a2f;border-radius:12px;color:#dce3d9;text-decoration:none;font-size:12px;font-weight:800;background:#0b0e0b}.secondary:hover{border-color:var(--green);color:var(--green)}
+    @media(max-width:780px){.page{grid-template-columns:1fr}.side{grid-template-columns:1fr}.topbar{height:64px}.steps{margin-bottom:15px}.hero{padding:22px}.card{padding:20px}}
+    @media(max-width:480px){.topbar,.steps,.page{width:calc(100% - 20px)}.brand img{width:61px;height:41px}.back{font-size:11px}.step{font-size:9px}.hero{padding:18px;border-radius:18px}.success{align-items:flex-start}.success-icon{width:41px;height:41px;font-size:20px}.intro{font-size:13px}.order-pill{align-items:flex-start;flex-direction:column;gap:5px}.order-pill b{text-align:left}.amount{padding:21px 14px}.amount strong{font-size:42px}.card{padding:17px;border-radius:18px}.bank-value strong{font-size:14px}.trust{grid-template-columns:1fr}.whatsapp-btn{font-size:14px}.instruction{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
-  <main class="status-card">
-    <img src="logo-atp.jpg" alt="ATP Suplementos">
-    <div class="status pending">✓</div>
-    <p>TRANSFERENCIA / DEPÓSITO</p>
-    <h1>Pedido confirmado</h1>
-    <span>Tu pedido fue registrado correctamente y quedó pendiente hasta que confirmemos la acreditación.</span>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="ATP Suplementos"><img src="logo-atp.jpg" alt="ATP Suplementos"></a>
+    <a class="back" href="index.html">← Volver a la tienda</a>
+  </header>
 
-    <div class="order-code">
-      <small>CÓDIGO DE PEDIDO</small>
-      <b id="orderCode">ATP-</b>
-    </div>
+  <nav class="steps" aria-label="Progreso de compra">
+    <div class="step done"><span>✓</span>Carrito</div>
+    <div class="step done"><span>✓</span>Datos</div>
+    <div class="step active"><span>3</span>Pago</div>
+  </nav>
 
-    <div class="message">
-      Una vez confirmado tu pago te enviaremos un WhatsApp para confirmarlo y coordinar el envío.
-    </div>
+  <main class="page">
+    <section class="hero">
+      <div class="success">
+        <div class="success-icon">✓</div>
+        <div><p class="eyebrow">PEDIDO RECIBIDO</p><h1>Solo falta realizar la transferencia</h1></div>
+      </div>
+      <p class="intro">Transferí exactamente el importe indicado abajo usando el alias o el CBU. Después enviá el comprobante por WhatsApp para que podamos verificar el pago.</p>
 
-    <div class="email-notice" role="status">
-      <strong>📧 Te enviamos la confirmación por correo.</strong>
-      <span>Si no la encontrás en Recibidos, revisá Spam, Correo no deseado o Promociones. Si aparece allí, marcala como “No es spam” para recibir correctamente los próximos avisos.</span>
-    </div>
+      <div class="order-pill"><span>Número de pedido</span><b id="orderCode">ATP-</b></div>
 
-    <section class="amount-box" aria-label="Importe a transferir">
-      <small>IMPORTE EXACTO A TRANSFERIR</small>
-      <strong id="orderTotal">$ 0</strong>
+      <section class="amount" aria-label="Total exacto a transferir">
+        <small>TOTAL EXACTO A TRANSFERIR</small>
+        <strong id="orderTotal">$ 0</strong>
+        <button class="copy-amount" type="button" data-copy="orderTotal">Copiar monto</button>
+      </section>
+
+      <div class="instruction"><span>⚠️</span><div><b>Importante:</b> transferí este monto exacto y verificá que el destinatario corresponda a los datos mostrados en esta pantalla antes de confirmar la operación.</div></div>
     </section>
 
-    <section class="bank-box" aria-label="Datos para transferencia">
-      <h2>Datos para realizar la transferencia</h2>
-      <div class="bank-row"><span>Alias</span><div class="bank-value"><strong id="bankAlias">SUPLEMENTOSATP</strong><button class="copy-btn" type="button" data-copy="bankAlias">Copiar</button></div></div>
-      <div class="bank-row"><span>CBU</span><div class="bank-value"><strong id="bankCbu">4530000800013046090593</strong><button class="copy-btn" type="button" data-copy="bankCbu">Copiar</button></div></div>
-      <div class="bank-row"><span>Titular</span><strong>Thiago La Valva</strong></div>
-      <div class="bank-row"><span>Entidad</span><strong>Naranja Digital Compañía Financiera S.A.</strong></div>
-    </section>
+    <div class="side">
+      <section class="card" aria-label="Datos para transferencia">
+        <h2>Datos para transferir</h2>
+        <p class="card-sub">Podés usar el alias o el CBU. Tocá “Copiar” para evitar errores.</p>
 
-    <a id="receiptBtn" class="primary-action" target="_blank">Ver y descargar comprobante</a>
-    <a id="whatsappBtn" class="primary-action" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
-    <div class="important">Tu pedido permanecerá pendiente hasta que revisemos el comprobante y confirmemos el pago.</div>
-    <a id="trackingBtn" class="secondary-action">Seguir estado del pedido</a>
-    <a class="secondary-action" href="index.html">Volver a la tienda</a>
+        <div class="bank-row"><span class="bank-label">ALIAS</span><div class="bank-value"><strong id="bankAlias">SUPLEMENTOSATP</strong><button class="copy" type="button" data-copy="bankAlias">Copiar</button></div></div>
+        <div class="bank-row"><span class="bank-label">CBU</span><div class="bank-value"><strong id="bankCbu">4530000800013046090593</strong><button class="copy" type="button" data-copy="bankCbu">Copiar</button></div></div>
+        <div class="bank-row"><span class="bank-label">TITULAR</span><div class="bank-value"><strong>Thiago La Valva</strong></div></div>
+        <div class="bank-row"><span class="bank-label">ENTIDAD</span><div class="bank-value"><strong>Naranja Digital Compañía Financiera S.A.</strong></div></div>
+      </section>
+
+      <section class="card whatsapp-card">
+        <h2>Enviá el comprobante</h2>
+        <p class="card-sub">Cuando termines la transferencia, tocá el botón. WhatsApp se abrirá con el número de pedido y el monto ya escritos; solo tenés que adjuntar la imagen del comprobante y enviarla.</p>
+        <a id="whatsappBtn" class="whatsapp-btn" target="_blank" rel="noopener">💬 Enviar comprobante por WhatsApp</a>
+        <p class="whatsapp-note">El pedido quedará pendiente hasta que confirmemos la acreditación.</p>
+      </section>
+
+      <div class="reserve"><b>Reserva del pedido:</b> conservaremos el stock durante 24 horas. Si no recibimos el pago dentro de ese plazo, el pedido podrá cancelarse.</div>
+
+      <div class="trust" aria-label="Información de confianza"><div>🔒 Pago verificado manualmente</div><div>📦 Pedido identificado por código</div><div>💬 Confirmación por WhatsApp</div></div>
+
+      <a id="trackingBtn" class="secondary">Seguir estado del pedido</a>
+      <a class="secondary" href="index.html">Volver a la tienda</a>
+    </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -85,13 +131,16 @@
     const params = new URLSearchParams(location.search);
     let lastOrder = {};
     try { lastOrder = JSON.parse(sessionStorage.getItem('atp_last_order') || '{}'); } catch (_) {}
+
     const code = params.get('tracking') || lastOrder.trackingCode || 'ATP-';
     const totalValue = Number(lastOrder.total || 0);
-    const money = value => new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',minimumFractionDigits:0,maximumFractionDigits:0}).format(value);
-    orderCode.textContent = code;
-    orderTotal.textContent = money(totalValue);
-    receiptBtn.href = `comprobante.html?tracking=${encodeURIComponent(code)}`;
-    trackingBtn.href = `seguimiento.html?code=${encodeURIComponent(code)}`;
+    const money = value => new Intl.NumberFormat('es-AR', {
+      style: 'currency', currency: 'ARS', minimumFractionDigits: 0, maximumFractionDigits: 0
+    }).format(value);
+
+    document.getElementById('orderCode').textContent = code;
+    document.getElementById('orderTotal').textContent = money(totalValue);
+    document.getElementById('trackingBtn').href = `seguimiento.html?code=${encodeURIComponent(code)}`;
 
     document.querySelectorAll('[data-copy]').forEach(button => {
       button.addEventListener('click', async () => {
@@ -114,8 +163,8 @@
         whatsapp = String(settings.whatsapp || whatsapp).replace(/\D/g, '');
       } catch (_) {}
       const amountText = money(totalValue);
-      const message = `Hola ATP Suplementos 👋\n\nRealicé la transferencia correspondiente al pedido ${code}.\nImporte transferido: ${amountText}.\n\nAdjunto el comprobante de pago para que puedan confirmarlo y coordinar el envío.`;
-      whatsappBtn.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
+      const message = `Hola ATP Suplementos 👋\n\nYa realicé la transferencia del pedido ${code} por ${amountText}.\n\nAdjunto el comprobante para que puedan verificar el pago y coordinar la entrega.`;
+      document.getElementById('whatsappBtn').href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
       localStorage.removeItem('atp_cart');
     })();
   </script>

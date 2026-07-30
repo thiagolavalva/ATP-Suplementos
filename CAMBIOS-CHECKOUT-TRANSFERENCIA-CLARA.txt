@@ -1,0 +1,14 @@
+CAMBIOS REALIZADOS EN LA PANTALLA DE TRANSFERENCIA
+
+- Nuevo diseño responsive, más claro y compacto.
+- Total exacto a transferir destacado y con botón para copiar.
+- Alias actualizado: SUPLEMENTOSATP.
+- CBU actualizado: 4530000800013046090593.
+- Botones para copiar alias y CBU.
+- Instrucciones claras sobre qué monto transferir y a dónde.
+- Eliminado el botón de comprobante interno de la web.
+- Botón directo para enviar el comprobante por WhatsApp.
+- WhatsApp se abre con pedido y monto escritos automáticamente.
+- Barra de progreso Carrito > Datos > Pago.
+- Aviso de reserva del pedido por 24 horas.
+- Se conservaron sin cambios el checkout, carrito, Supabase, pedidos, seguimiento, admin y banners.
