@@ -1,7 +1,7 @@
 (() => {
   const cfg=window.ATP_CONFIG||{}; const configured=typeof cfg.supabaseUrl==='string'&&cfg.supabaseUrl.startsWith('https://')&&typeof cfg.supabaseKey==='string'&&cfg.supabaseKey.length>20;
   const reject=async()=>{throw new Error('Falta configurar Supabase en config.js.')};
-  if(!configured){window.ATPData={mode:'sin-configurar',getProducts:reject,getSettings:reject,signIn:reject,signOut:async()=>{},getSession:async()=>null,getOrders:async()=>[],getStockMovements:async()=>[],clearStockMovements:reject,deleteStockMovement:reject,adjustStock:reject,getCustomers:async()=>[],getCoupons:async()=>[],saveCoupon:reject,deleteCoupon:reject,updateOrder:reject,deleteOrder:reject,updateCustomer:reject};return}
+  if(!configured){window.ATPData={mode:'sin-configurar',getProducts:reject,getSettings:reject,signIn:reject,signOut:async()=>{},getSession:async()=>null,getOrders:async()=>[],getStockMovements:async()=>[],adjustStock:reject,getCustomers:async()=>[],getCoupons:async()=>[],saveCoupon:reject,deleteCoupon:reject,updateOrder:reject,deleteOrder:reject,updateCustomer:reject};return}
   const client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   const normalizeProduct=p=>({id:String(p.id),name:p.name||'',brand:p.brand||'',category:p.category||'',detail:p.detail||'',cost:Number(p.cost||0),price:Number(p.price||0),stock:Number(p.stock||0),featured:p.featured!==false,active:p.active!==false,tag:p.tag||'',image:p.image||'',gallery:Array.isArray(p.gallery)?p.gallery:[],flavors:Array.isArray(p.flavors)?p.flavors:[],presentation:p.presentation||'',description:p.description||'',ingredients:p.ingredients||'',nutrition:p.nutrition||'',variants:Array.isArray(p.variants)?p.variants.map((v,i)=>({id:String(v.id||`var-${i+1}`),name:String(v.name||v.label||'Variante'),stock:Math.max(0,Number(v.stock||0))})):[]});
   async function getProducts({includeInactive=false}={}){let q=client.from('atp_products').select('*').order('created_at',{ascending:false});if(!includeInactive)q=q.eq('active',true);const{data,error}=await q;if(error)throw error;return(data||[]).map(normalizeProduct)}
@@ -16,29 +16,7 @@
   async function table(name,order='created_at'){const{data,error}=await client.from(name).select('*').order(order,{ascending:false});if(error)throw error;return data||[]}
   window.ATPData={mode:'supabase',client,getProducts,getSettings,signIn,signOut,getSession,saveProduct,deleteProduct,saveSettings,uploadProductImage,
     getOrders:()=>table('atp_orders'),getStockMovements:()=>table('atp_stock_movements','created_at'),
-    async clearStockMovements(){
-      const {error}=await client.from('atp_stock_movements').delete().not('id','is',null);
-      if(error){
-        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase no permite borrar movimientos todavía. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
-        throw error;
-      }
-      const {count,error:verifyError}=await client.from('atp_stock_movements').select('id',{count:'exact',head:true});
-      if(verifyError)throw verifyError;
-      if(Number(count||0)>0)throw new Error('Supabase no confirmó el borrado. El historial sigue guardado; revisá la política DELETE de la tabla.');
-      return true;
-    },
-    async deleteStockMovement(id){
-      const movementId=String(id);
-      const {error}=await client.from('atp_stock_movements').delete().eq('id',movementId);
-      if(error){
-        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase no permite borrar movimientos todavía. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
-        throw error;
-      }
-      const {data:remaining,error:verifyError}=await client.from('atp_stock_movements').select('id').eq('id',movementId).maybeSingle();
-      if(verifyError)throw verifyError;
-      if(remaining)throw new Error('Supabase no confirmó la eliminación. El movimiento continúa guardado; revisá la política DELETE de la tabla.');
-      return true;
-    },getCustomers:()=>table('atp_customers','updated_at'),getCoupons:()=>table('atp_coupons','created_at'),
+    getCustomers:()=>table('atp_customers','updated_at'),getCoupons:()=>table('atp_coupons','created_at'),
     async updateOrder(id,changes){const{data,error}=await client.from('atp_orders').update({...changes,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;return data},
     async deleteOrder(id){const{error}=await client.from('atp_orders').delete().eq('id',id);if(error)throw error},
     async adjustStock(productId,newStock,movementType,reason){const{data,error}=await client.rpc('atp_adjust_product_stock',{p_product_id:String(productId),p_new_stock:Number(newStock),p_movement_type:movementType,p_reason:reason||''});if(error)throw error;return data},

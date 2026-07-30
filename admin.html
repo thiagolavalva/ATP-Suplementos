@@ -98,7 +98,6 @@
       <section id="stockView" class="view">
         <div class="admin-section-head">
           <div><span>INVENTARIO</span><h2>Historial de movimientos</h2><p>Cada venta, reposición y corrección queda registrada directamente en Supabase.</p></div>
-          <button id="clearStockHistoryBtn" class="stock-clear-btn" type="button">Eliminar movimientos</button>
         </div>
         <div class="stock-summary-cards">
           <article><span>Ingresos registrados</span><b id="stockEntriesTotal">0</b><small>Unidades agregadas</small></article>
@@ -110,7 +109,7 @@
           <label class="admin-select-wrap"><span>Tipo</span><select id="stockTypeFilter"><option value="">Todos</option><option value="sale">Ventas</option><option value="restock">Reposiciones</option><option value="correction">Correcciones</option><option value="initial">Stock inicial</option></select></label>
         </div>
         <div id="stockSetupNotice" class="notice hidden"><b>Falta activar el historial:</b> ejecutá el archivo <code>ACTIVAR-HISTORIAL-STOCK.sql</code> en Supabase.</div>
-        <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Producto</th><th>Movimiento</th><th>Antes</th><th>Después</th><th>Motivo</th><th>Pedido</th><th></th></tr></thead><tbody id="stockMovementTable"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Producto</th><th>Movimiento</th><th>Antes</th><th>Después</th><th>Motivo</th><th>Pedido</th></tr></thead><tbody id="stockMovementTable"></tbody></table></div>
       </section>
 
       <section id="ordersView" class="view">

@@ -1,0 +1,8 @@
+VERSIÓN ESTABLE SIN BORRADO DE MOVIMIENTOS
+
+Esta versión conserva el historial de stock y elimina únicamente:
+- El botón "Eliminar movimientos".
+- Los botones para borrar movimientos individuales.
+- El código y los archivos SQL relacionados con esos borrados.
+
+No modifica productos, pedidos, configuración, checkout ni el stock actual.
