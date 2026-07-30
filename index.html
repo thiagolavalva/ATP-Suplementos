@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <script>document.documentElement.classList.add('atp-maintenance-pending');</script>
-  <style>
+<meta charset="utf-8"/>
+<script>document.documentElement.classList.add('atp-maintenance-pending');</script>
+<style>
     html.atp-maintenance-pending{background:#070907}
     html.atp-maintenance-pending body{visibility:hidden}
     html.atp-maintenance-pending::before{content:"ATP SUPLEMENTOS";position:fixed;inset:0;z-index:2147483646;display:grid;place-items:center;background:#070907;color:#8dfc39;font:900 13px/1 Inter,Arial,sans-serif;letter-spacing:.18em}
@@ -11,147 +11,137 @@
     @keyframes atpBootSpin{to{transform:rotate(360deg)}}
     @media(prefers-reduced-motion:reduce){html.atp-maintenance-pending::after{animation:none;border-top-color:rgba(141,252,57,.22)}}
   </style>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="ATP Suplementos: proteínas, creatinas, pre entrenos y suplementación deportiva con atención personalizada y envíos a todo el país.">
-  <meta name="theme-color" content="#070907">
-  <meta name="robots" content="index,follow">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="ATP Suplementos">
-  <meta property="og:description" content="Suplementación deportiva, atención personalizada y envíos a todo el país.">
-  <meta property="og:url" content="https://atp-suplementos.vercel.app/">
-  <meta property="og:site_name" content="ATP Suplementos">
-  <meta property="og:image" content="https://atp-suplementos.vercel.app/hero-atp-products.png">
-  <meta property="og:image:secure_url" content="https://atp-suplementos.vercel.app/hero-atp-products.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="ATP Suplementos - suplementación deportiva">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ATP Suplementos">
-  <meta name="twitter:description" content="Suplementación deportiva, atención personalizada y envíos a todo el país.">
-  <meta name="twitter:image" content="https://atp-suplementos.vercel.app/hero-atp-products.png">
-  <link rel="icon" href="logo-atp.jpg" type="image/jpeg">
-  <link rel="preload" href="hero-atp-products.webp" as="image" type="image/webp" fetchpriority="high">
-  <title>ATP Suplementos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="store.css">
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="ATP Suplementos: proteínas, creatinas, pre entrenos y suplementación deportiva con atención personalizada y envíos a todo el país." name="description"/>
+<meta content="#070907" name="theme-color"/>
+<meta content="index,follow" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="ATP Suplementos" property="og:title"/>
+<meta content="Suplementación deportiva, atención personalizada y envíos a todo el país." property="og:description"/>
+<meta content="https://atp-suplementos.vercel.app/" property="og:url"/>
+<meta content="ATP Suplementos" property="og:site_name"/>
+<meta content="https://atp-suplementos.vercel.app/hero-atp-products.png" property="og:image"/>
+<meta content="https://atp-suplementos.vercel.app/hero-atp-products.png" property="og:image:secure_url"/>
+<meta content="image/png" property="og:image:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="ATP Suplementos - suplementación deportiva" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="ATP Suplementos" name="twitter:title"/>
+<meta content="Suplementación deportiva, atención personalizada y envíos a todo el país." name="twitter:description"/>
+<meta content="https://atp-suplementos.vercel.app/hero-atp-products.png" name="twitter:image"/>
+<link href="logo-atp.jpg" rel="icon" type="image/jpeg"/>
+<link as="image" fetchpriority="high" href="hero-atp-products.webp" rel="preload" type="image/webp"/>
+<title>ATP Suplementos</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="store.css" rel="stylesheet"/>
 </head>
 <body>
-  <header class="header">
-    <a href="#inicio" class="brand"><img src="logo-atp.jpg" alt="ATP Suplementos"></a>
-    <nav>
-      <a href="#categorias">Categorías</a>
-      <a href="#productos">Productos</a>
-      <a href="#marcas">Marcas</a>
-      <a href="seguimiento.html">Seguí tu pedido</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-    <div class="header-actions">
-      <button id="searchOpen" class="plain">Buscar</button>
-      <button id="cartOpen" class="cart-pill">Carrito <b id="cartCount">0</b></button>
-      <button id="menuBtn" class="menu-btn" aria-label="Abrir menú"><span></span><span></span></button>
-    </div>
-  </header>
+<header class="header">
+<a class="brand" href="#inicio"><img alt="ATP Suplementos" src="logo-atp.jpg"/></a>
+<nav><a href="#productos">Productos</a>
+<a href="#categorias">Categorías</a>
 
-  <div id="mobileMenu" class="mobile-menu">
-    <a href="#categorias">Categorías</a><a href="#productos">Productos</a><a href="#marcas">Marcas</a><a href="seguimiento.html">Seguí tu pedido</a><a href="#contacto">Contacto</a>
-  </div>
+<a href="#marcas">Marcas</a>
+<a href="seguimiento.html">Seguí tu pedido</a>
+<a href="#contacto">Contacto</a>
+</nav>
+<div class="header-actions">
+<button class="plain" id="searchOpen">Buscar</button>
+<button class="cart-pill" id="cartOpen">Carrito <b id="cartCount">0</b></button>
+<button aria-label="Abrir menú" class="menu-btn" id="menuBtn"><span></span><span></span></button>
+</div>
+</header>
+<div class="mobile-menu" id="mobileMenu"><a href="#productos">Productos</a>
+<a href="#categorias">Categorías</a><a href="#marcas">Marcas</a><a href="seguimiento.html">Seguí tu pedido</a><a href="#contacto">Contacto</a>
+</div>
+<section class="search-layer" id="searchLayer">
+<div class="search-wrap">
+<div class="search-label">BUSCAR EN ATP</div>
+<div class="search-row">
+<input id="searchInput" placeholder="Escribí un producto o una marca"/>
+<button id="searchClose">Cerrar</button>
+</div>
+<div class="suggestions" id="suggestions"></div>
+</div>
+</section>
+<main>
 
-  <section id="searchLayer" class="search-layer">
-    <div class="search-wrap">
-      <div class="search-label">BUSCAR EN ATP</div>
-      <div class="search-row">
-        <input id="searchInput" placeholder="Escribí un producto o una marca">
-        <button id="searchClose">Cerrar</button>
-      </div>
-      <div id="suggestions" class="suggestions"></div>
-    </div>
-  </section>
 
-  <main>
-    <section id="inicio" class="hero">
-      <div class="hero-grid"></div>
-      <div class="hero-photo" aria-hidden="true"></div>
-      <div class="hero-content">
-        <div class="hero-kicker">ATP SUPLEMENTOS</div>
-        <h1 id="heroTitle"><span>ATP</span><strong>SUPLEMENTOS</strong></h1>
-        <p class="hero-subtitle">Suplementos deportivos al mejor precio</p>
-        <span id="heroText">Proteínas <b>•</b> Creatinas <b>•</b> Pre entrenos <b>•</b> Vitaminas</span>
-        <div class="hero-shipping">📦 Envíos a todo el país</div>
-        <div class="hero-buttons">
-          <a href="#productos" class="btn primary">Ver productos</a>
-        </div>
-      </div>
-    </section>
 
-    <section class="benefits benefits-home" aria-label="Ventajas de comprar en ATP Suplementos">
-      <article><span class="icon">🚚</span><div><h3>Envíos a todo el país</h3><p>Recibí tu pedido estés donde estés.</p></div></article>
-      <article><span class="icon">↗</span><div><h3>Pago por transferencia</h3><p>Proceso simple, claro y sin cargos ocultos.</p></div></article>
-      <article><span class="icon">💬</span><div><h3>Atención personalizada</h3><p>Te asesoramos directamente por WhatsApp.</p></div></article>
-    </section>
 
-    <section id="categorias" class="section dark-section">
-      <div class="eyebrow">CATÁLOGO</div>
-      <h2>Elegí una categoría</h2>
-      <div id="categoryGrid" class="category-grid"></div>
-    </section>
 
-    <section id="marcas" class="brands">
-      <div><div class="eyebrow">MARCAS PRINCIPALES</div><h2>Calidad que conocés.</h2></div>
-      <div id="brandGrid" class="brand-grid"></div>
-    </section>
 
-    <section id="productos" class="section">
-      <div class="product-heading">
-        <div><div class="eyebrow">SELECCIÓN ATP</div><h2>Productos destacados</h2></div>
-        <div id="filters" class="filters"></div>
-      </div>
-      <div class="catalog-search">
-        <span aria-hidden="true">⌕</span>
-        <input id="catalogSearchInput" type="search" autocomplete="off" placeholder="Buscar por producto, marca o categoría" aria-label="Buscar productos">
-        <button id="catalogSearchClear" type="button" aria-label="Borrar búsqueda">Borrar</button>
-      </div>
-      <div class="catalog-status"><span id="resultsCount"></span><button id="resetCatalog" type="button">Ver todos</button></div>
-      <div id="productGrid" class="product-grid"></div>
-      <div id="emptyState" class="empty"><h3>No encontramos productos.</h3><p>Probá con otro nombre, marca o categoría.</p><button id="emptyReset" type="button">Ver todos los productos</button></div>
-    </section>
-
-    <section id="contacto" class="contact">
-      <div><div class="eyebrow">ATP SUPLEMENTOS</div><h2>¿Tenés una consulta?</h2><p>Te ayudamos con disponibilidad, sabores y productos.</p></div>
-      <a id="contactButton" class="btn primary" target="_blank">Hablar por WhatsApp</a>
-    </section>
-  </main>
-
-  <footer>
-    <img src="logo-atp.jpg" alt="ATP Suplementos">
-    <div>
-      <a id="instagramLink" target="_blank">Instagram</a>
-      <a id="whatsappLink" target="_blank">WhatsApp</a>
-      <a href="seguimiento.html">Seguí tu pedido</a>
-      <span id="locationText">Córdoba, Argentina</span>
-    </div>
-    <small>© <span id="year"></span> ATP Suplementos.</small>
-  </footer>
-
-  <aside id="cartDrawer" class="cart-drawer">
-    <header><div><div class="eyebrow">TU COMPRA</div><h2>Carrito</h2></div><button id="cartClose">×</button></header>
-    <div id="cartItems" class="cart-items"></div>
-    <div id="cartEmpty" class="cart-empty"><h3>Tu carrito está vacío.</h3><p>Agregá un producto para comenzar.</p></div>
-    <footer class="cart-footer">
-      <div class="cart-summary total-row"><span>Total estimado</span><b id="cartTotal">$0</b></div>
-      <button id="continueCheckoutBtn" class="payment-button">Continuar con la compra</button>
-      <small class="payment-note">En el siguiente paso completás tus datos, elegís la entrega y aplicás tu cupón.</small>
-      <small class="payment-note cart-saved-note">✓ Tu carrito queda guardado automáticamente en este dispositivo.</small>
-    </footer>
-  </aside>
-  <div id="overlay" class="overlay"></div>
-  <div id="toast" class="toast"></div>
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script defer src="config.js"></script>
-  <script defer src="data-service.js"></script>
-  <script defer src="maintenance.js"></script>
-  <script defer src="store.js"></script>
+<section class="hero" id="inicio">
+<div class="hero-grid"></div>
+<div aria-hidden="true" class="hero-photo"></div>
+<div class="hero-content">
+<div class="hero-kicker">ATP SUPLEMENTOS</div>
+<h1 id="heroTitle"><span>ATP</span><strong>SUPLEMENTOS</strong></h1>
+<p class="hero-subtitle">Suplementos deportivos al mejor precio</p>
+<span id="heroText">Proteínas <b>•</b> Creatinas <b>•</b> Pre entrenos <b>•</b> Vitaminas</span>
+<div class="hero-shipping">📦 Envíos a todo el país</div>
+<div class="hero-buttons">
+<a class="btn primary" href="#productos">Ver productos</a>
+</div>
+</div>
+</section><section aria-label="Ventajas de comprar en ATP Suplementos" class="benefits benefits-home">
+<article><span class="icon">🚚</span><div><h3>Envíos a todo el país</h3><p>Recibí tu pedido estés donde estés.</p></div></article>
+<article><span class="icon">↗</span><div><h3>Pago por transferencia</h3><p>Proceso simple, claro y sin cargos ocultos.</p></div></article>
+<article><span class="icon">💬</span><div><h3>Atención personalizada</h3><p>Te asesoramos directamente por WhatsApp.</p></div></article>
+</section><section class="section" id="productos">
+<div class="product-heading">
+<div><div class="eyebrow">CATÁLOGO ATP</div><h2>Encontrá tu suplemento</h2></div>
+<div class="filters" id="filters"></div>
+</div>
+<div class="catalog-search">
+<span aria-hidden="true">⌕</span>
+<input aria-label="Buscar productos" autocomplete="off" id="catalogSearchInput" placeholder="Buscar por producto, marca o categoría" type="search"/>
+<button aria-label="Borrar búsqueda" id="catalogSearchClear" type="button">Borrar</button>
+</div>
+<div class="catalog-status"><span id="resultsCount"></span><button id="resetCatalog" type="button">Ver todos</button></div>
+<div class="product-grid" id="productGrid"></div>
+<div class="empty" id="emptyState"><h3>No encontramos productos.</h3><p>Probá con otro nombre, marca o categoría.</p><button id="emptyReset" type="button">Ver todos los productos</button></div>
+</section><section class="section dark-section" id="categorias">
+<div class="eyebrow">CATÁLOGO</div>
+<h2>Elegí una categoría</h2>
+<div class="category-grid" id="categoryGrid"></div>
+</section><section class="brands" id="marcas">
+<div><div class="eyebrow">MARCAS PRINCIPALES</div><h2>Calidad que conocés.</h2></div>
+<div class="brand-grid" id="brandGrid"></div>
+</section><section class="contact" id="contacto">
+<div><div class="eyebrow">ATP SUPLEMENTOS</div><h2>¿Tenés una consulta?</h2><p>Te ayudamos con disponibilidad, sabores y productos.</p></div>
+<a class="btn primary" id="contactButton" target="_blank">Hablar por WhatsApp</a>
+</section></main>
+<footer>
+<img alt="ATP Suplementos" src="logo-atp.jpg"/>
+<div>
+<a id="instagramLink" target="_blank">Instagram</a>
+<a id="whatsappLink" target="_blank">WhatsApp</a>
+<a href="seguimiento.html">Seguí tu pedido</a>
+<span id="locationText">Córdoba, Argentina</span>
+</div>
+<small>© <span id="year"></span> ATP Suplementos.</small>
+</footer>
+<aside class="cart-drawer" id="cartDrawer">
+<header><div><div class="eyebrow">TU COMPRA</div><h2>Carrito</h2></div><button id="cartClose">×</button></header>
+<div class="cart-items" id="cartItems"></div>
+<div class="cart-empty" id="cartEmpty"><h3>Tu carrito está vacío.</h3><p>Agregá un producto para comenzar.</p></div>
+<footer class="cart-footer">
+<div class="cart-summary total-row"><span>Total estimado</span><b id="cartTotal">$0</b></div>
+<button class="payment-button" id="continueCheckoutBtn">Continuar con la compra</button>
+<small class="payment-note">En el siguiente paso completás tus datos, elegís la entrega y aplicás tu cupón.</small>
+<small class="payment-note cart-saved-note">✓ Tu carrito queda guardado automáticamente en este dispositivo.</small>
+</footer>
+</aside>
+<div class="overlay" id="overlay"></div>
+<div class="toast" id="toast"></div>
+<script defer="" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer="" src="config.js"></script>
+<script defer="" src="data-service.js"></script>
+<script defer="" src="maintenance.js"></script>
+<script defer="" src="store.js"></script>
 </body>
 </html>
