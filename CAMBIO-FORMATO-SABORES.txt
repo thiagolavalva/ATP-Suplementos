@@ -1,0 +1,11 @@
+FORMATO SIMPLE PARA SABORES Y STOCK
+
+En el administrador, cargá un sabor por línea usando:
+
+Chocolate-2
+Frutilla-1
+Vainilla-5
+
+El número representa el stock de ese sabor.
+El stock total se calcula automáticamente.
+También se toleran espacios alrededor del guion para no romper cargas anteriores.
