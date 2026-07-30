@@ -1,0 +1,8 @@
+1. Subí todo el proyecto a GitHub y esperá el deploy de Vercel.
+2. En Supabase abrí SQL Editor > New query.
+3. Pegá TODO el contenido de CONFIGURAR-HISTORIAL-STOCK.sql y tocá Run.
+4. Debe aparecer: Success. No rows returned.
+5. Cerrá sesión del administrador, volvé a entrar y recargá con Ctrl+F5.
+
+Desde ese momento cada cambio de stock queda guardado en la tabla stock_movements.
+Eliminar una fila o todo el historial es permanente y no modifica el stock actual.

@@ -13,7 +13,7 @@ module.exports=async function(req,res){
     const code=String(body.code||'').trim().toUpperCase();
     const dni=digits(body.dni);
     if(!/^ATP-\d{4}-\d{5,}$/.test(code)||dni.length<7||dni.length>11)return send(res,400,{error:'Ingresá un número de pedido y DNI válidos.'});
-    const url=`${SUPABASE_URL}/rest/v1/atp_orders?select=tracking_code,status,payment_status,total,created_at,customer,items&tracking_code=eq.${encodeURIComponent(code)}&limit=1`;
+    const url=`${SUPABASE_URL}/rest/v1/orders?select=tracking_code,status,payment_status,total,created_at,customer,items&tracking_code=eq.${encodeURIComponent(code)}&limit=1`;
     const response=await fetch(url,{headers});
     if(!response.ok)throw new Error(`Supabase respondió ${response.status}`);
     const rows=await response.json();
