@@ -1128,3 +1128,49 @@ img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-rati
     z-index:3!important;
   }
 }
+
+/* ===== BANNER MÓVIL VERTICAL FINAL — arte exclusivo, sin duplicación ===== */
+@media (max-width: 760px) {
+  .hero {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    overflow: hidden !important;
+    background: #020302 !important;
+  }
+
+  .hero-grid,
+  .hero-photo,
+  .hero-content {
+    display: none !important;
+  }
+
+  .hero::before {
+    content: "" !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1024 / 710 !important;
+    margin: 0 !important;
+    background-color: #020302 !important;
+    background-image: url('hero-atp-mobile-final.webp') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: 100% auto !important;
+  }
+
+  .hero::after {
+    display: none !important;
+  }
+
+  .hero-mobile-link {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 4 !important;
+  }
+}
