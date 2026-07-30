@@ -930,3 +930,57 @@ img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-rati
   .hero h1 { font-size: clamp(36px, 10.5vw, 45px) !important; }
   .hero-content > span { font-size: 12px !important; }
 }
+
+/* ===== AJUSTE DEFINITIVO HERO: unión suave en PC + imagen grande en móvil ===== */
+@media (min-width: 761px) {
+  .hero {
+    min-height: clamp(520px, 37.5vw, 720px) !important;
+    padding: calc(var(--header) + 34px) clamp(42px, 4.7vw, 90px) 44px !important;
+    background-color: #020302 !important;
+    background-image: url('hero-atp-desktop.webp') !important;
+    background-repeat: no-repeat !important;
+    background-position: center top !important;
+    background-size: 100% auto !important;
+  }
+  .hero:after {
+    display: block !important;
+    inset: 0 !important;
+    background: linear-gradient(90deg,
+      #020302 0%,
+      rgba(2,3,2,.98) 27%,
+      rgba(2,3,2,.88) 39%,
+      rgba(2,3,2,.42) 52%,
+      rgba(2,3,2,.08) 66%,
+      transparent 76%) !important;
+    pointer-events: none !important;
+  }
+  .hero-content { position: relative !important; z-index: 2 !important; }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding: 0 18px 32px !important;
+    background: #020302 !important;
+  }
+  .hero:before {
+    width: 100vw !important;
+    height: auto !important;
+    aspect-ratio: 856 / 578 !important;
+    max-height: none !important;
+    margin: 0 0 0 calc(50% - 50vw) !important;
+    background-image: url('hero-atp-mobile.webp') !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  .hero-content {
+    padding-top: 18px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero:before {
+    aspect-ratio: 856 / 600 !important;
+    background-size: cover !important;
+  }
+}
