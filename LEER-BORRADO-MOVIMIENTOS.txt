@@ -1,0 +1,9 @@
+BORRADO DEL HISTORIAL DE STOCK
+
+1. Subí este proyecto a GitHub.
+2. En Supabase > SQL Editor ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.
+3. Recargá el administrador.
+
+Después vas a poder eliminar cada movimiento por separado o borrar todo el historial.
+El stock actual de los productos no se modifica.
+No se utilizan funciones RPC.

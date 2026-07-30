@@ -15,7 +15,24 @@
   async function uploadProductImage(file,id){if(!file)return'';if(!file.type.startsWith('image/'))throw new Error('El archivo debe ser una imagen.');if(file.size>5*1024*1024)throw new Error('La imagen no puede superar 5 MB.');const path=`${safe(id)}/${Date.now()}-${safe(file.name)}`;const{error}=await client.storage.from('atp-product-images').upload(path,file,{cacheControl:'3600'});if(error)throw error;return client.storage.from('atp-product-images').getPublicUrl(path).data.publicUrl}
   async function table(name,order='created_at'){const{data,error}=await client.from(name).select('*').order(order,{ascending:false});if(error)throw error;return data||[]}
   window.ATPData={mode:'supabase',client,getProducts,getSettings,signIn,signOut,getSession,saveProduct,deleteProduct,saveSettings,uploadProductImage,
-    getOrders:()=>table('atp_orders'),getStockMovements:()=>table('atp_stock_movements','created_at'),async clearStockMovements(){const{data,error}=await client.rpc('atp_clear_stock_movements');if(error)throw error;return data},async deleteStockMovement(id){const{data,error}=await client.rpc('atp_delete_stock_movement',{p_movement_id:Number(id)});if(error)throw error;return data},getCustomers:()=>table('atp_customers','updated_at'),getCoupons:()=>table('atp_coupons','created_at'),
+    getOrders:()=>table('atp_orders'),getStockMovements:()=>table('atp_stock_movements','created_at'),
+    async clearStockMovements(){
+      const {data,error}=await client.from('atp_stock_movements').delete().not('id','is',null).select('id');
+      if(error){
+        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase todavía no permite borrar movimientos. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
+        throw error;
+      }
+      return(data||[]).length;
+    },
+    async deleteStockMovement(id){
+      const {data,error}=await client.from('atp_stock_movements').delete().eq('id',String(id)).select('id').maybeSingle();
+      if(error){
+        if(error.code==='42501'||/row-level security|permission denied/i.test(error.message||''))throw new Error('Supabase todavía no permite borrar movimientos. Ejecutá una sola vez HABILITAR-BORRADO-MOVIMIENTOS.sql.');
+        throw error;
+      }
+      if(!data)throw new Error('El movimiento no se encontró o Supabase bloqueó su eliminación.');
+      return true;
+    },getCustomers:()=>table('atp_customers','updated_at'),getCoupons:()=>table('atp_coupons','created_at'),
     async updateOrder(id,changes){const{data,error}=await client.from('atp_orders').update({...changes,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;return data},
     async deleteOrder(id){const{error}=await client.from('atp_orders').delete().eq('id',id);if(error)throw error},
     async adjustStock(productId,newStock,movementType,reason){const{data,error}=await client.rpc('atp_adjust_product_stock',{p_product_id:String(productId),p_new_stock:Number(newStock),p_movement_type:movementType,p_reason:reason||''});if(error)throw error;return data},

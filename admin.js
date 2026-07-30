@@ -39,7 +39,7 @@ async function deleteSingleStockMovement(id){const movement=stockMovements.find(
 
 Se borra únicamente del historial. El stock actual no cambia.`))return;try{const button=stockMovementTable.querySelector(`[data-delete-stock-movement="${CSS.escape(String(id))}"]`);if(button){button.disabled=true;button.textContent='Eliminando...'}await ATPData.deleteStockMovement(id);stockMovements=stockMovements.filter(m=>String(m.id)!==String(id));renderStockMovements();toastMsg('Movimiento eliminado')}catch(err){alert(`No se pudo eliminar el movimiento.
 
-${err.message||'Ejecutá el archivo SQL corregido incluido en el ZIP.'}`)}}
+${err.message||'No se pudo completar la eliminación.'}`)}}
 
 const clearStockHistoryButton=document.getElementById('clearStockHistoryBtn');
 clearStockHistoryButton?.addEventListener('click',async()=>{
@@ -57,7 +57,7 @@ clearStockHistoryButton?.addEventListener('click',async()=>{
     renderStockMovements();
     toastMsg('Historial de stock reiniciado');
   }catch(err){
-    alert(`No se pudo borrar el historial.\n\n${err.message||'Ejecutá el archivo SQL corregido incluido en el ZIP.'}`);
+    alert(`No se pudo borrar el historial.\n\n${err.message||'No se pudo completar la eliminación.'}`);
   }finally{
     clearStockHistoryButton.disabled=false;
     clearStockHistoryButton.textContent='Eliminar movimientos';

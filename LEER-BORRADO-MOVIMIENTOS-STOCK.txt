@@ -1,13 +1,15 @@
-BORRADO DE MOVIMIENTOS DE STOCK
+BORRADO DEL HISTORIAL DE STOCK
 
 1. Abrí Supabase.
 2. Entrá en SQL Editor.
-3. Creá una consulta nueva.
-4. Copiá TODO el contenido de ACTUALIZAR-BORRADO-HISTORIAL-STOCK.sql.
-5. Tocá Run.
+3. Abrí el archivo ACTUALIZAR-BORRADO-HISTORIAL-STOCK.sql.
+4. Copiá todo su contenido y presioná Run.
+5. Volvé al administrador y recargá la página.
 
-Después vas a poder:
-- Eliminar un movimiento puntual con el botón de cada fila.
-- Eliminar todo el historial con el botón superior.
+Ahora el borrado se realiza directamente sobre la tabla y ya no usa funciones RPC ni depende de la caché de Supabase.
 
-Ninguna de estas acciones cambia el stock actual de los productos.
+Podés eliminar:
+- Un movimiento individual.
+- Todo el historial.
+
+IMPORTANTE: ninguna de las dos opciones cambia el stock actual de los productos.
