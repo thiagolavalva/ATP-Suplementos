@@ -1,0 +1,14 @@
+CAMBIOS FINALES
+
+1. Carga de sabores simplificada
+- Ahora se escribe un sabor por línea usando un guion.
+- Ejemplo:
+  Chocolate - 8
+  Vainilla - 5
+- El número representa el stock de ese sabor.
+- Por compatibilidad, también siguen funcionando la barra vertical y los guiones largos.
+
+2. Tildes y caracteres especiales
+- Todos los archivos de texto fueron normalizados a UTF-8.
+- Todas las páginas HTML incluyen <meta charset="UTF-8">.
+- Esto evita textos como "CategorÃ­a" o símbolos extraños.
