@@ -1154,13 +1154,13 @@ img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-rati
     display: block !important;
     width: 100% !important;
     height: auto !important;
-    aspect-ratio: 1024 / 710 !important;
+    aspect-ratio: 941 / 1672 !important;
     margin: 0 !important;
     background-color: #020302 !important;
     background-image: url('hero-atp-mobile-final.webp') !important;
     background-repeat: no-repeat !important;
-    background-position: center center !important;
-    background-size: 100% auto !important;
+    background-position: center top !important;
+    background-size: 100% 100% !important;
   }
 
   .hero::after {
