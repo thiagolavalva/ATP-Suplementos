@@ -1,17 +1,29 @@
 (() => {
-  const DEFAULT_MESSAGE='Estamos agregando y actualizando productos. En breve la tienda volverá a estar disponible.';
-  const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  function showMaintenance(settings={}){
-    if(document.getElementById('atpMaintenance'))return;
-    const store=escapeHtml(settings.storeName||'ATP Suplementos');
-    const message=escapeHtml(settings.maintenanceMessage||DEFAULT_MESSAGE);
-    const location=escapeHtml(settings.location||'Córdoba, Argentina');
-    const rawWhatsapp=String(settings.whatsapp||'').replace(/\D/g,'');
-    const whatsapp=rawWhatsapp ? (rawWhatsapp.startsWith('54') ? rawWhatsapp : `54${rawWhatsapp}`) : '';
-    const whatsappUrl=whatsapp ? `https://wa.me/${whatsapp}?text=${encodeURIComponent('Hola ATP Suplementos, quería hacer una consulta mientras la tienda está en mantenimiento.')}` : '';
-    const wrapper=document.createElement('div');
-    wrapper.id='atpMaintenance';
-    wrapper.innerHTML=`<style>
+  const DEFAULT_MESSAGE = 'Estamos agregando y actualizando productos. En breve la tienda volverá a estar disponible.';
+
+  const escapeHtml = value => String(value || '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[char]));
+
+  function finishInitialCheck() {
+    document.documentElement.classList.remove('atp-maintenance-pending');
+  }
+
+  function showMaintenance(settings = {}) {
+    if (document.getElementById('atpMaintenance')) return;
+
+    const store = escapeHtml(settings.storeName || 'ATP Suplementos');
+    const message = escapeHtml(settings.maintenanceMessage || DEFAULT_MESSAGE);
+    const location = escapeHtml(settings.location || 'Córdoba, Argentina');
+    const rawWhatsapp = String(settings.whatsapp || '').replace(/\D/g, '');
+    const whatsapp = rawWhatsapp ? (rawWhatsapp.startsWith('54') ? rawWhatsapp : `54${rawWhatsapp}`) : '';
+    const whatsappUrl = whatsapp
+      ? `https://wa.me/${whatsapp}?text=${encodeURIComponent('Hola ATP Suplementos, quería hacer una consulta mientras la tienda está en mantenimiento.')}`
+      : '';
+
+    const wrapper = document.createElement('div');
+    wrapper.id = 'atpMaintenance';
+    wrapper.innerHTML = `<style>
       #atpMaintenance{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;padding:24px;background:#070907;color:#fff;font-family:Inter,Arial,sans-serif;overflow:auto}
       #atpMaintenance:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 12%,rgba(141,252,57,.13),transparent 34%),linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:auto,38px 38px,38px 38px;pointer-events:none}
       #atpMaintenance .maintenance-card{position:relative;width:min(620px,100%);text-align:center;padding:clamp(34px,7vw,62px) clamp(22px,6vw,54px);border:1px solid #293028;border-radius:24px;background:rgba(13,16,13,.94);box-shadow:0 28px 90px rgba(0,0,0,.48)}
@@ -27,17 +39,34 @@
       #atpMaintenance small{display:block;margin-top:24px;color:#71796e;font-size:11px}
       @media(prefers-reduced-motion:reduce){#atpMaintenance .pulse i{animation:none}#atpMaintenance .whatsapp-btn{transition:none}}
       @keyframes atpPulse{70%{box-shadow:0 0 0 9px rgba(141,252,57,0)}100%{box-shadow:0 0 0 0 rgba(141,252,57,0)}}
-    </style><section class="maintenance-card" role="status" aria-live="polite"><img src="logo-atp.jpg" alt="${store}"><div class="eyebrow">${store.toUpperCase()}</div><h1>Estamos mejorando la tienda.</h1><p>${message}</p><div class="maintenance-actions"><div class="pulse"><i></i> Volvemos en breve</div>${whatsappUrl?`<a class="whatsapp-btn" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" aria-label="Contactar a ATP Suplementos por WhatsApp">Contactanos por WhatsApp</a>`:''}</div><small>${location}</small></section>`;
+    </style><section class="maintenance-card" role="status" aria-live="polite"><img src="logo-atp.jpg" alt="${store}"><div class="eyebrow">${store.toUpperCase()}</div><h1>Estamos mejorando la tienda.</h1><p>${message}</p><div class="maintenance-actions"><div class="pulse"><i></i> Volvemos en breve</div>${whatsappUrl ? `<a class="whatsapp-btn" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" aria-label="Contactar a ATP Suplementos por WhatsApp">Contactanos por WhatsApp</a>` : ''}</div><small>${location}</small></section>`;
+
     document.body.appendChild(wrapper);
-    document.documentElement.style.overflow='hidden';
-    document.body.style.overflow='hidden';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
   }
-  async function check(){
-    try{
-      if(!window.ATPData?.getSettings)return;
-      const settings=await ATPData.getSettings();
-      if(settings?.maintenanceMode)showMaintenance(settings);
-    }catch(error){console.warn('No se pudo comprobar el modo mantenimiento:',error)}
+
+  async function check() {
+    try {
+      if (!window.ATPData?.getSettings) {
+        console.warn('No se pudo comprobar el modo mantenimiento: ATPData no está disponible.');
+        return;
+      }
+
+      const settings = await ATPData.getSettings();
+      if (settings?.maintenanceMode) showMaintenance(settings);
+    } catch (error) {
+      console.warn('No se pudo comprobar el modo mantenimiento:', error);
+    } finally {
+      // La tienda permanece oculta hasta terminar la consulta. Si está cerrada,
+      // el cartel ya fue agregado antes de revelar el documento.
+      finishInitialCheck();
+    }
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',check,{once:true});else check();
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', check, { once: true });
+  } else {
+    check();
+  }
 })();
