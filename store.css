@@ -215,3 +215,63 @@ img{max-width:100%;height:auto}.product-image img{object-fit:contain;aspect-rati
  #marcas .brand-grid{display:flex;overflow-x:auto;gap:9px;scroll-snap-type:x mandatory}
  #marcas .brand-button{min-width:130px;scroll-snap-align:start}
 }
+
+/* Ajustes móviles: portada compacta y catálogo en dos columnas */
+@media(max-width:680px){
+  .hero{
+    min-height:330px;
+    padding:calc(var(--header) + 22px) 16px 28px;
+    display:flex;
+    align-items:flex-end;
+    background:#030403;
+  }
+  .hero-photo{
+    inset:var(--header) 0 auto 0;
+    width:100%;
+    height:264px;
+    background-size:cover;
+    background-position:center 42%;
+    opacity:.62;
+  }
+  .hero:after{
+    background:linear-gradient(180deg,rgba(3,4,3,.08) 0%,rgba(3,4,3,.35) 45%,#030403 91%);
+  }
+  .hero-content{
+    position:relative;
+    width:100%;
+    margin:0;
+    padding-top:126px;
+    text-align:left;
+  }
+  .hero h1{font-size:34px;line-height:.9;max-width:290px}
+  .hero-subtitle{font-size:15px!important;margin:10px 0 5px!important}
+  .hero-content>span{display:none}
+  .hero-shipping{font-size:12px;margin:0 0 13px}
+  .hero-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .hero-buttons .btn{width:100%;min-width:0;min-height:44px;padding:0 10px;font-size:12px}
+
+  #productos .product-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+    margin-top:22px;
+  }
+  #productos .product-card{border-radius:14px;min-width:0}
+  #productos .product-image{height:170px}
+  #productos .product-image>img{padding:10px}
+  #productos .product-info{padding:12px}
+  #productos .product-brand{font-size:9px}
+  #productos .product-info h3{font-size:14px;margin:6px 0 4px;min-height:38px}
+  #productos .product-detail{display:none}
+  #productos .stock{font-size:9px;margin-top:6px}
+  #productos .product-bottom{margin-top:12px}
+  #productos .product-bottom strong{font-size:15px}
+  #productos .product-card-actions{grid-template-columns:1fr;gap:7px;margin-top:12px}
+  #productos .view-product-btn,#productos .quick-add-btn{min-height:40px;padding:0 6px;font-size:11px;border-radius:10px}
+}
+@media(max-width:370px){
+  #productos .product-grid{gap:8px}
+  #productos .product-image{height:150px}
+  #productos .product-info{padding:10px}
+  #productos .product-info h3{font-size:13px}
+  #productos .product-bottom strong{font-size:14px}
+}

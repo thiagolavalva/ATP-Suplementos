@@ -2,7 +2,22 @@ const CATEGORIES=["Proteínas","Creatinas","Pre-entrenos","Aminoácidos","Vitami
 const ICONS={Proteínas:`<svg viewBox="0 0 48 48"><path d="M15 12h18l3 8-4 19H16l-4-19 3-8Z"/><path d="M14 17h20M18 12V8h12v4M19 27h10"/></svg>`,Creatinas:`<svg viewBox="0 0 48 48"><path d="M17 10h14l2 6v23H15V16l2-6Z"/><path d="M16 17h16M20 10V6h8v4M20 28h8"/></svg>`,"Pre-entrenos":`<svg viewBox="0 0 48 48"><path d="m27 5-15 22h11l-2 16 15-23H25l2-15Z"/></svg>`,Aminoácidos:`<svg viewBox="0 0 48 48"><circle cx="16" cy="16" r="6"/><circle cx="33" cy="17" r="5"/><circle cx="25" cy="33" r="7"/><path d="m21 18 7-1M19 21l3 6M30 21l-2 6"/></svg>`,Vitaminas:`<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M24 8v32M8 24h32"/></svg>`,Quemadores:`<svg viewBox="0 0 48 48"><path d="M27 5c2 8-4 10-1 17 2-4 6-6 7-11 7 9 7 17 2 24-3 4-7 6-12 6-9 0-15-7-13-16 1-5 5-9 9-13-1 6 1 9 4 11 1-7 5-11 4-18Z"/></svg>`,Ganadores:`<svg viewBox="0 0 48 48"><path d="M8 35h32M13 35V21h22v14M17 21v-7h14v7M18 28h12"/></svg>`,Shakers:`<svg viewBox="0 0 48 48"><path d="M16 9h16l3 8-4 24H17l-4-24 3-8Z"/><path d="M14 17h20M19 9V5h10v4"/></svg>`,Accesorios:`<svg viewBox="0 0 48 48"><path d="M15 13h18l5 10-4 18H14l-4-18 5-10Z"/><path d="M18 13c0-5 12-5 12 0M15 29h18"/></svg>`};
 const descriptions={Proteínas:"Recuperación y masa muscular",Creatinas:"Fuerza y rendimiento","Pre-entrenos":"Energía y enfoque",Aminoácidos:"Apoyo a la recuperación",Vitaminas:"Bienestar y micronutrientes",Quemadores:"Productos para definición",Ganadores:"Ganadores de peso",Shakers:"Prepará tus suplementos",Accesorios:"Complementos para entrenar"};
 let products=[],settings={},filter="Todos",brandFilter="",query="";
-const normalizeText=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const normalizeText=value=>String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+const categoryKey=value=>{
+  const normalized=normalizeText(value).replace(/[^a-z0-9]+/g,"");
+  const aliases={
+    proteina:"proteina",proteinas:"proteina",whey:"proteina",
+    creatina:"creatina",creatinas:"creatina",
+    preentreno:"preentreno",preentrenos:"preentreno",preworkout:"preentreno",
+    aminoacido:"aminoacido",aminoacidos:"aminoacido",bcaa:"aminoacido",
+    vitamina:"vitamina",vitaminas:"vitamina",
+    quemador:"quemador",quemadores:"quemador",
+    ganador:"ganador",ganadores:"ganador",ganadordepeso:"ganador",ganadoresdepeso:"ganador",
+    shaker:"shaker",shakers:"shaker",
+    accesorio:"accesorio",accesorios:"accesorio"
+  };
+  return aliases[normalized]||normalized.replace(/s$/,"");
+};
 const debounce=(fn,delay=160)=>{let timer;return(...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),delay)}};
 let cart=JSON.parse(localStorage.getItem("atp_cart")||"{}");
 const variantsOf=p=>Array.isArray(p?.variants)&&p.variants.length?p.variants:[];
@@ -22,7 +37,7 @@ function applySettings(){
 }
 function renderCategories(){
   categoryGrid.innerHTML=CATEGORIES.map(c=>`<article class="category-card" data-category="${c}">${ICONS[c]}<h3>${c}</h3><p>${descriptions[c]}</p></article>`).join("");
-  document.querySelectorAll(".category-card").forEach(x=>x.onclick=()=>{filter=x.dataset.category;renderFilters();renderProducts();productos.scrollIntoView({behavior:"smooth"})});
+  document.querySelectorAll(".category-card").forEach(x=>x.onclick=()=>{filter=x.dataset.category;brandFilter="";query="";catalogSearchInput.value="";searchInput.value="";renderBrands();renderFilters();renderProducts();productos.scrollIntoView({behavior:"smooth",block:"start"})});
 }
 function renderBrands(){
   const uniqueBrands=new Map();
@@ -47,13 +62,13 @@ function renderBrands(){
 }
 function renderFilters(){
   const cats=["Todos",...new Set(products.map(p=>p.category))];
-  filters.innerHTML=cats.slice(0,6).map(c=>`<button data-filter="${c}" class="${filter===c?"active":""}">${c}</button>`).join("");
+  filters.innerHTML=cats.slice(0,6).map(c=>`<button data-filter="${c}" class="${categoryKey(filter)===categoryKey(c)?"active":""}">${c}</button>`).join("");
   filters.querySelectorAll("button").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;renderFilters();renderProducts()});
 }
 function renderProducts(){
   const q=normalizeText(query.trim());
   const list=products.filter(p=>{
-    const matchesCategory=filter==="Todos"||p.category===filter;
+    const matchesCategory=filter==="Todos"||categoryKey(p.category)===categoryKey(filter);
     const matchesBrand=!brandFilter||p.brand===brandFilter;
     const searchable=normalizeText(`${p.name} ${p.brand} ${p.category} ${p.detail||""} ${p.description||""} ${p.tag||""}`);
     return matchesCategory&&matchesBrand&&(!q||searchable.includes(q));
